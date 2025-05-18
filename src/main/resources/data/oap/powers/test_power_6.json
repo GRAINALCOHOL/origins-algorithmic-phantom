@@ -1,0 +1,6 @@
+{
+  "name": "名字",
+  "description": "测试modify eating speed",
+  "type": "oap:modify_eating_speed",
+  "modifier": 2.0
+}

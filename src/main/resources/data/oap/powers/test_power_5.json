@@ -1,0 +1,19 @@
+{
+  "name": "名字",
+  "description": "测试action on effect gained",
+  "type": "oap:action_on_effect_gained",
+  "effect": "minecraft:slowness",
+  "effects": [
+    "minecraft:weakness",
+    "minecraft:speed"
+  ],
+  "condition": {
+    "type": "oap:game_day",
+    "compare_to": 0,
+    "comparison": ">"
+  },
+  "entity_action": {
+    "type": "origins:add_xp",
+    "levels": 10
+  }
+}

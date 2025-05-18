@@ -1,0 +1,10 @@
+{
+    "name": "名字",
+    "description": "测试modify mob behavior",
+    "type": "oap:modify_mob_behavior",
+    "entity_condition": {
+        "type": "apoli:entity_type",
+        "entity_type": "minecraft:zombie"
+    },
+    "behavior": "passive"
+}

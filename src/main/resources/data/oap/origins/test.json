@@ -1,0 +1,13 @@
+{
+  "name": "测试",
+  "description": "描述",
+  "impact": 2,
+  "powers": [
+    "oap:test_power",
+    "oap:test_power_1",
+    "oap:test_power_3",
+    "oap:test_power_4",
+    "oap:test_power_5",
+    "oap:test_power_6"
+  ]
+}

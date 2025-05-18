@@ -1,0 +1,31 @@
+{
+    "name": "名字",
+    "description": "测试game_day条件类型",
+    "type": "origins:multiple",
+    "n": {
+        "type": "origins:resource",
+        "min": 0,
+        "max": 10,
+        "start_value": 0,
+        "hud_render": {
+            "should_render": true,
+            "sprite_location": "origins:textures/gui/community/spiderkolo/resource_bar_01.png",
+            "bar_index": 2
+        }
+    },
+    "recover": {
+        "condition": {
+            "type": "oap:game_day",
+            "compare_to": 2,
+            "comparison": "=="
+        },
+        "type": "origins:action_over_time",
+        "interval": 20,
+        "entity_action": {
+            "type": "origins:change_resource",
+            "resource": "*:*_n",
+            "change": 1,
+            "operation": "add"
+        }
+    }
+}

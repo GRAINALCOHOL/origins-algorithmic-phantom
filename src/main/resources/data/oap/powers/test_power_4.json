@@ -1,0 +1,20 @@
+{
+    "name": "名字",
+    "description": "测试属性倍率伤害",
+    "type": "origins:active_self",
+    "entity_action": {
+        "type": "origins:area_of_effect",
+        "radius": 8,
+        "bientity_action": {
+            "type": "oap:damage_by_attribute",
+            "attribute": "minecraft:generic.max_health",
+            "operation": "multiply",
+                "value": 1,
+            "damage_type": "minecraft:out_of_world"
+        }
+    },
+    "cooldown": 10,
+    "key": {
+        "key": "key.origins.secondary_active"
+    }
+}

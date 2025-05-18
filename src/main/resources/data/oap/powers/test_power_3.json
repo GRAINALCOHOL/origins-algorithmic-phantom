@@ -1,0 +1,16 @@
+{
+    "name": "名字",
+    "description": "测试修改药水效果时长",
+    "type": "origins:active_self",
+    "entity_action": {
+        "type": "oap:modify_effect_duration",
+        "effect": "minecraft:slowness",
+        "operation": "set",
+        "value": 200,
+        "is_ambient": true
+    },
+    "cooldown": 10,
+    "key": {
+        "key": "key.origins.primary_active"
+    }
+}
