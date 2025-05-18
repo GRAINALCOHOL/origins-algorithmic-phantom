@@ -1,10 +1,7 @@
 package cn.grainalcohol.init;
 
 import cn.grainalcohol.OAPMod;
-import cn.grainalcohol.power.ActionOnEffectGainedPower;
-import cn.grainalcohol.power.ModifyEatingSpeedPower;
-import cn.grainalcohol.power.ModifyMobBehaviorPower;
-import cn.grainalcohol.power.PreventExhaustionPower;
+import cn.grainalcohol.power.*;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.factory.PowerFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
@@ -38,6 +35,11 @@ public class OAPPowerType {
                 ApoliRegistries.POWER_FACTORY,
                 PREVENT_EXHAUSTION.getSerializerId(),
                 PREVENT_EXHAUSTION
+        );
+        Registry.register(
+                ApoliRegistries.POWER_FACTORY,
+                ACTION_ON_SLEEP_COMPLETE.getSerializerId(),
+                ACTION_ON_SLEEP_COMPLETE
         );
     }
 
@@ -98,4 +100,15 @@ public class OAPPowerType {
                     PreventExhaustionPower.DATA,
                     (data) -> PreventExhaustionPower::new
             );
+
+    public static final PowerFactory<?> ACTION_ON_SLEEP_COMPLETE =
+            new PowerFactory<>(
+                    OAPMod.id("action_on_sleep_complete"),
+                    ActionOnSleepCompletePower.DATA,
+                    (data) -> (type, entity) -> new ActionOnSleepCompletePower(
+                            type, entity,
+                            data.isPresent("condition") ? data.get("condition") : null,
+                            data.get("entity_action")
+                    )
+            ).allowCondition();
 }

@@ -1,0 +1,13 @@
+{
+  "name": "名字",
+  "description": "测试modify eating speed",
+  "type": "oap:action_on_sleep_complete",
+  "entity_action": {
+    "type": "origins:apply_effect",
+    "effect": {
+      "effect": "minecraft:night_vision",
+      "duration": 400,
+      "amplifier": 0
+    }
+  }
+}

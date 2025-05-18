@@ -1,0 +1,16 @@
+{
+    "name": "名字",
+    "description": "测试status effect条件添加effects数组，匹配任意一个即返回true",
+    "type": "origins:shader",
+    "shader": "minecraft:shaders/post/pencil.json",
+    "condition": {
+        "type": "oap:status_effect",
+        "effect": "minecraft:strength",
+        "effects": [
+            "minecraft:speed",
+            "minecraft:jump_boost"
+        ],
+        "min_amplifier": 1,
+        "max_duration": 300
+    }
+}

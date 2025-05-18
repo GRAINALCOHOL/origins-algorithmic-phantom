@@ -15,7 +15,7 @@ import static cn.grainalcohol.power.ModifyMobBehaviorPower.EntityBehavior.*;
 @Mixin(MobEntity.class)
 public class MobEntityMixin {
     @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
-    private void onSetTarget(LivingEntity target, CallbackInfo ci) {
+    private void modifyBehavior(LivingEntity target, CallbackInfo ci) {
         if(target != null) {
             PowerHolderComponent component = PowerHolderComponent.KEY.get(target);
             for(ModifyMobBehaviorPower power : component.getPowers(ModifyMobBehaviorPower.class)) {

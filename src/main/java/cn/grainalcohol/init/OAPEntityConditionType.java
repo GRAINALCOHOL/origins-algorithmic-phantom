@@ -3,6 +3,7 @@ package cn.grainalcohol.init;
 import cn.grainalcohol.OAPMod;
 import cn.grainalcohol.condition.entity.AttackCooldownCondition;
 import cn.grainalcohol.condition.entity.GameDayCondition;
+import cn.grainalcohol.condition.entity.enhanced.EnhancedStatusEffectCondition;
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
 import net.minecraft.entity.Entity;
@@ -20,6 +21,11 @@ public class OAPEntityConditionType {
                 ATTACK_COOLDOWN.getSerializerId(),
                 ATTACK_COOLDOWN
         );
+        Registry.register(
+                ApoliRegistries.ENTITY_CONDITION,
+                ENHANCED_STATUS_EFFECT.getSerializerId(),
+                ENHANCED_STATUS_EFFECT
+        );
     }
 
     public static final ConditionFactory<Entity> GAME_DAY =
@@ -33,5 +39,11 @@ public class OAPEntityConditionType {
                     OAPMod.id("attack_cooldown"),
                     AttackCooldownCondition.DATA,
                     new AttackCooldownCondition()
+            );
+    public static final ConditionFactory<Entity> ENHANCED_STATUS_EFFECT =
+            new ConditionFactory<>(
+                    OAPMod.id("status_effect"),
+                    EnhancedStatusEffectCondition.DATA,
+                    new EnhancedStatusEffectCondition()
             );
 }

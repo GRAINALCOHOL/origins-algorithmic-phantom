@@ -5,9 +5,11 @@
   "powers": [
     "oap:test_power",
     "oap:test_power_1",
+    "oap:test_power_2",
     "oap:test_power_3",
     "oap:test_power_4",
     "oap:test_power_5",
-    "oap:test_power_6"
+    "oap:test_power_6",
+    "oap:test_power_7"
   ]
 }

@@ -1,4 +1,4 @@
-package cn.grainalcohol.mixin;
+package cn.grainalcohol.mixin.enhanced;
 
 import io.github.apace100.apoli.Apoli;
 import io.github.apace100.apoli.data.ApoliDataTypes;
