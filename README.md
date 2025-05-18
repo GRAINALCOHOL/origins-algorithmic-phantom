@@ -11,8 +11,8 @@
   - 修改实体药水效果等级（操作）。
   - 检查游戏日（条件）。
 - 原版（指Origins）增强：
-  - area of effect增强：可以指定最大生效目标数。
-  - 增强的status effect：可以指定effects数组、避免effect/effects字段不存在导致能力无法识别、兼容infinite时长效果等。
+  - area of effect操作增强（origins:area_of_effect）：可以指定最大生效目标数。
+  - 增强的status effect条件（oap:status_effect）：可以指定effects数组、避免effect/effects字段不存在导致能力无法识别、兼容infinite时长效果等。
 - 8个新的按键绑定：
   - 以便于开发者制作和玩家使用主动能力较多的起源。
 - 数个新的能力图标：
