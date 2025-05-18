@@ -11,8 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class EntityUtil {
-    public static boolean isTeamMember(Entity entity, Entity target)
-    {
+    public static boolean isTeamMember(Entity entity, Entity target) {
         if (entity.isTeammate(target)) return true;
         Entity superiorEntity = getSuperiorEntity(entity);
         Entity superiorTarget = getSuperiorEntity(target);
@@ -24,8 +23,7 @@ public class EntityUtil {
     }
 
     @NotNull
-    public static Entity getSuperiorEntity(@NotNull Entity entity)
-    {
+    public static Entity getSuperiorEntity(@NotNull Entity entity) {
         if (entity instanceof Tameable tameable)
         {
             Entity owner = tameable.getOwner();
