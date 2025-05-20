@@ -1,27 +1,91 @@
-# 起源：算法幻影（Origins：Algorithmic Phantom）
+# Origins：Algorithmic Phantom
 
-## 简介
+**| >English< | [简体中文](README-zh_cn.md) |**
 
-这是一个为基于Origins的数据包或整合包创作者而生的模组。
+## Introduction
 
-## 内容举例
+This is a mod for creators of datapacks or modpacks based on Origins.
 
-- 数个实用的能力、操作、条件类型：
-  - 阻止玩家累积消耗度（能力）。
-  - 修改实体药水效果等级（操作）。
-  - 检查游戏日（条件）。
-- 原版（指Origins）增强：
-  - area of effect操作增强（origins:area_of_effect）：可以指定最大生效目标数。
-  - 增强的status effect条件（oap:status_effect）：可以指定effects数组、避免effect/effects字段不存在导致能力无法识别、兼容infinite时长效果等。
-- 8个新的按键绑定：
-  - 以便于开发者制作和玩家使用主动能力较多的起源。
-- 数个新的能力图标：
-  - 包含1-19的序号、事件（E）等。
+## Content
 
-## 其它
+### New content
 
-作者希望这个模组能够容纳更多实用的功能，希望能集思广益将模组完善。
+#### Power types
 
-模组名称来源于：[庭渡久诧歌 在东方刚欲异闻的终符](https://thbwiki.cc/%E5%BA%AD%E6%B8%A1%E4%B9%85%E4%BE%98%E6%AD%8C)。
+##### Regular types
 
-将来可能会支持更多版本，但没有支持forge/neoforge的打算。
+- Countdown
+
+##### Action related
+
+- Action on effect grained
+
+##### Modify types
+
+- Modify eating speed
+- Modify mob behavior
+
+##### Prevent types
+
+- Prevent exhaustion
+
+#### Action types
+
+##### Bi-entity types
+
+- Damage by attribute (Inflict damage to the target based on the initiator attribute value)
+
+##### Entity types
+
+- Toggle countdown
+- Modify effect duration
+- Modify effect amplifier
+
+#### Condition types
+
+##### Bi-entity types
+
+- Is team member
+
+##### Entity types
+
+- Game day
+- Attack cooldown
+- Countdown progress
+- Countdown is active
+
+### Original enhancement
+
+#### Direct enhancement
+
+- Area of effect
+  - You can specify the maximum number of effective targets and randomly select within the specified range.
+
+#### Replacement of the same name
+
+The type ID is the same, but the namespace of this module is: "oap".
+
+- Status effect
+  - You can additionally specify: effects array, check_all field (decide whether to fully match the already held effect instance).
+  - You can leave blank effect/effects fields (there will be arbitrary matching of the already held effect instance).
+  - Compatible with the duration effect, considered as extremely long.
+
+### Key binding
+
+8 new key bindings (from "Active Power (Ternary)" to "Active Power (Denary)").
+It is an origin that facilitates developers to make and players to use more proactive capabilities.
+
+### [Badges](src/main/resources/assets/oap/textures/gui/badge)
+
+Several new ability badges.
+Including: Numbers 1-19, [Copywriting](src/main/resources/assets/oap/textures/gui/badge/copywriting.png), [Event](src/main/resources/assets/oap/textures/gui/badge/event.png).
+
+## Others
+
+The author hopes that this module can accommodate more practical functions and is willing to brainstorm to improve the module.
+
+The module name comes from: [庭渡久诧歌 在东方刚欲异闻的终符](https://thbwiki.cc/%E5%BA%AD%E6%B8%A1%E4%B9%85%E4%BE%98%E6%AD%8C).
+
+More versions may be supported in the future, but there is no intention to support forge/neoforge.
+
+The above content is translated by machine.
