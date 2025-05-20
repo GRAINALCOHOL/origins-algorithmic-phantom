@@ -1,7 +1,6 @@
-package cn.grainalcohol;
+package cn.grainalcohol.keybind;
 
 import io.github.apace100.apoli.ApoliClient;
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
