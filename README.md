@@ -38,6 +38,8 @@ This is a mod for creators of datapacks or modpacks based on Origins.
 ##### Entity types
 
 - Toggle countdown
+- Give absorption
+- remove absorption
 - Modify effect duration
 - Modify effect amplifier
 
