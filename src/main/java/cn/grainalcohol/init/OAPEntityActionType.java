@@ -4,6 +4,7 @@ import cn.grainalcohol.OAPMod;
 import cn.grainalcohol.action.entity.ModifyEffectAmplifierAction;
 import cn.grainalcohol.action.entity.ModifyEffectDurationAction;
 import cn.grainalcohol.action.entity.ToggleCountdownAction;
+import cn.grainalcohol.condition.entity.GiveAbsorptionHeartsAction;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
 import net.minecraft.entity.Entity;
@@ -22,6 +23,10 @@ public class OAPEntityActionType {
         Registry.register(ApoliRegistries.ENTITY_ACTION,
                 TOGGLE_COUNTDOWN.getSerializerId(),
                 TOGGLE_COUNTDOWN
+        );
+        Registry.register(ApoliRegistries.ENTITY_ACTION,
+                GIVE_ABSORPTION.getSerializerId(),
+                GIVE_ABSORPTION
         );
     }
 
@@ -42,5 +47,11 @@ public class OAPEntityActionType {
                     OAPMod.id("toggle_countdown"),
                     ToggleCountdownAction.DATA,
                     new ToggleCountdownAction()
+            );
+    public static final ActionFactory<Entity> GIVE_ABSORPTION =
+            new ActionFactory<>(
+                    OAPMod.id("give_absorption"),
+                    GiveAbsorptionHeartsAction.DATA,
+                    new GiveAbsorptionHeartsAction()
             );
 }
