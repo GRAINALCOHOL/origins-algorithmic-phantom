@@ -1,0 +1,10 @@
+{
+  "key.oap.denary_active": "Active Power (Denary)",
+  "key.oap.nonary_active": "Active Power (Nonary)",
+  "key.oap.octonary_active": "Active Power (Octonary)",
+  "key.oap.septenary_active": "Active Power (Septenary)",
+  "key.oap.senary_active": "Active Power (Senary)",
+  "key.oap.quinary_active": "Active Power (Quinary)",
+  "key.oap.quaternary_active": "Active Power (Quaternary)",
+  "key.oap.ternary_active": "Active Power (Ternary)"
+}
