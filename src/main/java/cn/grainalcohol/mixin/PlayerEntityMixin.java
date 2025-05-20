@@ -1,6 +1,5 @@
 package cn.grainalcohol.mixin;
 
-import cn.grainalcohol.power.ActionOnSleepCompletePower;
 import cn.grainalcohol.power.PreventExhaustionPower;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,12 +16,5 @@ public class PlayerEntityMixin {
         if(component != null && component.getPowers(PreventExhaustionPower.class).size() > 0) {
             ci.cancel();
         }
-    }
-
-    @Inject(method = "wakeUp(ZZ)V", at = @At("TAIL"))
-    private void onWakeUp(boolean skipSleepTimer, boolean updateSleepingPlayers, CallbackInfo ci) {
-        PowerHolderComponent component = PowerHolderComponent.KEY.get(this);
-        component.getPowers(ActionOnSleepCompletePower.class)
-                .forEach(ActionOnSleepCompletePower::onSleepComplete);
     }
 }

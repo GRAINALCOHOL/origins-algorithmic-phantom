@@ -38,11 +38,6 @@ public class OAPPowerType {
         );
         Registry.register(
                 ApoliRegistries.POWER_FACTORY,
-                ACTION_ON_SLEEP_COMPLETE.getSerializerId(),
-                ACTION_ON_SLEEP_COMPLETE
-        );
-        Registry.register(
-                ApoliRegistries.POWER_FACTORY,
                 COUNTDOWN.getSerializerId(),
                 COUNTDOWN
         );
@@ -106,16 +101,6 @@ public class OAPPowerType {
                     (data) -> PreventExhaustionPower::new
             ).allowCondition();
 
-    public static final PowerFactory<?> ACTION_ON_SLEEP_COMPLETE =
-            new PowerFactory<>(
-                    OAPMod.id("action_on_sleep_complete"),
-                    ActionOnSleepCompletePower.DATA,
-                    (data) -> (type, entity) -> new ActionOnSleepCompletePower(
-                            type, entity,
-                            data.isPresent("condition") ? data.get("condition") : null,
-                            data.get("entity_action")
-                    )
-            ).allowCondition();
     public static final PowerFactory<?> COUNTDOWN =
             new PowerFactory<>(
                     OAPMod.id("countdown"),
