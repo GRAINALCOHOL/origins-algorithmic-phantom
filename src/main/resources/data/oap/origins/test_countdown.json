@@ -1,0 +1,10 @@
+{
+  "name": "测试2",
+  "description": "countdown相关测试",
+  "impact": 2,
+  "powers": [
+    "oap:test_countdown/test_power_8",
+    "oap:test_countdown/test_power_9",
+    "oap:test_countdown/test_power_10"
+  ]
+}

@@ -11,6 +11,7 @@
             "minecraft:jump_boost"
         ],
         "min_amplifier": 1,
-        "max_duration": 300
+        "max_duration": 300,
+        "check_all": true
     }
 }
