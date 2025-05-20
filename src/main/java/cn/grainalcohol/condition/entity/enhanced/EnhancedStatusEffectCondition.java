@@ -22,7 +22,8 @@ public class EnhancedStatusEffectCondition implements BiFunction<SerializableDat
             .add("max_amplifier", SerializableDataTypes.INT, null)
             .add("min_duration", SerializableDataTypes.INT, null)
             .add("max_duration", SerializableDataTypes.INT, null)
-            .add("invert", SerializableDataTypes.BOOLEAN, false);
+            .add("invert", SerializableDataTypes.BOOLEAN, false)
+            .add("check_all", SerializableDataTypes.BOOLEAN, false);
 
     @Override
     public Boolean apply(SerializableData.Instance data, Entity entity) {
@@ -51,10 +52,18 @@ public class EnhancedStatusEffectCondition implements BiFunction<SerializableDat
             });
         }
 
-        // 如果没有指定任何effect，则检查所有效果
-        boolean hasEffect = effects.isEmpty() // 未指定任何效果
-                ? !livingEntity.getActiveStatusEffects().isEmpty() // 真没指定：（加反转）无为false，有为true
-                : effects.stream().anyMatch(livingEntity::hasStatusEffect); //其实指定了：匹配了任意一个则true
+        boolean checkAll = data.getBoolean("check_all");
+        boolean hasEffect;
+
+        if (effects.isEmpty()) {
+            // 如果没有指定任何effect，则检查所有效果
+            hasEffect = !livingEntity.getActiveStatusEffects().isEmpty(); // 真没指定：（加反转）无为false，有为true
+        } else {
+            // 根据check_all决定是anyMatch还是allMatch
+            hasEffect = checkAll ?
+                    effects.stream().allMatch(livingEntity::hasStatusEffect) : // 所有效果都必须存在
+                    effects.stream().anyMatch(livingEntity::hasStatusEffect); // 任意一个效果存在即可
+        }
 
         if(!hasEffect){
             return data.getBoolean("invert");
