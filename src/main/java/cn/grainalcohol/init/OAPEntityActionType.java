@@ -1,10 +1,7 @@
 package cn.grainalcohol.init;
 
 import cn.grainalcohol.OAPMod;
-import cn.grainalcohol.action.entity.ModifyEffectAmplifierAction;
-import cn.grainalcohol.action.entity.ModifyEffectDurationAction;
-import cn.grainalcohol.action.entity.ToggleCountdownAction;
-import cn.grainalcohol.condition.entity.GiveAbsorptionHeartsAction;
+import cn.grainalcohol.action.entity.*;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
 import net.minecraft.entity.Entity;
@@ -27,6 +24,10 @@ public class OAPEntityActionType {
         Registry.register(ApoliRegistries.ENTITY_ACTION,
                 GIVE_ABSORPTION.getSerializerId(),
                 GIVE_ABSORPTION
+        );
+        Registry.register(ApoliRegistries.ENTITY_ACTION,
+                REMOVE_ABSORPTION.getSerializerId(),
+                REMOVE_ABSORPTION
         );
     }
 
@@ -53,5 +54,11 @@ public class OAPEntityActionType {
                     OAPMod.id("give_absorption"),
                     GiveAbsorptionHeartsAction.DATA,
                     new GiveAbsorptionHeartsAction()
+            );
+    public static final ActionFactory<Entity> REMOVE_ABSORPTION =
+            new ActionFactory<>(
+                    OAPMod.id("remove_absorption"),
+                    RemoveAbsorptionHeartsAction.DATA,
+                    new RemoveAbsorptionHeartsAction()
             );
 }

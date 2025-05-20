@@ -1,4 +1,4 @@
-package cn.grainalcohol.condition.entity;
+package cn.grainalcohol.action.entity;
 
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
@@ -7,7 +7,7 @@ import net.minecraft.entity.LivingEntity;
 
 import java.util.function.BiConsumer;
 
-public class GiveAbsorptionHeartsAction implements BiConsumer<SerializableData.Instance, Entity> {
+public class RemoveAbsorptionHeartsAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
             .add("amount", SerializableDataTypes.FLOAT);
 
@@ -20,6 +20,8 @@ public class GiveAbsorptionHeartsAction implements BiConsumer<SerializableData.I
         float amount = data.getFloat("amount");
         float currentAbsorption = livingEntity.getAbsorptionAmount();
 
-        livingEntity.setAbsorptionAmount(Math.min(currentAbsorption + amount, Float.MAX_VALUE));
+        //确保不低于0
+        float newAbsorption = Math.max(0, currentAbsorption - amount);
+        livingEntity.setAbsorptionAmount(newAbsorption);
     }
 }
