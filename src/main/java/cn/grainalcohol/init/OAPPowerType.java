@@ -41,6 +41,11 @@ public class OAPPowerType {
                 ACTION_ON_SLEEP_COMPLETE.getSerializerId(),
                 ACTION_ON_SLEEP_COMPLETE
         );
+        Registry.register(
+                ApoliRegistries.POWER_FACTORY,
+                COUNTDOWN.getSerializerId(),
+                COUNTDOWN
+        );
     }
 
     public static final PowerFactory<?> ACTION_ON_EFFECT_GAINED =
@@ -99,7 +104,7 @@ public class OAPPowerType {
                     OAPMod.id("prevent_exhaustion"),
                     PreventExhaustionPower.DATA,
                     (data) -> PreventExhaustionPower::new
-            );
+            ).allowCondition();
 
     public static final PowerFactory<?> ACTION_ON_SLEEP_COMPLETE =
             new PowerFactory<>(
@@ -109,6 +114,21 @@ public class OAPPowerType {
                             type, entity,
                             data.isPresent("condition") ? data.get("condition") : null,
                             data.get("entity_action")
+                    )
+            ).allowCondition();
+    public static final PowerFactory<?> COUNTDOWN =
+            new PowerFactory<>(
+                    OAPMod.id("countdown"),
+                    CountdownPower.DATA,
+                    (data) -> (type, entity) -> new CountdownPower(
+                            type, entity,
+                            data.getInt("countdown"),
+                            data.isPresent("immediately_start") ? data.getBoolean("immediately_start") : false,
+                            data.get("ending_action"),
+                            data.isPresent("per_time_action") ? data.get("per_time_action") : null,
+                            data.isPresent("action_interval") ? data.getInt("action_interval") : 20,
+                            data.isPresent("condition") ? data.get("condition") : null,
+                            data.isPresent("hud_render") ? data.get("hud_render") : null
                     )
             ).allowCondition();
 }
