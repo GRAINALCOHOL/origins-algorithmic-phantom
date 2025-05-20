@@ -38,6 +38,8 @@
 ##### 实体类型（Entity types）
 
 - 切换倒计时状态（Toggle countdown）
+- 给予伤害吸收量（Give absorption）
+- 移除伤害吸收量（Remove absorption）
 - 修改药水效果持续时间（Modify effect duration）
 - 修改实体药水效果等级（Modify effect amplifier）
 
