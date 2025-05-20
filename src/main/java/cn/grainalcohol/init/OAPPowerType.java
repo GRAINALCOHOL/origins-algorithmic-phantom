@@ -79,7 +79,8 @@ public class OAPPowerType {
                     ModifyEatingSpeedPower.DATA,
                     (data) -> (type, entity) -> new ModifyEatingSpeedPower(
                             type, entity,
-                            data.getFloat("modifier")
+                            data.getFloat("modifier"),
+                            data.isPresent("affects_potions") ? data.getBoolean("affects_potions") : false
                     )
             ).allowCondition();
 
