@@ -16,7 +16,7 @@
 
 - 倒计时（Countdown）
 
-##### 操作类型（Action related）
+##### 操作相关（Action related）
 
 - 获得药水效果时的操作（Action on effect grained）
 
@@ -41,7 +41,7 @@
 - 给予伤害吸收量（Give absorption）
 - 移除伤害吸收量（Remove absorption）
 - 修改药水效果持续时间（Modify effect duration）
-- 修改实体药水效果等级（Modify effect amplifier）
+- 修改药水效果倍率（Modify effect amplifier）
 
 #### 条件类型（Condition types）
 
