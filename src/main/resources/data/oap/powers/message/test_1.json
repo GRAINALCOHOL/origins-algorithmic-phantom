@@ -1,0 +1,12 @@
+{
+  "name": "名字",
+  "description": "测试消息",
+  "type": "origins:active_self",
+  "entity_action": {
+    "type": "oap:send_a_message"
+  },
+  "cooldown": 10,
+  "key": {
+    "key": "key.origins.secondary_active"
+  }
+}

@@ -29,6 +29,10 @@ public class OAPEntityActionType {
                 REMOVE_ABSORPTION.getSerializerId(),
                 REMOVE_ABSORPTION
         );
+        Registry.register(ApoliRegistries.ENTITY_ACTION,
+                SEND_A_MESSAGE.getSerializerId(),
+                SEND_A_MESSAGE
+        );
     }
 
     public static final ActionFactory<Entity> MODIFY_EFFECT_DURATION =
@@ -60,5 +64,11 @@ public class OAPEntityActionType {
                     OAPMod.id("remove_absorption"),
                     RemoveAbsorptionHeartsAction.DATA,
                     new RemoveAbsorptionHeartsAction()
+            );
+    public static final ActionFactory<Entity> SEND_A_MESSAGE =
+            new ActionFactory<>(
+                    OAPMod.id("send_a_message"),
+                    SendImmersiveMessage.DATA,
+                    new SendImmersiveMessage()
             );
 }
