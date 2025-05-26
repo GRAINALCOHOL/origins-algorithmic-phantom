@@ -41,6 +41,18 @@ repositories {
 	maven {
 		url "https://maven.terraformersmc.com/"
 	}
+
+//	maven {
+//		url "https://maven.txni.dev/"
+//	}
+//	maven {
+//		url "https://maven.su5ed.dev/releases"
+//	}
+
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+	}
 }
 
 loom {
@@ -67,6 +79,8 @@ dependencies {
 	modImplementation "com.github.apace100:calio:${project.calio_version}"
 	modImplementation "com.github.apace100:apoli:${project.apoli_version}"
 	modImplementation "com.github.apace100:origins-fabric:${project.origins_version}"
+
+	modImplementation "maven.modrinth:immersive-messages-api:fabric-1.20.1-1.0.18"
 }
 
 processResources {
