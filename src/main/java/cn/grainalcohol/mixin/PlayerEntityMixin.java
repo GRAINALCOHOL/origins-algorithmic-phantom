@@ -16,7 +16,7 @@ public abstract class PlayerEntityMixin {
     @Inject(method = "addExhaustion", at = @At("HEAD"), cancellable = true)
     private void preventExhaustion(float exhaustion, CallbackInfo ci) {
         PowerHolderComponent component = PowerHolderComponent.KEY.get(this);
-        if(component != null && component.getPowers(PreventExhaustionPower.class).size() > 0) {
+        if(!component.getPowers(PreventExhaustionPower.class).isEmpty()) {
             ci.cancel();
         }
     }
