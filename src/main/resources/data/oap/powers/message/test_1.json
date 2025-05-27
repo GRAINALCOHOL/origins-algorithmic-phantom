@@ -3,7 +3,9 @@
   "description": "测试消息",
   "type": "origins:active_self",
   "entity_action": {
-    "type": "oap:send_a_message"
+    "type": "oap:send_a_message",
+    "duration": "4",
+    "text": "this is a test text"
   },
   "cooldown": 10,
   "key": {
