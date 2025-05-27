@@ -24,7 +24,7 @@ public abstract class PlayerEntityMixin {
     @Shadow public abstract float getAbsorptionAmount();
 
     @Inject(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;setAbsorptionAmount(F)V", shift = At.Shift.AFTER))
-    private void onApplyDamage(DamageSource source, float amount, CallbackInfo ci) {
+    private void absorptionFixed(DamageSource source, float amount, CallbackInfo ci) {
         if (this.getAbsorptionAmount() <= 0) {
             ((PlayerEntity) (Object) this).removeStatusEffect(StatusEffects.ABSORPTION);
         }
