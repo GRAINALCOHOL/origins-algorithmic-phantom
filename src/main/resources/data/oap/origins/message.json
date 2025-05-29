@@ -3,6 +3,7 @@
   "description": "测试消息",
   "impact": 2,
   "powers": [
-    "oap:message/test_1"
+    "oap:message/test_1",
+    "oap:message/test_2"
   ]
 }

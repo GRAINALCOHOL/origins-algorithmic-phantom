@@ -1,0 +1,9 @@
+{
+  "name": "名字",
+  "description": "测试隐藏状态栏",
+  "type": "oap:hide_status_bars",
+  "condition": {
+    "type": "oap:status_effect",
+    "effect": "minecraft:slowness"
+  }
+}

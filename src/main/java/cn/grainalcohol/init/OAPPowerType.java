@@ -41,7 +41,14 @@ public class OAPPowerType {
                 COUNTDOWN.getSerializerId(),
                 COUNTDOWN
         );
+        Registry.register(
+                ApoliRegistries.POWER_FACTORY,
+                HIDE_STATUS_BARS.getSerializerId(),
+                HIDE_STATUS_BARS
+        );
     }
+
+
 
     public static final PowerFactory<?> ACTION_ON_EFFECT_GAINED =
             new PowerFactory<>(
@@ -116,5 +123,12 @@ public class OAPPowerType {
                             data.isPresent("condition") ? data.get("condition") : null,
                             data.isPresent("hud_render") ? data.get("hud_render") : null
                     )
+            ).allowCondition();
+
+    public static final PowerFactory<?> HIDE_STATUS_BARS =
+            new PowerFactory<>(
+                    OAPMod.id("hide_status_bars"),
+                    HideStatusBarsPower.DATA,
+                    (data) -> (type, entity) -> new HideStatusBarsPower(type, entity)
             ).allowCondition();
 }

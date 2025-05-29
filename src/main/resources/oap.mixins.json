@@ -3,11 +3,11 @@
   "package": "cn.grainalcohol.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "enhanced.AreaOfEffectMixin",
     "ItemMixin",
     "LivingEntityMixin",
     "MobEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "enhanced.AreaOfEffectMixin"
   ],
   "injectors": {
     "defaultRequire": 1
