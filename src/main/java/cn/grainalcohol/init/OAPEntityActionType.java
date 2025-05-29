@@ -4,8 +4,11 @@ import cn.grainalcohol.OAPMod;
 import cn.grainalcohol.action.entity.*;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registry;
+
+import static com.mojang.text2speech.Narrator.LOGGER;
 
 public class OAPEntityActionType {
     public static void init() {
@@ -29,10 +32,14 @@ public class OAPEntityActionType {
                 REMOVE_ABSORPTION.getSerializerId(),
                 REMOVE_ABSORPTION
         );
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                SEND_A_MESSAGE.getSerializerId(),
-                SEND_A_MESSAGE
-        );
+        if (FabricLoader.getInstance().isModLoaded("immersivemessages")) {
+            Registry.register(ApoliRegistries.ENTITY_ACTION,
+                    SEND_A_MESSAGE.getSerializerId(),
+                    SEND_A_MESSAGE
+            );
+        }else {
+            LOGGER.info("Immersive Messages API not found");
+        }
     }
 
     public static final ActionFactory<Entity> MODIFY_EFFECT_DURATION =
