@@ -40,6 +40,10 @@ public class OAPEntityActionType {
         }else {
             LOGGER.info("Immersive Messages API not found");
         }
+        Registry.register(ApoliRegistries.ENTITY_ACTION,
+                SUMMON_TAMED.getSerializerId(),
+                SUMMON_TAMED
+        );
     }
 
     public static final ActionFactory<Entity> MODIFY_EFFECT_DURATION =
@@ -77,5 +81,11 @@ public class OAPEntityActionType {
                     OAPMod.id("send_a_message"),
                     SendImmersiveMessage.DATA,
                     new SendImmersiveMessage()
+            );
+    public static final ActionFactory<Entity> SUMMON_TAMED =
+            new ActionFactory<>(
+                    OAPMod.id("summon_tamed"),
+                    SummonTamedAction.DATA,
+                    new SummonTamedAction()
             );
 }
