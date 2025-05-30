@@ -24,7 +24,7 @@ public class LivingEntityMixin {
         PowerHolderComponent component = PowerHolderComponent.KEY.get(this);
         component.getPowers(ActionOnEffectGainedPower.class)
                 .forEach(power -> {
-                    if(power.shouldIncludeUpdate()) {  // 新增条件检查
+                    if(power.shouldIncludeUpdate()) {
                         power.onEffectGained(effect);
                     }
                 });

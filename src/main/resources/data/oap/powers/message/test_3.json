@@ -1,0 +1,16 @@
+{
+  "type": "oap:action_on_death",
+  "name": "测试死亡动作",
+  "description": "被猪灵使用弹射物击杀时时生成闪电",
+  "entity_action": {
+    "type": "origins:execute_command",
+    "command": "summon minecraft:lightning_bolt ~ ~ ~"
+  },
+  "attacker_condition": {
+    "type": "origins:entity_type",
+    "entity_type": "minecraft:piglin"
+  },
+  "damage_condition": {
+    "type": "origins:projectile"
+  }
+}

@@ -46,6 +46,11 @@ public class OAPPowerType {
                 HIDE_STATUS_BARS.getSerializerId(),
                 HIDE_STATUS_BARS
         );
+        Registry.register(
+                ApoliRegistries.POWER_FACTORY,
+                ACTION_ON_DEATH.getSerializerId(),
+                ACTION_ON_DEATH
+        );
     }
 
 
@@ -130,5 +135,17 @@ public class OAPPowerType {
                     OAPMod.id("hide_status_bars"),
                     HideStatusBarsPower.DATA,
                     (data) -> (type, entity) -> new HideStatusBarsPower(type, entity)
+            ).allowCondition();
+
+    public static final PowerFactory<?> ACTION_ON_DEATH =
+            new PowerFactory<>(
+                    OAPMod.id("action_on_death"),
+                    ActionOnDeathPower.DATA,
+                    (data) -> (type, entity) -> new ActionOnDeathPower(
+                            type, entity,
+                            data.get("entity_action"),
+                            data.get("attacker_condition"),
+                            data.get("damage_condition")
+                    )
             ).allowCondition();
 }
