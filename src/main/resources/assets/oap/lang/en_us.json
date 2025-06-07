@@ -6,11 +6,5 @@
   "key.oap.senary_active": "Active Power (Senary)",
   "key.oap.quinary_active": "Active Power (Quinary)",
   "key.oap.quaternary_active": "Active Power (Quaternary)",
-  "key.oap.ternary_active": "Active Power (Ternary)",
-
-  "effect.oap.frozen": "Frozen",
-  "effect.oap.choke": "Choke",
-
-  "death.attack.oap.choking": "%1$s ran out of air",
-  "death.attack.oap.choking.player": "%1$s ran out of air while fighting %2$s"
+  "key.oap.ternary_active": "Active Power (Ternary)"
 }

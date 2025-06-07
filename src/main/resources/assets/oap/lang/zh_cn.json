@@ -6,11 +6,5 @@
   "key.oap.senary_active": "主动能力 (备用按键5)",
   "key.oap.quinary_active": "主动能力 (备用按键4)",
   "key.oap.quaternary_active": "主动能力 (备用按键3)",
-  "key.oap.ternary_active": "主动能力 (备用按键2)",
-
-  "effect.oap.frozen": "冰冻",
-  "effect.oap.choke": "扼喉",
-
-  "death.attack.oap.choking": "%1$s 缺氧而亡",
-  "death.attack.oap.choking.player": "%1$s 在与 %2$s 战斗时缺氧而亡"
+  "key.oap.ternary_active": "主动能力 (备用按键2)"
 }

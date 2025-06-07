@@ -31,7 +31,6 @@ public class OAPMod implements ModInitializer {
 		OAPEntityActionType.init();
 		OAPBientityActionType.init();
 		OAPPowerType.init();
-		OAPStatusEffect.init();
 		EntityDeathListener.init();
 	}
 }
