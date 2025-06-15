@@ -16,8 +16,8 @@ import java.util.function.BiFunction;
 
 public class EnhancedStatusEffectCondition implements BiFunction<SerializableData.Instance, Entity, Boolean> {
     public static final SerializableData DATA = new SerializableData()
-            .add("effect", SerializableDataTypes.STRING, null)
-            .add("effects", SerializableDataTypes.STRINGS, null)
+            .add("effect", SerializableDataTypes.IDENTIFIER, null)
+            .add("effects", SerializableDataTypes.IDENTIFIERS, null)
             .add("min_amplifier", SerializableDataTypes.INT, null)
             .add("max_amplifier", SerializableDataTypes.INT, null)
             .add("min_duration", SerializableDataTypes.INT, null)
@@ -35,7 +35,7 @@ public class EnhancedStatusEffectCondition implements BiFunction<SerializableDat
 
         // 处理单个effect
         if (data.isPresent("effect")) {
-            StatusEffect effect = Registries.STATUS_EFFECT.get(new Identifier(data.getString("effect")));
+            StatusEffect effect = Registries.STATUS_EFFECT.get(data.getId("effect"));
             if (effect != null) {
                 effects.add(effect);
             }
@@ -43,9 +43,9 @@ public class EnhancedStatusEffectCondition implements BiFunction<SerializableDat
 
         // 处理多个effects
         if (data.isPresent("effects")) {
-            List<String> effectIds = data.get("effects");
+            List<Identifier> effectIds = data.get("effects");
             effectIds.forEach(id -> {
-                StatusEffect effect = Registries.STATUS_EFFECT.get(new Identifier(id));
+                StatusEffect effect = Registries.STATUS_EFFECT.get(id);
                 if (effect != null) {
                     effects.add(effect);
                 }

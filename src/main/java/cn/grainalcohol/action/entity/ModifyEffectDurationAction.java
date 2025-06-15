@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 
 public class ModifyEffectDurationAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
-            .add("effect", SerializableDataTypes.STRING)
+            .add("effect", SerializableDataTypes.IDENTIFIER)
             .add("operation", SerializableDataTypes.STRING)
             .add("value", SerializableDataTypes.INT, 20)
             .add("is_ambient", SerializableDataTypes.BOOLEAN, false)
@@ -26,14 +26,14 @@ public class ModifyEffectDurationAction implements BiConsumer<SerializableData.I
             return;
         }
 
-        String effectId = data.getString("effect");
+        Identifier effectId = data.getId("effect");
         String operation = data.getString("operation");
         int value = data.getInt("value");// 操作数值，如果操作类型是add或set则以tick为单位
         boolean isAmbient = data.getBoolean("is_ambient");
         boolean showParticles = data.getBoolean("show_particles");
         boolean showIcon = data.getBoolean("show_icon");
 
-        StatusEffect effect = Registries.STATUS_EFFECT.get(new Identifier(effectId));
+        StatusEffect effect = Registries.STATUS_EFFECT.get(effectId);
 
         if (effect == null) return; //无效ID
 

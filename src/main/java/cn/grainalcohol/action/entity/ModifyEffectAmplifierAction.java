@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 
 public class ModifyEffectAmplifierAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
-            .add("effect", SerializableDataTypes.STRING)
+            .add("effect", SerializableDataTypes.IDENTIFIER)
             .add("operation", SerializableDataTypes.STRING)
             .add("value", SerializableDataTypes.INT, 1)
             .add("is_ambient", SerializableDataTypes.BOOLEAN, false)
@@ -26,14 +26,14 @@ public class ModifyEffectAmplifierAction implements BiConsumer<SerializableData.
             return;
         }
 
-        String effectId = data.getString("effect");
+        Identifier effectId = data.getId("effect");
         String operation = data.getString("operation");
         int value = data.getInt("value");
         boolean isAmbient = data.getBoolean("is_ambient");
         boolean showParticles = data.getBoolean("show_particles");
         boolean showIcon = data.getBoolean("show_icon");
 
-        StatusEffect effect = Registries.STATUS_EFFECT.get(new Identifier(effectId));
+        StatusEffect effect = Registries.STATUS_EFFECT.get(effectId);
 
         if (effect == null) return; //无效ID
 
