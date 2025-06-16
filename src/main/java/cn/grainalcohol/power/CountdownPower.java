@@ -20,6 +20,25 @@ import net.minecraft.util.math.MathHelper;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+/**
+ * 类型ID: oap:countdown<br>
+ * <br>
+ * 功能更多的，类似{@code Cooldown}能力的能力<br>
+ * 能力提供了一个倒计时系统，可以自定义结束操作、间隔操作或间隔时间等<br>
+ * 可以使用{@code ToggleCountdownAction}切换倒计时活动状态<br>
+ * 可以使用{@code CountdownProgressCondition}检查倒计时进度<br>
+ * 可以使用{@code CountdownIsActiveCondition}检查倒计时是否在活动<br>
+ *
+ * <p><b>JSON字段说明:</b></p>
+ * <ul>
+ *   <li><b>countdown</b> ({@code int}, 必选): 倒计时时长，以tick为单位</li>
+ *   <li><b>ending_action</b> ({@code EntityAction}, 必选): 倒计时结束时对能力持有者的操作</li>
+ *   <li><b>immediately_start</b> ({@code boolean}, 可选): 获得能力时是否立刻开始倒计时，默认为{@code true}</li>
+ *   <li><b>per_time_action</b> ({@code EntityAction}, 可选): 每间隔一段时间对能力持有者的操作</li>
+ *   <li><b>action_interval</b> ({@code int}, 可选): 间隔操作的时间周期，以tick为单位，默认为20tick</li>
+ *   <li><b>hud_render</b> (可选): Hud render设置，就像{@code Cooldown}那样，渲染方向与一般进度条相反(从右至左)</li>
+ * </ul>
+ */
 public class CountdownPower extends Power implements HudRendered {
     public static final SerializableData DATA = new SerializableData()
             .add("countdown", SerializableDataTypes.INT)

@@ -5,6 +5,25 @@ import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.calio.data.SerializableData;
 import net.minecraft.entity.LivingEntity;
 
+/**
+ * 类型ID: oap:prevent_exhaustion<br>
+ * <br>
+ * 阻止能力持有者累计消耗度（基本等效于饱和效果）<br>
+ * <br>
+ *
+ * <p><b>示例配置:</b></p>
+ * <pre>{@code
+ * // 结合条件的防疲劳能力
+ * {
+ *   "type": "oap:prevent_exhaustion",
+ *   "condition": {
+ *     "type": "apoli:sneaking"
+ *   }
+ * }
+ * }</pre>
+ *
+ * @see cn.grainalcohol.mixin.PlayerEntityMixin 实际触发逻辑的Mixin类
+ */
 public class PreventExhaustionPower extends Power {
     public static final SerializableData DATA = new SerializableData();
 

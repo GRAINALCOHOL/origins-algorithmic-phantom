@@ -1,10 +1,7 @@
 package cn.grainalcohol.init;
 
 import cn.grainalcohol.OAPMod;
-import cn.grainalcohol.condition.entity.AttackCooldownCondition;
-import cn.grainalcohol.condition.entity.CountdownIsActiveCondition;
-import cn.grainalcohol.condition.entity.CountdownProgressCondition;
-import cn.grainalcohol.condition.entity.GameDayCondition;
+import cn.grainalcohol.condition.entity.*;
 import cn.grainalcohol.condition.entity.enhanced.EnhancedStatusEffectCondition;
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
@@ -38,6 +35,11 @@ public class OAPEntityConditionType {
                 COUNTDOWN_IS_ACTIVE.getSerializerId(),
                 COUNTDOWN_IS_ACTIVE
         );
+        Registry.register(
+                ApoliRegistries.ENTITY_CONDITION,
+                NUMBER_OF_PLAYER.getSerializerId(),
+                NUMBER_OF_PLAYER
+        );
     }
 
     public static final ConditionFactory<Entity> GAME_DAY =
@@ -69,5 +71,11 @@ public class OAPEntityConditionType {
                     OAPMod.id("countdown_is_active"),
                     CountdownIsActiveCondition.DATA,
                     new CountdownIsActiveCondition()
+            );
+    public static final ConditionFactory<Entity> NUMBER_OF_PLAYER =
+            new ConditionFactory<>(
+                    OAPMod.id("number_of_player"),
+                    NumberOfPlayerCondition.DATA,
+                    new NumberOfPlayerCondition()
             );
 }

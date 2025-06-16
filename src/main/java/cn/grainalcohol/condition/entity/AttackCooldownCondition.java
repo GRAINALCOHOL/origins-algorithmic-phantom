@@ -1,5 +1,6 @@
 package cn.grainalcohol.condition.entity;
 
+import cn.grainalcohol.util.MathUtil;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.util.Comparison;
 import io.github.apace100.calio.data.SerializableData;
@@ -9,6 +10,18 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.function.BiFunction;
 
+/**
+ * 类型ID: oap:attack_cooldown<br>
+ * <br>
+ * 检测玩家的攻击冷却进度
+ *
+ * <p><b>JSON字段说明:</b></p>
+ * <ul>
+ *   <li><b>comparison</b> ({@code Comparison}, 必选): 将决定如何与目标值进行比较</li>
+ *   <li><b>compare_to</b> ({@code float}, 必选): 用于比较的目标值，将被自动修正至0~1之间</li>
+ *   <li><b>invert</b> ({@code boolean}, 可选): 是否反转检测结果，默认为false</li>
+ * </ul>
+ */
 public class AttackCooldownCondition implements BiFunction<SerializableData.Instance, Entity, Boolean> {
     public static final SerializableData DATA = new SerializableData()
             .add("comparison", ApoliDataTypes.COMPARISON)
@@ -24,7 +37,7 @@ public class AttackCooldownCondition implements BiFunction<SerializableData.Inst
         float cooldownProgress = player.getAttackCooldownProgress(0.5f);
 
         Comparison comparison = data.get("comparison");
-        float compareTo = data.getFloat("compare_to");
+        float compareTo = MathUtil.clamp(0f, 1f, data.getFloat("compare_to"));
         boolean result = comparison.compare(cooldownProgress, compareTo);
         return data.getBoolean("invert") ? !result : result;
     }

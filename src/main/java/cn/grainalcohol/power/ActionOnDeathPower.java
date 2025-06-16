@@ -12,14 +12,38 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * 当实体死亡时触发指定动作的Power类型
+ * 类型ID: oap:action_on_death<br>
+ * <br>
+ * 实体死亡时的操作<br>
+ * <br>
+ * <b>注意：</b>
+ * <ul>
+ *     <li>damage_condition字段中amount类型检查将始终收到0</li>
+ * </ul>
  *
  * <p><b>JSON字段说明:</b></p>
  * <ul>
- *   <li><b>entity_action</b> (entity action类型, 可选): 实体死亡时执行的动作</li>
- *   <li><b>attacker_condition</b> (entity condition类型, 可选): 检查攻击者实体的条件，默认允许任何攻击者</li>
- *   <li><b>damage_condition</b> (damage condition类型, 可选): 检查伤害来源的条件，默认允许任何伤害来源</li>
+ *   <li><b>entity_action</b> ({@code EntityAction}, 必选): 实体死亡时执行的操作</li>
+ *   <li><b>attacker_condition</b> ({@code EntityCondition}, 可选): 检查攻击者实体的条件，默认允许任何攻击者</li>
+ *   <li><b>damage_condition</b> ({@code DamageCondition}, 可选): 检查伤害来源的条件，默认允许任何伤害来源</li>
  * </ul>
+ *
+ * <p><b>示例配置:</b></p>
+ * <pre>{@code
+ * // 被玩家击杀时掉落特殊物品
+ * {
+ *   "type": "oap:action_on_death",
+ *   "entity_action": {
+ *     "type": "apoli:spawn_entity",
+ *     "entity_type": "minecraft:item",
+ *     "nbt": "{Item:{id:\"minecraft:diamond\",Count:1b}}"
+ *   },
+ *   "attacker_condition": {
+ *     "type": "apoli:entity_type",
+ *     "entity_type": "minecraft:player"
+ *   }
+ * }
+ * }</pre>
  *
  * @see cn.grainalcohol.mixin.LivingEntityMixin 实际触发逻辑的Mixin类
  */
@@ -44,11 +68,6 @@ public class ActionOnDeathPower extends Power {
         boolean damageValid = DAMAGE_CONDITION == null || DAMAGE_CONDITION.test(new Pair<>(source, amount));
         boolean attackerValid = ATTACKER_CONDITION == null ||
                 (ATTACKER_CONDITION != null && attacker != null && ATTACKER_CONDITION.test(attacker));
-
-        System.out.println("[DEBUG] 伤害条件检查: " + damageValid);
-        if(ATTACKER_CONDITION != null) {
-            System.out.println("[DEBUG] 攻击者条件检查: " + attackerValid);
-        }
 
         // 如果未设置attacker_condition，则只检查damage_condition
         return ATTACKER_CONDITION == null ? damageValid : (damageValid && attackerValid);

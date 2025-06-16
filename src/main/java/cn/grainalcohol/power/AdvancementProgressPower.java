@@ -17,11 +17,14 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * 将一个进度的准则完成进度通过起源的方式显示出来
+ * 类型ID: oap:advancement_progress<br>
+ * <br>
+ * 将一个进度的准则完成进度通过起源的方式显示出来<br>
+ * <br>
  *
  * <p><b>JSON字段说明:</b></p>
  * <ul>
- *   <li><b>advancement</b> ({@code Identifier}, 必选): 需要监测的进度id</li>
+ *   <li><b>advancement</b> ({@code Identifier}, 必选): 需要监测的进度ID</li>
  *   <li><b>hud_render</b> (可选): Hud render选项</li>
  *   <li><b>on_complete</b> ({@code EntityAction}, 可选): 进度完成时对玩家的操作</li>
  * </ul>
@@ -118,6 +121,6 @@ public class AdvancementProgressPower extends Power implements HudRendered {
 
     @Override
     public boolean shouldRender() {
-        return progress < 1f && hudRender != null;
+        return hudRender != null && hudRender.shouldRender() && progress < 1f;
     }
 }

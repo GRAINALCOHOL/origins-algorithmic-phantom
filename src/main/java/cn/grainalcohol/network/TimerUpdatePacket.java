@@ -1,10 +1,11 @@
 package cn.grainalcohol.network;
 
+import cn.grainalcohol.OAPMod;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public class TimerUpdatePacket {
-    public static final Identifier ID = new Identifier("oap", "timer_update");
+    public static final Identifier ID = OAPMod.id("timer_update");
     private final int timer;
 
     public TimerUpdatePacket(int timer) {

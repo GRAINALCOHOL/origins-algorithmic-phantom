@@ -10,6 +10,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,6 +52,11 @@ public class OAPPowerType {
                 ACTION_ON_DEATH.getSerializerId(),
                 ACTION_ON_DEATH
         );
+        Registry.register(
+                ApoliRegistries.POWER_FACTORY,
+                ADVANCEMENT_PROGRESS.getSerializerId(),
+                ADVANCEMENT_PROGRESS
+        );
     }
 
 
@@ -59,30 +65,15 @@ public class OAPPowerType {
             new PowerFactory<>(
                     OAPMod.id("action_on_effect_gained"),
                     ActionOnEffectGainedPower.DATA,
-                    (data) -> (type, entity) -> {
-                        Set<StatusEffect> effects = new HashSet<>();
-                        // 处理单个effect
-                        if(data.isPresent("effect")) {
-                            StatusEffect effect = Registries.STATUS_EFFECT.get(new Identifier(data.getString("effect")));
-                            if(effect != null) effects.add(effect);
-                        }
-                        // 处理多个effects
-                        if(data.isPresent("effects")) {
-                            List<String> effectIds = data.get("effects");
-                            effectIds.forEach(id -> {
-                                StatusEffect effect = Registries.STATUS_EFFECT.get(new Identifier(id));
-                                if(effect != null) effects.add(effect);
-                            });
-                        }
-                        return new ActionOnEffectGainedPower(
-                                type,
-                                entity,
-                                data.isPresent("condition") ? data.get("condition") : null,
-                                data.get("entity_action"),
-                                effects,
-                                data.getBoolean("include_update")
-                        );
-                    }
+                    (data) -> (type, entity) -> new ActionOnEffectGainedPower(
+                            type,
+                            entity,
+                            data.isPresent("condition") ? data.get("condition") : null,
+                            data.get("entity_action"),
+                            data.isPresent("effect") ? data.getId("effect") : null,
+                            data.isPresent("effects") ? data.get("effects") : new ArrayList<>(),
+                            data.getBoolean("include_update")
+                    )
             ).allowCondition();
 
     public static final PowerFactory<?> MODIFY_EATING_SPEED =
@@ -103,7 +94,7 @@ public class OAPPowerType {
                     (data) -> (type, entity) -> new ModifyMobBehaviorPower(
                             type, entity,
                             data.isPresent("entity_condition") ? data.get("entity_condition") : null,
-                            ModifyMobBehaviorPower.EntityBehavior.valueOf(data.getString("behavior").toUpperCase())
+                            data.getString("behavior")
                     )
             ).allowCondition();
 
@@ -146,6 +137,18 @@ public class OAPPowerType {
                             data.get("entity_action"),
                             data.get("attacker_condition"),
                             data.get("damage_condition")
+                    )
+            ).allowCondition();
+
+    public static final PowerFactory<?> ADVANCEMENT_PROGRESS =
+            new PowerFactory<>(
+                    OAPMod.id("advancement_progress"),
+                    AdvancementProgressPower.DATA,
+                    (data) -> (type, entity) -> new AdvancementProgressPower(
+                            type, entity,
+                            data.getId("advancement"),
+                            data.get("hud_render"),
+                            data.isPresent("on_complete") ? data.get("on_complete") : null
                     )
             ).allowCondition();
 }

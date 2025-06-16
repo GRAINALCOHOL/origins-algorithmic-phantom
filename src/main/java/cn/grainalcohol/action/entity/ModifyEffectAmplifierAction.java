@@ -11,6 +11,22 @@ import net.minecraft.util.Identifier;
 
 import java.util.function.BiConsumer;
 
+/**
+ * 类型ID: oap:modify_effect_amplifier<br>
+ * <br>
+ * 修改指定状态效果的效果倍率<br>
+ * 有更多可选项和优秀的错误处理机制，减少了能力注册失败的问题
+ *
+ * <p><b>JSON字段说明:</b></p>
+ * <ul>
+ *   <li><b>effect</b> ({@code Identifier}, 必选): 将要修改的状态效果ID</li>
+ *   <li><b>operation</b> ({@code String}, 必选): 将要如何修改效果倍率，接受“add”或“set”，非法参数不会修改效果倍率</li>
+ *   <li><b>value</b> ({@code int}, 可选): 将要参与计算的数值，默认为1</li>
+ *   <li><b>is_ambient</b> ({@code Identifier}, 必选): 修改状态效果是否来源于信标</li>
+ *   <li><b>show_particles</b> ({@code Identifier}, 必选): 修改状态效果是否会产生粒子</li>
+ *   <li><b>show_icon</b> ({@code Identifier}, 必选): 修改状态效果是否会显示在GUI上</li>
+ * </ul>
+ */
 public class ModifyEffectAmplifierAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
             .add("effect", SerializableDataTypes.IDENTIFIER)

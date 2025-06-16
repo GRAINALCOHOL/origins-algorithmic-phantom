@@ -44,6 +44,14 @@ public class OAPEntityActionType {
                 SUMMON_TAMED.getSerializerId(),
                 SUMMON_TAMED
         );
+        Registry.register(ApoliRegistries.ENTITY_ACTION,
+                APPLY_RANDOM_STATUS_EFFECT.getSerializerId(),
+                APPLY_RANDOM_STATUS_EFFECT
+        );
+        Registry.register(ApoliRegistries.ENTITY_ACTION,
+                MODIFY_ORIGIN.getSerializerId(),
+                MODIFY_ORIGIN
+        );
     }
 
     public static final ActionFactory<Entity> MODIFY_EFFECT_DURATION =
@@ -87,5 +95,17 @@ public class OAPEntityActionType {
                     OAPMod.id("summon_tamed"),
                     SummonTamedAction.DATA,
                     new SummonTamedAction()
+            );
+    public static final ActionFactory<Entity> APPLY_RANDOM_STATUS_EFFECT =
+            new ActionFactory<>(
+                    OAPMod.id("apply_random_status_effect"),
+                    ApplyRandomStatusEffectAction.DATA,
+                    new ApplyRandomStatusEffectAction()
+            );
+    public static final ActionFactory<Entity> MODIFY_ORIGIN =
+            new ActionFactory<>(
+                    OAPMod.id("modify_origin"),
+                    ModifyOriginAction.DATA,
+                    new ModifyOriginAction()
             );
 }

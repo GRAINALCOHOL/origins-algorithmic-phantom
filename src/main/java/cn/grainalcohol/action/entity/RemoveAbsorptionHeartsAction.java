@@ -7,6 +7,16 @@ import net.minecraft.entity.LivingEntity;
 
 import java.util.function.BiConsumer;
 
+/**
+ * 类型ID: oap:remove_absorption<br>
+ * <br>
+ * 移除一定量的伤害吸收量（就是那个黄心）
+ *
+ * <p><b>JSON字段说明:</b></p>
+ * <ul>
+ *   <li><b>amount</b> ({@code float}, 必选): 将要移除的伤害吸收量</li>
+ * </ul>
+ */
 public class RemoveAbsorptionHeartsAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
             .add("amount", SerializableDataTypes.FLOAT);

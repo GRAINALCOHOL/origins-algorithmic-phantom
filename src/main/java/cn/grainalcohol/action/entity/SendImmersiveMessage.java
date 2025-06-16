@@ -60,16 +60,19 @@ public class SendImmersiveMessage implements BiConsumer<SerializableData.Instanc
                     .y(data.getFloat("offset_y"))
                     .align(align)
                     .anchor(anchor)
-                    .subtext(subtitle_delay, subtitle, subtitle_offset,
-                            (subtext) -> subtext
-                                    .color(data.getInt("subtitle_color"))
-                                    .fadeIn(data.getFloat("subtitle_fade_in"))
-                                    .fadeIn(data.getFloat("subtitle_fade_out"))
-                    )
                     .fadeIn(data.getFloat("fade_in"))
                     .fadeOut(data.getFloat("fade_out"))
                     .rainbow(data.getFloat("rainbow"))
             ;
+
+            if (subtitle != null) {
+                message.subtext(subtitle_delay, subtitle, subtitle_offset,
+                        (subtext) -> subtext
+                                .color(data.getInt("subtitle_color"))
+                                .fadeIn(data.getFloat("subtitle_fade_in"))
+                                .fadeIn(data.getFloat("subtitle_fade_out"))
+                );
+            }
 
             sendToPlayer(message,serverPlayer);
         }

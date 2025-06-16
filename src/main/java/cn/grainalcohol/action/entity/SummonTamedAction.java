@@ -13,6 +13,18 @@ import java.util.function.BiConsumer;
 
 import static com.mojang.text2speech.Narrator.LOGGER;
 
+/**
+ * 类型ID: oap:summon_tamed<br>
+ * <br>
+ * 生成并驯服指定实体，如果目标实体无法驯服会生成失败
+ *
+ * <p><b>JSON字段说明:</b></p>
+ * <ul>
+ *   <li><b>entity_type</b> ({@code Identifier}, 必选): 将要生成的可驯服实体</li>
+ * </ul>
+ *
+ * @see TameableEntity 可驯服实体的基类
+ */
 public class SummonTamedAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
             .add("entity_type", SerializableDataTypes.ENTITY_TYPE);

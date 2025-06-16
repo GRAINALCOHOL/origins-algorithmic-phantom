@@ -12,6 +12,17 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
+/**
+ * 类型ID: oap:toggle_countdown<br>
+ * 用于切换{@code Countdown}能力活动状态的操作
+ *
+ * <p><b>JSON字段说明:</b></p>
+ * <ul>
+ *   <li><b>power</b> ({@code Identifier}): 需要操作的能力id</li>
+ *   <li><b>powers</b> ({@code Identifier[]}): 需要操作的多个能力id</li>
+ *   <li><b>mode</b> ({@code String}, 可选): 将所有目标倒计时能力切换至指定状态，接受“start”、“stop”或“toggle”，默认为“start”</li>
+ * </ul>
+ */
 public class ToggleCountdownAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
             .add("power", SerializableDataTypes.IDENTIFIER, null)
@@ -31,9 +42,6 @@ public class ToggleCountdownAction implements BiConsumer<SerializableData.Instan
         if (data.isPresent("powers")) {
             powerIds.addAll(data.get("powers"));
         }
-
-        // 添加调试输出
-        System.out.println("ToggleCountdownAction executing for power IDs: " + powerIds);
 
         switch (data.getString("mode").toLowerCase()) {
             case "stop":

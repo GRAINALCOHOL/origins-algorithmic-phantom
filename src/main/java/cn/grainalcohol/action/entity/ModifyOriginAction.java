@@ -17,6 +17,18 @@ import java.util.function.BiConsumer;
 
 import static com.mojang.text2speech.Narrator.LOGGER;
 
+/**
+ * 类型ID: oap:modify_origin<br>
+ * <br>
+ * 修改能力持有者在指定起源层上的起源<br>
+ * 可以触发{@code ActionOnCallBack}能力中的触发器
+ *
+ * <p><b>JSON字段说明:</b></p>
+ * <ul>
+ *   <li><b>layer</b> ({@code Identifier}, 必选): 将要修改的起源所在的起源层ID</li>
+ *   <li><b>origin</b> ({@code Identifier}, 必选): 将要修改的起源ID</li>
+ * </ul>
+ */
 public class ModifyOriginAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
             .add("layer", SerializableDataTypes.IDENTIFIER)
