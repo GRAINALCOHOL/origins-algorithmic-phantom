@@ -4,108 +4,39 @@ import cn.grainalcohol.OAPMod;
 import cn.grainalcohol.action.entity.*;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
+import io.github.apace100.calio.data.SerializableData;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
+
+import java.util.function.BiConsumer;
 
 import static com.mojang.text2speech.Narrator.LOGGER;
 
 public class OAPEntityActionType {
     public static void init() {
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                MODIFY_EFFECT_DURATION.getSerializerId(),
-                MODIFY_EFFECT_DURATION
-        );
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                MODIFY_EFFECT_AMPLIFIER.getSerializerId(),
-                MODIFY_EFFECT_AMPLIFIER
-        );
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                TOGGLE_COUNTDOWN.getSerializerId(),
-                TOGGLE_COUNTDOWN
-        );
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                GIVE_ABSORPTION.getSerializerId(),
-                GIVE_ABSORPTION
-        );
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                REMOVE_ABSORPTION.getSerializerId(),
-                REMOVE_ABSORPTION
-        );
+        registerAction(OAPMod.id("modify_effect_duration"), ModifyEffectDurationAction.DATA, new ModifyEffectDurationAction());
+        registerAction(OAPMod.id("modify_effect_amplifier"), ModifyEffectAmplifierAction.DATA, new ModifyEffectAmplifierAction());
+        registerAction(OAPMod.id("toggle_countdown"), ToggleCountdownAction.DATA, new ToggleCountdownAction());
+        registerAction(OAPMod.id("give_absorption"), GiveAbsorptionHeartsAction.DATA, new GiveAbsorptionHeartsAction());
+        registerAction(OAPMod.id("remove_absorption"), RemoveAbsorptionHeartsAction.DATA, new RemoveAbsorptionHeartsAction());
         if (FabricLoader.getInstance().isModLoaded("immersivemessages")) {
-            Registry.register(ApoliRegistries.ENTITY_ACTION,
-                    SEND_A_MESSAGE.getSerializerId(),
-                    SEND_A_MESSAGE
-            );
+            registerAction(OAPMod.id("send_a_message"), SendImmersiveMessage.DATA, new SendImmersiveMessage());
         }else {
             LOGGER.info("Immersive Messages API not found");
         }
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                SUMMON_TAMED.getSerializerId(),
-                SUMMON_TAMED
-        );
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                APPLY_RANDOM_STATUS_EFFECT.getSerializerId(),
-                APPLY_RANDOM_STATUS_EFFECT
-        );
-        Registry.register(ApoliRegistries.ENTITY_ACTION,
-                MODIFY_ORIGIN.getSerializerId(),
-                MODIFY_ORIGIN
-        );
+        registerAction(OAPMod.id("summon_tamed"), SummonTamedAction.DATA, new SummonTamedAction());
+        registerAction(OAPMod.id("apply_random_status_effect"), ApplyRandomStatusEffectAction.DATA, new ApplyRandomStatusEffectAction());
+        registerAction(OAPMod.id("modify_origin"), ModifyOriginAction.DATA, new ModifyOriginAction());
     }
 
-    public static final ActionFactory<Entity> MODIFY_EFFECT_DURATION =
-            new ActionFactory<>(
-                    OAPMod.id("modify_effect_duration"),
-                    ModifyEffectDurationAction.DATA,
-                    new ModifyEffectDurationAction()
-            );
-    public static final ActionFactory<Entity> MODIFY_EFFECT_AMPLIFIER =
-            new ActionFactory<>(
-                    OAPMod.id("modify_effect_amplifier"),
-                    ModifyEffectAmplifierAction.DATA,
-                    new ModifyEffectAmplifierAction()
-            );
-    public static final ActionFactory<Entity> TOGGLE_COUNTDOWN =
-            new ActionFactory<>(
-                    OAPMod.id("toggle_countdown"),
-                    ToggleCountdownAction.DATA,
-                    new ToggleCountdownAction()
-            );
-    public static final ActionFactory<Entity> GIVE_ABSORPTION =
-            new ActionFactory<>(
-                    OAPMod.id("give_absorption"),
-                    GiveAbsorptionHeartsAction.DATA,
-                    new GiveAbsorptionHeartsAction()
-            );
-    public static final ActionFactory<Entity> REMOVE_ABSORPTION =
-            new ActionFactory<>(
-                    OAPMod.id("remove_absorption"),
-                    RemoveAbsorptionHeartsAction.DATA,
-                    new RemoveAbsorptionHeartsAction()
-            );
-    public static final ActionFactory<Entity> SEND_A_MESSAGE =
-            new ActionFactory<>(
-                    OAPMod.id("send_a_message"),
-                    SendImmersiveMessage.DATA,
-                    new SendImmersiveMessage()
-            );
-    public static final ActionFactory<Entity> SUMMON_TAMED =
-            new ActionFactory<>(
-                    OAPMod.id("summon_tamed"),
-                    SummonTamedAction.DATA,
-                    new SummonTamedAction()
-            );
-    public static final ActionFactory<Entity> APPLY_RANDOM_STATUS_EFFECT =
-            new ActionFactory<>(
-                    OAPMod.id("apply_random_status_effect"),
-                    ApplyRandomStatusEffectAction.DATA,
-                    new ApplyRandomStatusEffectAction()
-            );
-    public static final ActionFactory<Entity> MODIFY_ORIGIN =
-            new ActionFactory<>(
-                    OAPMod.id("modify_origin"),
-                    ModifyOriginAction.DATA,
-                    new ModifyOriginAction()
-            );
+    private static void registerAction(Identifier actionId, SerializableData data, BiConsumer<SerializableData.Instance, Entity> action) {
+        Registry.register(
+                ApoliRegistries.ENTITY_ACTION, actionId,
+                new ActionFactory<>(
+                        actionId, data, action
+                )
+        );
+    }
 }
