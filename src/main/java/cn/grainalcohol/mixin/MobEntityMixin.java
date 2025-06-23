@@ -10,8 +10,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static cn.grainalcohol.power.ModifyMobBehaviorPower.EntityBehavior.*;
-
 @Mixin(MobEntity.class)
 public class MobEntityMixin {
     @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)

@@ -27,7 +27,7 @@ import java.util.function.BiFunction;
  *   <li><b>comparison</b> ({@code Comparison}, 必需): 比较类型，如">=", "==", "<"等</li>
  *   <li><b>compare_to</b> ({@code int}, 可选): 要比较的玩家数量，默认为1</li>
  *   <li><b>invert</b> ({@code boolean}, 可选): 是否反转比较结果，默认为false</li>
- *   <li><b>dimension</b> ({@code String}, 可选): 维度检查模式，默认为"any"</li>
+ *   <li><b>dimension</b> ({@code String}, 可选): 维度检查模式，接受“other”、“any”、“same”或指定维度ID，默认为"any"</li>
  * </ul>
  *
  * <p><b>示例配置:</b></p>
@@ -54,7 +54,7 @@ public class NumberOfPlayerCondition implements BiFunction<SerializableData.Inst
         MinecraftServer server = entity.getServer();
         if (server == null) return false;
 
-        String dimensionCheck = data.getString("dimension_check");
+        String dimensionCheck = data.getString("dimension");
         int amount;
 
         if("same".equals(dimensionCheck)) {

@@ -1,0 +1,12 @@
+{
+  "name": "名字",
+  "description": "测试prevent_movement_axis",
+  "type": "oap:prevent_movement_axis",
+  "prevent_positive_y": true,
+  "prevent_negative_x": true,
+  "condition": {
+    "type": "origins:xp_levels",
+    "comparison": ">",
+    "compare_to": "100"
+  }
+}

@@ -17,8 +17,8 @@ import java.util.function.Predicate;
  * <br>
  * <b>注意：</b>
  * <ul>
- *     <li><b>FRIENDLY</b>: 变为友好状态，不会攻击能力持有者</li>
- *     <li><b>PASSIVE</b>: 变为被动状态，不会主动攻击能力持有者的存在</li>
+ *     <li><b>friendly</b>: 变为友好状态，不会攻击能力持有者</li>
+ *     <li><b>passive</b>: 变为被动状态，不会主动攻击能力持有者</li>
  * </ul>
  *
  * <p><b>JSON字段说明:</b></p>
