@@ -54,7 +54,6 @@ public class CountdownProgressCondition implements BiFunction<SerializableData.I
                 .toList();
 
         if (powers.isEmpty()) {
-            System.out.println("WARNING: Entity does not have countdown power: " + powerIds);
             return false;
         }
 

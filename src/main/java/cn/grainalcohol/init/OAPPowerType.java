@@ -11,7 +11,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -23,10 +22,9 @@ public class OAPPowerType {
                 true,
                 (data) -> (type, entity) -> new ActionOnEffectGainedPower(
                         type, entity,
-                        data.isPresent("condition") ? data.get("condition") : null,
                         data.get("entity_action"),
-                        data.isPresent("effect") ? data.getId("effect") : null,
-                        data.isPresent("effects") ? data.get("effects") : new ArrayList<>(),
+                        data.getId("effect"),
+                        data.get("effects"),
                         data.getBoolean("include_update")
                 )
         );
@@ -37,7 +35,7 @@ public class OAPPowerType {
                 (data) -> (type, entity) -> new ModifyEatingSpeedPower(
                         type, entity,
                         data.getFloat("modifier"),
-                        data.isPresent("affects_potions") ? data.getBoolean("affects_potions") : false
+                        data.getBoolean("affects_potions")
                 )
         );
         registerPower(
@@ -46,7 +44,7 @@ public class OAPPowerType {
                 true,
                 (data) -> (type, entity) -> new ModifyMobBehaviorPower(
                         type, entity,
-                        data.isPresent("entity_condition") ? data.get("entity_condition") : null,
+                        data.get("entity_condition"),
                         data.getString("behavior")
                 )
         );
@@ -63,12 +61,11 @@ public class OAPPowerType {
                 (data) -> (type, entity) -> new CountdownPower(
                         type, entity,
                         data.getInt("countdown"),
-                        data.isPresent("immediately_start") ? data.getBoolean("immediately_start") : false,
+                        data.getBoolean("immediately_start"),
                         data.get("ending_action"),
-                        data.isPresent("per_time_action") ? data.get("per_time_action") : null,
-                        data.isPresent("action_interval") ? data.getInt("action_interval") : 20,
-                        data.isPresent("condition") ? data.get("condition") : null,
-                        data.isPresent("hud_render") ? data.get("hud_render") : null
+                        data.get("per_time_action"),
+                        data.getInt("action_interval"),
+                        data.get("hud_render")
                 )
         );
         registerPower(
@@ -96,7 +93,7 @@ public class OAPPowerType {
                         type, entity,
                         data.getId("advancement"),
                         data.get("hud_render"),
-                        data.isPresent("on_complete") ? data.get("on_complete") : null
+                        data.get("on_complete")
                 )
         );
         registerPower(

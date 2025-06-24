@@ -20,14 +20,16 @@ import java.util.function.BiConsumer;
  * <ul>
  *   <li><b>power</b> ({@code Identifier}): 需要操作的能力id</li>
  *   <li><b>powers</b> ({@code Identifier[]}): 需要操作的多个能力id</li>
- *   <li><b>mode</b> ({@code String}, 可选): 将所有目标倒计时能力切换至指定状态，接受“start”、“stop”或“toggle”，默认为“start”</li>
+ *   <li><b>mode</b> ({@code String}, 可选): 将所有目标倒计时能力切换至指定状态，接受“start”、“restart”、“stop”或“toggle”，默认为“start”</li>
  * </ul>
  */
 public class ToggleCountdownAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
             .add("power", SerializableDataTypes.IDENTIFIER, null)
             .add("powers", SerializableDataTypes.IDENTIFIERS, null)
-            .add("mode", SerializableDataTypes.STRING, "start");
+            .add("mode", SerializableDataTypes.STRING, "start")
+            .add("allow_toggle_restart", SerializableDataTypes.BOOLEAN, false)
+            ;
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
@@ -47,8 +49,11 @@ public class ToggleCountdownAction implements BiConsumer<SerializableData.Instan
             case "stop":
                 stop(livingEntity, powerIds);
                 break;
+            case "restart":
+                restart(livingEntity, powerIds);
+                break;
             case "toggle":
-                toggle(livingEntity, powerIds);
+                toggle(livingEntity, powerIds, data.getBoolean("allow_toggle_restart"));
                 break;
             default:
                 start(livingEntity, powerIds);
@@ -58,25 +63,29 @@ public class ToggleCountdownAction implements BiConsumer<SerializableData.Instan
     private static void start(LivingEntity entity, Set<Identifier> ids) {
         EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
                 .filter(p -> ids.contains(p.getType().getIdentifier()))
-                .peek(p -> System.out.println("Starting power: " + p.getType().getIdentifier()))
                 .forEach(CountdownPower::start);
     }
 
     private static void stop(LivingEntity entity, Set<Identifier> ids) {
-        EntityUtil.getPowers(entity, CountdownPower.class, false).stream()
+        EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
                 .filter(p -> ids.contains(p.getType().getIdentifier()))
-                .peek(p -> System.out.println("Stopping power: " + p.getType().getIdentifier()))
                 .forEach(CountdownPower::stop);
     }
 
-    private static void toggle(LivingEntity entity, Set<Identifier> ids) {
+    private static void restart(LivingEntity entity, Set<Identifier> ids) {
         EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
                 .filter(p -> ids.contains(p.getType().getIdentifier()))
-                .peek(p -> System.out.println("Toggling power: " + p.getType().getIdentifier() +
-                        ", current active: " + p.isActive()))
+                .forEach(CountdownPower::restart);
+    }
+
+    private static void toggle(LivingEntity entity, Set<Identifier> ids, boolean allowToggleRestart) {
+        EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
+                .filter(p -> ids.contains(p.getType().getIdentifier()))
                 .forEach(p -> {
-                    if (p.isActive()) {
+                    if (p.isCountingDown()) {
                         p.stop();
+                    } else if (p.isFinished() && allowToggleRestart) {
+                        p.restart();
                     } else {
                         p.start();
                     }

@@ -57,8 +57,8 @@ public class CountdownIsActiveCondition implements BiFunction<SerializableData.I
         }
 
         boolean result = checkAll ?
-                powers.stream().allMatch(CountdownPower::isActive) :
-                powers.stream().anyMatch(CountdownPower::isActive);
+                powers.stream().allMatch(CountdownPower::isCountingDown) :
+                powers.stream().anyMatch(CountdownPower::isCountingDown);
 
         return invert ? !result : result;
     }

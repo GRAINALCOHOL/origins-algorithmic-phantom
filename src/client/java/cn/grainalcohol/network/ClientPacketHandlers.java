@@ -10,11 +10,16 @@ public class ClientPacketHandlers {
     public static void register() {
         ClientPlayNetworking.registerGlobalReceiver(TimerUpdatePacket.ID,
                 (client, handler, buf, responseSender) -> {
+                    Identifier powerId = buf.readIdentifier();
                     int timer = buf.readInt();
+                    boolean isCountingDown = buf.readBoolean();
+
                     client.execute(() -> {
                         if(client.player != null) {
                             PowerHolderComponent.getPowers(client.player, CountdownPower.class)
-                                    .forEach(power -> power.setTimer(timer));
+                                    .stream()
+                                    .filter(p -> p.getType().getIdentifier().equals(powerId))
+                                    .forEach(power -> power.updateFromPacket(timer, isCountingDown));
                         }
                     });
                 });

@@ -1,5 +1,6 @@
 package cn.grainalcohol;
 
+import cn.grainalcohol.config.ModConfig;
 import cn.grainalcohol.init.*;
 import cn.grainalcohol.listener.EntityDeathListener;
 import net.fabricmc.api.ModInitializer;
@@ -26,6 +27,7 @@ public class OAPMod implements ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
+		ModConfig.getInstance();
 		OAPEntityConditionType.init();
 		OAPBientityConditionType.init();
 		OAPEntityActionType.init();

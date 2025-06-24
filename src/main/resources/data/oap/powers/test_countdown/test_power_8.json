@@ -2,7 +2,11 @@
   "name": "名字",
   "description": "测试countdown",
   "type": "oap:countdown",
-
+  "condition": {
+    "type": "origins:xp_levels",
+    "comparison": ">",
+    "compare_to": "100"
+  },
   "countdown": 200,
   "ending_action": {
     "type": "origins:apply_effect",

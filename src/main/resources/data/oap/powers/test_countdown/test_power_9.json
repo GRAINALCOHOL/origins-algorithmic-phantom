@@ -4,7 +4,8 @@
   "type": "origins:active_self",
   "entity_action": {
     "type": "oap:toggle_countdown",
-    "power": "oap:test_power_8"
+    "power": "oap:test_countdown/test_power_8",
+    "mode": "toggle"
   },
   "cooldown": 10,
   "key": {

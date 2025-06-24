@@ -1,5 +1,8 @@
 package cn.grainalcohol.power;
 
+import cn.grainalcohol.OAPMod;
+import cn.grainalcohol.network.TimerUpdatePacket;
+import cn.grainalcohol.util.MathUtil;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.HudRendered;
 import io.github.apace100.apoli.power.Power;
@@ -46,149 +49,153 @@ public class CountdownPower extends Power implements HudRendered {
             .add("immediately_start", SerializableDataTypes.BOOLEAN, true)
             .add("per_time_action", ApoliDataTypes.ENTITY_ACTION, null)
             .add("action_interval", SerializableDataTypes.INT, 20)
-            .add("condition", ApoliDataTypes.ENTITY_CONDITION, null)
             .add("hud_render", ApoliDataTypes.HUD_RENDER, null);
 
-    private final Consumer<LivingEntity> ENDING_ACTION;
-    private final Consumer<LivingEntity> PER_TIME_ACTION;
-    private final int ACTION_INTERVAL;
-    private final int COUNTDOWN;
-    private int timer;
-    private boolean isActive;
-    private int perTimeTimer;
-    private final Predicate<LivingEntity> CONDITION;
-    private final HudRender HUD_RENDER;
+    private final Consumer<LivingEntity> endingAction;
+    private final Consumer<LivingEntity> intervalAction;
+    private final int intervalTicks;
+    private final int maxCountdown;
+    private final HudRender hudRender;
 
-    private static final Identifier TIMER_UPDATE_PACKET = new Identifier("oap", "timer_update");
+    private int currentTimer;
+    private int intervalTimer;
+    private boolean isCountingDown;
 
-    private Integer initialTick = null;
+    private static final Identifier TIMER_UPDATE_PACKET = OAPMod.id("timer_update");
 
-    public CountdownPower(PowerType<?> type, LivingEntity entity, int countdown,boolean immediatelyStart, Consumer<LivingEntity> endingAction,
-                          Consumer<LivingEntity> perTimeAction, int actionInterval,
-                          Predicate<LivingEntity> condition, HudRender hudRender) {
+    public CountdownPower(PowerType<?> type, LivingEntity entity, int countdown, boolean immediatelyStart,
+                          Consumer<LivingEntity> endingAction, Consumer<LivingEntity> intervalAction,
+                          int intervalTicks, HudRender hudRender) {
         super(type, entity);
-        this.isActive = immediatelyStart;
-        System.out.println("Power created at: " + System.currentTimeMillis());
-        System.out.println("Power created with immediatelyStart: " + immediatelyStart);
-        ENDING_ACTION = endingAction;
-        PER_TIME_ACTION = perTimeAction;
-        ACTION_INTERVAL = actionInterval;
-        this.perTimeTimer = actionInterval;
-        COUNTDOWN = countdown;
-        this.timer = countdown; // 使用countdown作为初始timer值
-        CONDITION = condition;
-        HUD_RENDER = hudRender;
+        this.endingAction = endingAction;
+        this.intervalAction = intervalAction;
+        this.intervalTicks = intervalTicks;
+        this.maxCountdown = countdown;
+        this.hudRender = hudRender;
+
+        this.currentTimer = countdown;
+        this.intervalTimer = intervalTicks;
+        this.isCountingDown = immediatelyStart;
 
         this.setTicking(true);
     }
 
-    public int getTimer() {
-        return timer;
-    }
-
-    public void setTimer(int timer) {
-        this.timer = timer;
-    }
-
     @Override
     public void tick() {
-        if(initialTick == null) {
-            initialTick = entity.age % ACTION_INTERVAL;
-            System.out.println("Initial tick set to: " + initialTick);
+        if (!isCountingDown || !isActive()) {
             return;
         }
 
-        if(!isActive) {
-            return;
-        }
-        if(CONDITION != null && !CONDITION.test(entity)) {
-            return;
-        }
-
-        if(!isActive || (CONDITION != null && !CONDITION.test(entity))) return;
-
-        if(timer <= 0) {
-            ENDING_ACTION.accept(entity);
-            isActive = false;
-            return;
-        }
-
-        int previousTimer = timer;
-        timer--;
-
-        if(previousTimer != timer && !entity.getWorld().isClient) {
-            // 修复：移除不必要的类型转换
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeInt(timer);
-            ServerPlayNetworking.send((ServerPlayerEntity)entity, TIMER_UPDATE_PACKET, buf);
-        }
-
-        if(PER_TIME_ACTION != null) {
-            perTimeTimer--;
-            if(perTimeTimer <= 0) {
-                PER_TIME_ACTION.accept(entity);
-                perTimeTimer = ACTION_INTERVAL; // 重置计时器
+        // 处理间隔动作
+        if (intervalAction != null) {
+            intervalTimer--;
+            if (intervalTimer <= 0) {
+                intervalAction.accept(entity);
+                intervalTimer = intervalTicks;
             }
         }
+
+        // 倒计时逻辑
+        currentTimer--;
+        syncTimerToClient();
+
+        if (currentTimer <= 0) {
+            endingAction.accept(entity);
+            stop();
+        }
+    }
+
+    private void syncTimerToClient() {
+        if (entity instanceof ServerPlayerEntity serverPlayer) {
+            TimerUpdatePacket.send(serverPlayer, this);
+        }
+    }
+
+    public void updateFromPacket(int timer, boolean countingDown) {
+        this.currentTimer = timer;
+        this.isCountingDown = countingDown;
     }
 
     @Override
     public void onGained() {
-//        System.out.println("首次获得能力");
-        if (isActive) {
-            this.start();
+        if (isCountingDown) {
+            syncTimerToClient();
         }
     }
 
     @Override
     public NbtElement toTag() {
         NbtCompound compound = new NbtCompound();
-        compound.putBoolean("isActive", isActive);
-        compound.putInt("timer", timer);
+        compound.putInt("currentTimer", currentTimer);
+        compound.putInt("intervalTimer", intervalTimer);
+        compound.putBoolean("isCountingDown", isCountingDown);
         return compound;
     }
 
     @Override
     public void fromTag(NbtElement tag) {
         if(tag instanceof NbtCompound compound) {
-            isActive = compound.getBoolean("isActive");
-            timer = compound.getInt("timer");
+            currentTimer = compound.getInt("currentTimer");
+            intervalTimer = compound.getInt("intervalTimer");
+            isCountingDown = compound.getBoolean("isCountingDown");
         }
     }
 
+    public int getCurrentTimer() {
+        return currentTimer;
+    }
+
+    public int getMaxCountdown() {
+        return maxCountdown;
+    }
+
     public void start() {
-        this.isActive = true;
-        this.timer = COUNTDOWN;
-        System.out.println("Timer reset to: " + timer);
+        this.isCountingDown = true;
+        syncTimerToClient();
     }
 
     public void stop() {
-        this.isActive = false;
+        this.isCountingDown = false;
+        syncTimerToClient();
     }
 
-    @Override
-    public boolean isActive() {
-        return isActive;
+    public void restart() {
+        reset();
+        start();
+    }
+
+    public void reset() {
+        this.currentTimer = maxCountdown;
+        this.intervalTimer = intervalTicks;
+        syncTimerToClient();
+    }
+
+    public boolean isCountingDown() {
+        return isCountingDown;
+    }
+
+    public boolean isFinished() {
+        return getCompletionRate() == 1f;
     }
 
     public float getCompletionRate() {
-        // 返回已完成的比例 (1 - 剩余比例)，因为这是倒计时而不是正计时
-        return 1f - MathHelper.clamp((float)timer / COUNTDOWN, 0.0f, 1.0f);
+        // 完成率
+        return 1f - (maxCountdown > 0 ? MathUtil.clamp(0f, 1f, (float) currentTimer / maxCountdown) : 0.0f);
     }
 
     @Override
     public HudRender getRenderSettings() {
-        return HUD_RENDER;
+        return hudRender;
     }
 
     @Override
     public float getFill() {
-        // 返回剩余时间比例用于HUD显示
-        return MathHelper.clamp((float)timer / COUNTDOWN, 0.0f, 1.0f);
+        // 倒计时为反向完成率（从1至0）
+        return 1f - getCompletionRate();
     }
 
     @Override
     public boolean shouldRender() {
-        return HUD_RENDER != null && HUD_RENDER.shouldRender() && timer > 0;
+        return hudRender != null && hudRender.shouldRender() && currentTimer > 0;
     }
 }
