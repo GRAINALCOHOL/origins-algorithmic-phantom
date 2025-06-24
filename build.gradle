@@ -42,13 +42,6 @@ repositories {
 		url "https://maven.terraformersmc.com/"
 	}
 
-//	maven {
-//		url "https://maven.txni.dev/"
-//	}
-//	maven {
-//		url "https://maven.su5ed.dev/releases"
-//	}
-
 	maven {
 		name = "Modrinth"
 		url = "https://api.modrinth.com/maven"
