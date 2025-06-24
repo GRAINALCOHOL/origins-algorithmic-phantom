@@ -62,13 +62,11 @@ import java.util.function.Predicate;
  */
 public class ActionOnEffectGainedPower extends Power {
     public static final SerializableData DATA = new SerializableData()
-            .add("condition", ApoliDataTypes.ENTITY_CONDITION, null)
             .add("entity_action", ApoliDataTypes.ENTITY_ACTION)
             .add("effect", SerializableDataTypes.IDENTIFIER, null)
             .add("effects", SerializableDataTypes.IDENTIFIERS, null)
             .add("include_update", SerializableDataTypes.BOOLEAN, true);
 
-    private final Predicate<LivingEntity> CONDITION;
     private final Consumer<LivingEntity> ENTITY_ACTION;
     private final Set<StatusEffect> EFFECTS;
     private final boolean INCLUDE_UPDATE;
@@ -77,9 +75,8 @@ public class ActionOnEffectGainedPower extends Power {
         return INCLUDE_UPDATE;
     }
 
-    public ActionOnEffectGainedPower(PowerType<?> type, LivingEntity entity, Predicate<LivingEntity> condition, Consumer<LivingEntity> entityAction, Identifier effect, List<Identifier> effects, boolean includeUpdate) {
+    public ActionOnEffectGainedPower(PowerType<?> type, LivingEntity entity, Consumer<LivingEntity> entityAction, Identifier effect, List<Identifier> effects, boolean includeUpdate) {
         super(type, entity);
-        CONDITION = condition;
         ENTITY_ACTION = entityAction;
         EFFECTS = new HashSet<>();
 
@@ -97,9 +94,7 @@ public class ActionOnEffectGainedPower extends Power {
     }
 
     public void onEffectGained(StatusEffectInstance effect) {
-        // 检查条件是否满足(如果condition为null则直接执行)
-        if((CONDITION == null || CONDITION.test(entity))
-                && (EFFECTS.isEmpty() || EFFECTS.contains(effect.getEffectType()))) {
+        if(EFFECTS.isEmpty() || EFFECTS.contains(effect.getEffectType())) {
             ENTITY_ACTION.accept(entity);
         }
     }
