@@ -55,8 +55,6 @@ public class AreaOfEffectMixin {
         ci.cancel();
     }
 
-// 为了解决 "Unable to locate obfuscation mapping" 问题，
-// 可以添加 remap = false 来告知 Mixin 不要尝试查找混淆映射。
 @Inject(method = "getFactory", at = @At("RETURN"), cancellable = true, remap = false)
     private static void addMaxTarget(CallbackInfoReturnable<ActionFactory<Entity>> cir){
         cir.setReturnValue(
