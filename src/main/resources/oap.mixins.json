@@ -10,7 +10,9 @@
     "MobEntityMixin",
     "PlayerAdvancementTrackerMixin",
     "PlayerEntityMixin",
-    "enhanced.AreaOfEffectMixin"
+    "enhanced.AreaOfEffectMixin",
+    "enhanced.ModifyDamageTakenPowerMixin",
+    "enhanced.PowerEntityAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
