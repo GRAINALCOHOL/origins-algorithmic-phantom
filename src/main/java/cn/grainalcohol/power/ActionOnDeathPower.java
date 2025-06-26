@@ -28,23 +28,6 @@ import java.util.function.Predicate;
  *   <li><b>damage_condition</b> ({@code DamageCondition}, 可选): 检查伤害来源的条件，默认允许任何伤害来源</li>
  * </ul>
  *
- * <p><b>示例配置:</b></p>
- * <pre>{@code
- * // 被玩家击杀时掉落特殊物品
- * {
- *   "type": "oap:action_on_death",
- *   "entity_action": {
- *     "type": "apoli:spawn_entity",
- *     "entity_type": "minecraft:item",
- *     "nbt": "{Item:{id:\"minecraft:diamond\",Count:1b}}"
- *   },
- *   "attacker_condition": {
- *     "type": "apoli:entity_type",
- *     "entity_type": "minecraft:player"
- *   }
- * }
- * }</pre>
- *
  * @see cn.grainalcohol.mixin.LivingEntityMixin 实际触发逻辑的Mixin类
  */
 public class ActionOnDeathPower extends Power {
