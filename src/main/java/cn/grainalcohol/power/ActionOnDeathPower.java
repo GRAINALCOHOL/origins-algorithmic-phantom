@@ -19,6 +19,7 @@ import java.util.function.Predicate;
  * <b>注意：</b>
  * <ul>
  *     <li>damage_condition字段中amount类型检查将始终收到0</li>
+ *     <li>如果存在默认条件字段则需要通过检查才会触发逻辑</li>
  * </ul>
  *
  * <p><b>JSON字段说明:</b></p>
@@ -36,29 +37,29 @@ public class ActionOnDeathPower extends Power {
             .add("attacker_condition", ApoliDataTypes.ENTITY_CONDITION, null)
             .add("damage_condition", ApoliDataTypes.DAMAGE_CONDITION, null);
 
-    private final Consumer<LivingEntity> ENTITY_ACTION;
-    private final Predicate<LivingEntity> ATTACKER_CONDITION;
-    private final Predicate<Pair<DamageSource, Float>> DAMAGE_CONDITION;
+    private final Consumer<LivingEntity> entity_action;
+    private final Predicate<LivingEntity> attacker_condition;
+    private final Predicate<Pair<DamageSource, Float>> damage_conidtion;
 
     public ActionOnDeathPower(PowerType<?> type, LivingEntity entity, Consumer<LivingEntity> entityAction, Predicate<LivingEntity> attackerCondition, Predicate<Pair<DamageSource, Float>> damageCondition) {
         super(type, entity);
-        ENTITY_ACTION = entityAction;
-        ATTACKER_CONDITION = attackerCondition;
-        DAMAGE_CONDITION = damageCondition;
+        entity_action = entityAction;
+        attacker_condition = attackerCondition;
+        damage_conidtion = damageCondition;
     }
 
     public boolean shouldApply(DamageSource source, float amount, LivingEntity attacker) {
-        boolean damageValid = DAMAGE_CONDITION == null || DAMAGE_CONDITION.test(new Pair<>(source, amount));
-        boolean attackerValid = ATTACKER_CONDITION == null ||
-                (ATTACKER_CONDITION != null && attacker != null && ATTACKER_CONDITION.test(attacker));
+        boolean damageValid = damage_conidtion == null || damage_conidtion.test(new Pair<>(source, amount));
+        boolean attackerValid = attacker_condition == null ||
+                (attacker_condition != null && attacker != null && attacker_condition.test(attacker));
 
         // 如果未设置attacker_condition，则只检查damage_condition
-        return ATTACKER_CONDITION == null ? damageValid : (damageValid && attackerValid);
+        return attacker_condition == null ? damageValid : (damageValid && attackerValid);
     }
 
     public void apply() {
-        if (ENTITY_ACTION != null) {
-            ENTITY_ACTION.accept(entity);
+        if (entity_action != null) {
+            entity_action.accept(entity);
         }
     }
 }

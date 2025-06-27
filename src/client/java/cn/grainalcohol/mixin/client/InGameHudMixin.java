@@ -1,7 +1,7 @@
 package cn.grainalcohol.mixin.client;
 
 import cn.grainalcohol.power.HideStatusBarsPower;
-import io.github.apace100.apoli.component.PowerHolderComponent;
+import cn.grainalcohol.util.EntityUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,10 +15,9 @@ public class InGameHudMixin {
     private void hideStatusBars(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != null) {
-            PowerHolderComponent component = PowerHolderComponent.KEY.get(client.player);
-            if (!component.getPowers(HideStatusBarsPower.class).isEmpty()) {
-                ci.cancel();
-            }
+            EntityUtil.getPowers(client.player, HideStatusBarsPower.class, false)
+                    .stream().findAny()
+                    .ifPresent(power -> ci.cancel());
         }
     }
 }

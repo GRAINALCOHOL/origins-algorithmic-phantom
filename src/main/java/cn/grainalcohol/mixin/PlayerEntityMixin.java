@@ -1,7 +1,7 @@
 package cn.grainalcohol.mixin;
 
 import cn.grainalcohol.power.PreventExhaustionPower;
-import io.github.apace100.apoli.component.PowerHolderComponent;
+import cn.grainalcohol.util.EntityUtil;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,10 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PlayerEntityMixin {
     @Inject(method = "addExhaustion", at = @At("HEAD"), cancellable = true)
     private void preventExhaustion(float exhaustion, CallbackInfo ci) {
-        PowerHolderComponent component = PowerHolderComponent.KEY.get(this);
-        if(!component.getPowers(PreventExhaustionPower.class).isEmpty()) {
-            ci.cancel();
-        }
+        EntityUtil.getPowers((PlayerEntity)(Object)this, PreventExhaustionPower.class, false)
+                .stream().findAny()
+                .ifPresent(power -> ci.cancel());
     }
 
     @Shadow public abstract float getAbsorptionAmount();

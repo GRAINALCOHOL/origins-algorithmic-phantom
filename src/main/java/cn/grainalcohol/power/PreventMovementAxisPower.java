@@ -29,16 +29,6 @@ import net.minecraft.util.math.Vec3d;
  *   <li><b>prevent_negative_z</b> ({@code boolean}): 是否阻止负Z轴方向的移动。默认为false</li>
  * </ul>
  *
- * <p><b>示例配置:</b></p>
- * <pre>{@code
- * {
- *     "type": "oap:prevent_movement_axis",
- *     "prevent_positive_y": true,
- *     "prevent_negative_y": true
- * }
- * // 阻止垂直方向的所有移动
- * }
- *
  * @see cn.grainalcohol.mixin.EntityMixin 实际触发逻辑的Mixin类
  */
 public class PreventMovementAxisPower extends Power {

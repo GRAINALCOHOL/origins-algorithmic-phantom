@@ -61,25 +61,25 @@ public class ToggleCountdownAction implements BiConsumer<SerializableData.Instan
     }
 
     private static void start(LivingEntity entity, Set<Identifier> ids) {
-        EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
+        EntityUtil.getPowers(entity, CountdownPower.class, false).stream()
                 .filter(p -> ids.contains(p.getType().getIdentifier()))
                 .forEach(CountdownPower::start);
     }
 
     private static void stop(LivingEntity entity, Set<Identifier> ids) {
-        EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
+        EntityUtil.getPowers(entity, CountdownPower.class, false).stream()
                 .filter(p -> ids.contains(p.getType().getIdentifier()))
                 .forEach(CountdownPower::stop);
     }
 
     private static void restart(LivingEntity entity, Set<Identifier> ids) {
-        EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
+        EntityUtil.getPowers(entity, CountdownPower.class, false).stream()
                 .filter(p -> ids.contains(p.getType().getIdentifier()))
                 .forEach(CountdownPower::restart);
     }
 
     private static void toggle(LivingEntity entity, Set<Identifier> ids, boolean allowToggleRestart) {
-        EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
+        EntityUtil.getPowers(entity, CountdownPower.class, false).stream()
                 .filter(p -> ids.contains(p.getType().getIdentifier()))
                 .forEach(p -> {
                     if (p.isCountingDown()) {

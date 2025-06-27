@@ -31,6 +31,11 @@ import java.util.function.Predicate;
  * 可以使用{@code ToggleCountdownAction}切换倒计时活动状态<br>
  * 可以使用{@code CountdownProgressCondition}检查倒计时进度<br>
  * 可以使用{@code CountdownIsActiveCondition}检查倒计时是否在活动<br>
+ * <br>
+ * <b>注意：</b>
+ * <ul>
+ *     <li>如果存在默认条件字段则需要通过检查才会进行倒计时</li>
+ * </ul>
  *
  * <p><b>JSON字段说明:</b></p>
  * <ul>
@@ -168,6 +173,11 @@ public class CountdownPower extends Power implements HudRendered {
         this.currentTimer = maxCountdown;
         this.intervalTimer = intervalTicks;
         syncTimerToClient();
+    }
+
+    @Override
+    public boolean isActive() {
+        return super.isActive() && isCountingDown();
     }
 
     public boolean isCountingDown() {

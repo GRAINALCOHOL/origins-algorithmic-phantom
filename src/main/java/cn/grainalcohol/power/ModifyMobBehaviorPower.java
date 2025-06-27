@@ -44,21 +44,21 @@ public class ModifyMobBehaviorPower extends Power {
             .add("entity_condition", ApoliDataTypes.ENTITY_CONDITION, null)
             .add("behavior", SerializableDataTypes.STRING);
 
-    private final Predicate<Entity> ENTITY_CONDITION;
-    private final EntityBehavior BEHAVIOR;
+    private final Predicate<Entity> entity_condition;
+    private final EntityBehavior behavior;
 
     public EntityBehavior getBehavior() {
-        return this.BEHAVIOR;
-    }
-
-    public Predicate<Entity> getEntityCondition() {
-        return this.ENTITY_CONDITION;
+        return this.behavior;
     }
 
     public ModifyMobBehaviorPower(PowerType<?> type, LivingEntity entity, Predicate<Entity> entityCondition, String behavior) {
         super(type, entity);
-        ENTITY_CONDITION = entityCondition;
-        BEHAVIOR = EntityBehavior.valueOf(behavior.toUpperCase());
+        entity_condition = entityCondition;
+        this.behavior = EntityBehavior.valueOf(behavior.toUpperCase());
+    }
+
+    public boolean shouldApply(MobEntity mob) {
+        return entity_condition == null || entity_condition.test(mob);
     }
 
     public enum EntityBehavior {

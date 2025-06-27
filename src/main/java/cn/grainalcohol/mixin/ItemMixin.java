@@ -1,7 +1,8 @@
 package cn.grainalcohol.mixin;
 
+import cn.grainalcohol.power.ModifyDrinkingSpeedPower;
 import cn.grainalcohol.power.ModifyEatingSpeedPower;
-import io.github.apace100.apoli.component.PowerHolderComponent;
+import cn.grainalcohol.util.EntityUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -17,21 +18,18 @@ public class ItemMixin {
     @Inject(method = "getMaxUseTime", at = @At("RETURN"), cancellable = true)
     private void modifyEatingSpeed(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         LivingEntity user = (LivingEntity) stack.getHolder();
-        if (user instanceof PlayerEntity) {
-            boolean isFood = stack.isFood();
-            boolean isPotion = stack.getItem() instanceof PotionItem;
+        if (user instanceof PlayerEntity && stack.isFood()) {
+            EntityUtil.getPowers(user, ModifyEatingSpeedPower.class, false)
+                    .forEach(power -> cir.setReturnValue((int) power.apply(cir.getReturnValue())));
+        }
+    }
 
-            if (isFood || isPotion) {
-                PowerHolderComponent component = PowerHolderComponent.KEY.get(user);
-                float original = (float) cir.getReturnValue();
-                for (ModifyEatingSpeedPower power : component.getPowers(ModifyEatingSpeedPower.class)) {
-                    // 食物总是受影响，药水只在affectsPotions为true时受影响
-                    if (isFood || (isPotion && power.affectsPotions())) {
-                        original = power.modifyEatingSpeed(original);
-                    }
-                }
-                cir.setReturnValue((int) original);
-            }
+    @Inject(method = "getMaxUseTime", at = @At("RETURN"), cancellable = true)
+    private void modifyDrinkingSpeed(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        LivingEntity user = (LivingEntity) stack.getHolder();
+        if (user instanceof PlayerEntity && stack.getItem() instanceof PotionItem) {
+            EntityUtil.getPowers(user, ModifyDrinkingSpeedPower.class, false)
+                    .forEach(power -> cir.setReturnValue((int) power.apply(cir.getReturnValue())));
         }
     }
 }

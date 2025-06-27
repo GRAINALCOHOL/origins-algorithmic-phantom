@@ -11,17 +11,6 @@ import net.minecraft.entity.LivingEntity;
  * 阻止能力持有者累计消耗度（基本等效于饱和效果）<br>
  * <br>
  *
- * <p><b>示例配置:</b></p>
- * <pre>{@code
- * // 结合条件的防疲劳能力
- * {
- *   "type": "oap:prevent_exhaustion",
- *   "condition": {
- *     "type": "apoli:sneaking"
- *   }
- * }
- * }</pre>
- *
  * @see cn.grainalcohol.mixin.PlayerEntityMixin 实际触发逻辑的Mixin类
  */
 public class PreventExhaustionPower extends Power {

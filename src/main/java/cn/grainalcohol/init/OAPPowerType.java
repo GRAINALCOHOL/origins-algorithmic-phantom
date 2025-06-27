@@ -25,7 +25,8 @@ public class OAPPowerType {
                         data.get("entity_action"),
                         data.getId("effect"),
                         data.get("effects"),
-                        data.getBoolean("include_update")
+                        data.getBoolean("include_update"),
+                        data.getBoolean("check_all")
                 )
         );
         registerPower(
@@ -34,8 +35,16 @@ public class OAPPowerType {
                 true,
                 (data) -> (type, entity) -> new ModifyEatingSpeedPower(
                         type, entity,
-                        data.getFloat("modifier"),
-                        data.getBoolean("affects_potions")
+                        data.getFloat("modifier")
+                )
+        );
+        registerPower(
+                OAPMod.id("modify_drinking_speed"),
+                ModifyDrinkingSpeedPower.DATA,
+                true,
+                (data) -> (type, entity) -> new ModifyDrinkingSpeedPower(
+                        type, entity,
+                        data.getFloat("modifier")
                 )
         );
         registerPower(

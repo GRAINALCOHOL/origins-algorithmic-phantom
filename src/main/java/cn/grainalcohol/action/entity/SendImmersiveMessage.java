@@ -15,12 +15,6 @@ import static cn.grainalcohol.util.MessageUtil.sendToPlayer;
 public class SendImmersiveMessage implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
             .add("message_type", SerializableDataTypes.STRING, null)
-            .add("subtitle", SerializableDataTypes.STRING, null)
-            .add("subtitle_delay", SerializableDataTypes.FLOAT, 0.0F)
-            .add("subtitle_offset", SerializableDataTypes.FLOAT, 10.0F)
-            .add("subtitle_color", SerializableDataTypes.INT, 0xFFFFFF)
-            .add("subtitle_fade_in", SerializableDataTypes.FLOAT, 1.0F)
-            .add("subtitle_fade_out", SerializableDataTypes.FLOAT, 1.0F)
             .add("duration", SerializableDataTypes.FLOAT, 10.0F)
             .add("text", SerializableDataTypes.STRING, null)
             .add("color", SerializableDataTypes.INT, 0xFFFFFF)
@@ -31,7 +25,16 @@ public class SendImmersiveMessage implements BiConsumer<SerializableData.Instanc
             .add("anchor", SerializableDataTypes.STRING, "CENTER_CENTER")
             .add("fade_in", SerializableDataTypes.FLOAT, 1.0F)
             .add("fade_out", SerializableDataTypes.FLOAT, 1.0F)
-            .add("rainbow", SerializableDataTypes.FLOAT, 2.0F)
+//            .add("rainbow", SerializableDataTypes.FLOAT, 2.0F)
+
+            .add("subtitle", SerializableDataTypes.STRING, null)
+            .add("subtitle_delay", SerializableDataTypes.FLOAT, 0.0F)
+            .add("subtitle_offset", SerializableDataTypes.FLOAT, 10.0F)
+            .add("subtitle_color", SerializableDataTypes.INT, 0xFFFFFF)
+            .add("subtitle_fade_in", SerializableDataTypes.FLOAT, 1.0F)
+            .add("subtitle_fade_out", SerializableDataTypes.FLOAT, 1.0F)
+            .add("subtitle_align", SerializableDataTypes.STRING, "CENTER_CENTER")
+            .add("subtitle_anchor", SerializableDataTypes.STRING, "CENTER_CENTER")
             ;
 
     ImmersiveMessage message;
@@ -46,6 +49,8 @@ public class SendImmersiveMessage implements BiConsumer<SerializableData.Instanc
             float subtitle_offset = data.getFloat("subtitle_offset");
             TextAnchor align = tryGetAnchorFromString(data.getString("align"));
             TextAnchor anchor = tryGetAnchorFromString(data.getString("anchor"));
+            TextAnchor subtitle_align = tryGetAnchorFromString(data.getString("subtitle_align"));
+            TextAnchor subtitle_anchor = tryGetAnchorFromString(data.getString("subtitle_anchor"));
 
             switch (data.getString("message_type")) {
                 case "normal" : message = ImmersiveMessage.builder(duration, text);
@@ -62,8 +67,11 @@ public class SendImmersiveMessage implements BiConsumer<SerializableData.Instanc
                     .anchor(anchor)
                     .fadeIn(data.getFloat("fade_in"))
                     .fadeOut(data.getFloat("fade_out"))
-                    .rainbow(data.getFloat("rainbow"))
             ;
+
+//            if (data.isPresent("rainbow")) {
+//                message.rainbow(data.getFloat("rainbow"));
+//            }
 
             if (subtitle != null) {
                 message.subtext(subtitle_delay, subtitle, subtitle_offset,
@@ -71,10 +79,12 @@ public class SendImmersiveMessage implements BiConsumer<SerializableData.Instanc
                                 .color(data.getInt("subtitle_color"))
                                 .fadeIn(data.getFloat("subtitle_fade_in"))
                                 .fadeIn(data.getFloat("subtitle_fade_out"))
+                                .align(subtitle_align)
+                                .anchor(subtitle_anchor)
                 );
             }
 
-            sendToPlayer(message,serverPlayer);
+            sendToPlayer(message, serverPlayer, true);
         }
     }
 }

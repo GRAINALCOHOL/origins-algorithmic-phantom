@@ -21,6 +21,10 @@ import java.util.function.Consumer;
  * <br>
  * 将一个进度的准则完成进度通过起源的方式显示出来<br>
  * <br>
+ * <b>注意：</b>
+ * <ul>
+ *     <li>如果存在默认条件字段则需要通过检查才会触发逻辑</li>
+ * </ul>
  *
  * <p><b>JSON字段说明:</b></p>
  * <ul>
@@ -62,6 +66,9 @@ public class AdvancementProgressPower extends Power implements HudRendered {
     }
 
     public void updateProgress(AdvancementProgress advancementProgress) {
+        if (!isActive()) {
+            return;
+        }
         if (advancementProgress.isDone()) {
             progress = 1f;
             if (onComplete != null) {

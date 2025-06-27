@@ -1,6 +1,7 @@
 package cn.grainalcohol.mixin;
 
 import cn.grainalcohol.power.ModifyMobBehaviorPower;
+import cn.grainalcohol.util.EntityUtil;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -15,18 +16,12 @@ public class MobEntityMixin {
     @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
     private void modifyBehavior(LivingEntity target, CallbackInfo ci) {
         if(target != null) {
-            PowerHolderComponent component = PowerHolderComponent.KEY.get(target);
-            for(ModifyMobBehaviorPower power : component.getPowers(ModifyMobBehaviorPower.class)) {
-                if(power.getEntityCondition() == null || power.getEntityCondition().test((Entity)(Object)this)) {
-                    boolean shouldCancel = false;
-                    switch(power.getBehavior()) {
-                        case FRIENDLY:
-                            shouldCancel = true;
-                            break;
-                        case PASSIVE:
-                            shouldCancel = ((MobEntity)(Object)this).hurtTime <= 0;
-                            break;
-                    }
+            for(ModifyMobBehaviorPower power : EntityUtil.getPowers(target, ModifyMobBehaviorPower.class, false)) {
+                if(power.shouldApply((MobEntity) (Object) this)) {
+                    boolean shouldCancel = switch (power.getBehavior()) {
+                        case FRIENDLY -> true;
+                        case PASSIVE -> ((MobEntity) (Object) this).hurtTime <= 0;
+                    };
                     if(shouldCancel) {
                         ci.cancel();
                         return;

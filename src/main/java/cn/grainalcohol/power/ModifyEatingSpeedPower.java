@@ -36,23 +36,16 @@ import net.minecraft.entity.LivingEntity;
  */
 public class ModifyEatingSpeedPower extends Power {
     public static final SerializableData DATA = new SerializableData()
-            .add("modifier", SerializableDataTypes.FLOAT, 1.0f)
-            .add("affects_potions", SerializableDataTypes.BOOLEAN, false);
+            .add("modifier", SerializableDataTypes.FLOAT, 1.0f);
 
-    private final float MODIFIER;
-    private final boolean AFFECTS_POTIONS;
+    private final float Modifier;
 
-    public ModifyEatingSpeedPower(PowerType<?> type, LivingEntity entity, float modifier, boolean affectsPotions) {
+    public ModifyEatingSpeedPower(PowerType<?> type, LivingEntity entity, float modifier) {
         super(type, entity);
-        this.MODIFIER = MathUtil.clamp(0.1f, 10f, modifier);
-        this.AFFECTS_POTIONS = affectsPotions;
+        this.Modifier = MathUtil.clamp(0.1f, 10f, modifier);
     }
 
-    public boolean affectsPotions() {
-        return AFFECTS_POTIONS;
-    }
-
-    public float modifyEatingSpeed(float originalSpeed) {
-        return originalSpeed * MODIFIER;
+    public float apply(float originalSpeed) {
+        return originalSpeed * Modifier;
     }
 }

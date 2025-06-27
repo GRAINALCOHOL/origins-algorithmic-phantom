@@ -16,6 +16,7 @@ import java.util.function.BiFunction;
  * 类型ID: oap:countdown_is_active<br>
  * <br>
  * 检测指定的倒计时能力是否正在活动<br>
+ * <br>
  *
  * <p><b>JSON字段说明:</b></p>
  * <ul>
@@ -46,7 +47,7 @@ public class CountdownIsActiveCondition implements BiFunction<SerializableData.I
         boolean invert = data.getBoolean("invert");
 
         List<CountdownPower> powers =
-                EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
+                EntityUtil.getPowers(entity, CountdownPower.class, false).stream()
                 .filter(p -> powerIds.isEmpty()
                         || powerIds.contains(p.getType().getIdentifier()))
                 .toList();
@@ -57,8 +58,8 @@ public class CountdownIsActiveCondition implements BiFunction<SerializableData.I
         }
 
         boolean result = checkAll ?
-                powers.stream().allMatch(CountdownPower::isCountingDown) :
-                powers.stream().anyMatch(CountdownPower::isCountingDown);
+                powers.stream().allMatch(CountdownPower::isActive) :
+                powers.stream().anyMatch(CountdownPower::isActive);
 
         return invert ? !result : result;
     }

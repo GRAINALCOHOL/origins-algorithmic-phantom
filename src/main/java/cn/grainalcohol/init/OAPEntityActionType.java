@@ -1,6 +1,7 @@
 package cn.grainalcohol.init;
 
 import cn.grainalcohol.OAPMod;
+import cn.grainalcohol.action.entity.SayAction;
 import cn.grainalcohol.action.entity.*;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
@@ -29,6 +30,8 @@ public class OAPEntityActionType {
         registerAction(OAPMod.id("summon_tamed"), SummonTamedAction.DATA, new SummonTamedAction());
         registerAction(OAPMod.id("apply_random_status_effect"), ApplyRandomStatusEffectAction.DATA, new ApplyRandomStatusEffectAction());
         registerAction(OAPMod.id("modify_origin"), ModifyOriginAction.DATA, new ModifyOriginAction());
+        registerAction(OAPMod.id("say"), SayAction.DATA, new SayAction());
+        registerAction(OAPMod.id("toast"), ToastAction.DATA, new ToastAction());
     }
 
     private static void registerAction(Identifier actionId, SerializableData data, BiConsumer<SerializableData.Instance, Entity> action) {

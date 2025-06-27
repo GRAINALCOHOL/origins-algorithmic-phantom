@@ -24,6 +24,7 @@ import java.util.function.Consumer;
  * <b>注意：</b>
  * <ul>
  *     <li>effect和effects字段都为空时获得任何效果都将触发entity_action字段的操作</li>
+ *     <li>如果存在默认条件字段则需要通过检查才会触发逻辑</li>
  *     <li>check_all字段为true时，获得指定状态效果时需要同时持有指定的所有状态效果才会触发逻辑</li>
  * </ul>
  *
@@ -76,10 +77,6 @@ public class ActionOnEffectGainedPower extends Power {
     }
 
     public void apply(StatusEffectInstance effect) {
-        if (!isActive()) {
-            return;
-        }
-
         boolean should;
 
         if (effects.isEmpty()) {

@@ -15,18 +15,6 @@ import net.minecraft.entity.LivingEntity;
  *     <li>此能力仅影响客户端HUD显示，不影响实际的游戏逻辑</li>
  * </ul>
  *
- * <p><b>示例配置:</b></p>
- * <pre>{@code
- * // 结合条件使用，在特定情况下隐藏状态栏
- * {
- *   "type": "oap:hide_status_bars",
- *   "condition": {
- *     "type": "apoli:gamemode",
- *     "gamemode": "adventure"
- *    }
- * }
- * }</pre>
- *
  * @see io.github.apace100.apoli.mixin.InGameHudMixin 实际触发逻辑的Mixin类
  */
 public class HideStatusBarsPower extends Power {

@@ -1,7 +1,7 @@
 package cn.grainalcohol.listener;
 
 import cn.grainalcohol.power.ActionOnDeathPower;
-import io.github.apace100.apoli.component.PowerHolderComponent;
+import cn.grainalcohol.util.EntityUtil;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -13,11 +13,10 @@ public class EntityDeathListener implements ServerLivingEntityEvents.AfterDeath{
 
     @Override
     public void afterDeath(LivingEntity entity, DamageSource source) {
-        PowerHolderComponent.getPowers(entity, ActionOnDeathPower.class).forEach(power -> {
-            if (power.shouldApply(source, 0, getAttacker(source))) {
-                power.apply();
-            }
-        });
+        EntityUtil.getPowers(entity, ActionOnDeathPower.class, false)
+                .stream()
+                .filter(power -> power.shouldApply(source, 0, getAttacker(source)))
+                .forEach(ActionOnDeathPower::apply);
     }
 
     private LivingEntity getAttacker(DamageSource source) {

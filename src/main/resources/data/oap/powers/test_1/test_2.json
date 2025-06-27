@@ -1,0 +1,17 @@
+{
+  "name": "名字",
+  "description": "测试toast",
+  "type": "origins:active_self",
+  "entity_action": {
+    "type": "oap:toast",
+    "title": "喵喵喵",
+    "description": "what can i say",
+    "icon": {
+      "item": "minecraft:iron_ingot"
+    },
+    "toast_type": "system"
+  },
+  "key": {
+    "key": "key.origins.secondary_active"
+  }
+}
