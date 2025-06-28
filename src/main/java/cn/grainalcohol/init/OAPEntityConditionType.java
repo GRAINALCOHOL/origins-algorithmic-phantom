@@ -21,6 +21,7 @@ public class OAPEntityConditionType {
         registerEntityCondition(OAPMod.id("countdown_is_active"), CountdownIsActiveCondition.DATA, new CountdownIsActiveCondition());
         registerEntityCondition(OAPMod.id("number_of_player"), NumberOfPlayerCondition.DATA, new NumberOfPlayerCondition());
         registerEntityCondition(OAPMod.id("light_level"), LightLevelCondition.DATA, new LightLevelCondition());
+        registerEntityCondition(OAPMod.id("random"), RandomCondition.DATA, new RandomCondition());
     }
 
     private static void registerEntityCondition(Identifier conditionId, SerializableData data, BiFunction<SerializableData.Instance, Entity, Boolean> condition) {

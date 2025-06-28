@@ -20,8 +20,6 @@ public class OAPEntityActionType {
         registerAction(OAPMod.id("modify_effect_duration"), ModifyEffectDurationAction.DATA, new ModifyEffectDurationAction());
         registerAction(OAPMod.id("modify_effect_amplifier"), ModifyEffectAmplifierAction.DATA, new ModifyEffectAmplifierAction());
         registerAction(OAPMod.id("toggle_countdown"), ToggleCountdownAction.DATA, new ToggleCountdownAction());
-        registerAction(OAPMod.id("give_absorption"), GiveAbsorptionHeartsAction.DATA, new GiveAbsorptionHeartsAction());
-        registerAction(OAPMod.id("remove_absorption"), RemoveAbsorptionHeartsAction.DATA, new RemoveAbsorptionHeartsAction());
         if (FabricLoader.getInstance().isModLoaded("immersivemessages")) {
             registerAction(OAPMod.id("send_a_message"), SendImmersiveMessage.DATA, new SendImmersiveMessage());
         }else {
@@ -32,6 +30,7 @@ public class OAPEntityActionType {
         registerAction(OAPMod.id("modify_origin"), ModifyOriginAction.DATA, new ModifyOriginAction());
         registerAction(OAPMod.id("say"), SayAction.DATA, new SayAction());
         registerAction(OAPMod.id("toast"), ToastAction.DATA, new ToastAction());
+        registerAction(OAPMod.id("modify_absorption"), ModifyAbsorptionAction.DATA, new ModifyAbsorptionAction());
     }
 
     private static void registerAction(Identifier actionId, SerializableData data, BiConsumer<SerializableData.Instance, Entity> action) {

@@ -9,35 +9,35 @@ import net.minecraft.entity.LivingEntity;
 
 public class DamageReflectionFlatPower extends Power {
     public static final SerializableData DATA = new SerializableData()
+            .add("mode", SerializableDataTypes.STRING, "add")
             .add("amount", SerializableDataTypes.FLOAT, 1f)
-            .add("chance", SerializableDataTypes.FLOAT, 1f)
             .add("check_source", SerializableDataTypes.BOOLEAN, true)
             .add("random_addition", SerializableDataTypes.FLOAT, 0f)
             ;
 
+    private final String mode;
     private final float amount;
-    private final float chance;
     private final boolean check_source;
     private final float random_addition;
 
-    public DamageReflectionFlatPower(PowerType<?> type, LivingEntity entity, float amount, float chance, boolean checkSource, float randomAddition) {
+    public DamageReflectionFlatPower(PowerType<?> type, LivingEntity entity, String mode, float amount, boolean checkSource, float randomAddition) {
         super(type, entity);
+        this.mode = mode;
         this.amount = amount;
-        this.chance = chance;
         check_source = checkSource;
         random_addition = randomAddition;
     }
 
     public float getAmount() {
-        return MathUtil.clamp(Float.MIN_VALUE, Float.MIN_VALUE, amount);
+        return amount;
+    }
+
+    public String getMode() {
+        return mode;
     }
 
     public boolean isCheckSource() {
         return check_source;
-    }
-
-    public float getChance() {
-        return chance;
     }
 
     public float getRandomAddition() {

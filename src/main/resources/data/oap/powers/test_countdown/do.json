@@ -1,0 +1,14 @@
+{
+  "name": "名字",
+  "description": "测试toggle_countdown",
+  "type": "origins:active_self",
+  "entity_action": {
+    "type": "origins:grant_power",
+    "power": "oap:test_countdown/test_power_8",
+    "source": "oap:test_countdown"
+  },
+  "cooldown": 10,
+  "key": {
+    "key": "key.origins.primary_active"
+  }
+}

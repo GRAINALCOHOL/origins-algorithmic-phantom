@@ -1,5 +1,6 @@
 package cn.grainalcohol.action.entity;
 
+import cn.grainalcohol.util.MathUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.entity.Entity;
@@ -20,8 +21,8 @@ import java.util.function.BiConsumer;
  * <p><b>JSON字段说明:</b></p>
  * <ul>
  *   <li><b>effect</b> ({@code Identifier}, 必选): 将要修改的状态效果ID</li>
- *   <li><b>operation</b> ({@code String}, 必选): 将要如何修改效果时长，接受“add”、“set”、“multiply”或“multiply_total”，非法参数不会修改时长</li>
- *   <li><b>value</b> ({@code int}, 可选): 将要参与计算的数值，以tick为单位，默认为20tick，操作类型为“multiply”或“multiply_total”时此值为乘数</li>
+ *   <li><b>mode</b> ({@code String}, 可选): 修改行为，接受“add”、“set”、“scale”或“multiply”，非法参数不会修改时长，默认为“add”</li>
+ *   <li><b>amount</b> ({@code int}, 可选): 将要参与计算的数值，以tick为单位，默认为20tick，操作类型为“multiply”或“multiply_total”时此值为乘数</li>
  *   <li><b>is_ambient</b> ({@code Identifier}, 必选): 修改状态效果是否来源于信标</li>
  *   <li><b>show_particles</b> ({@code Identifier}, 必选): 修改状态效果是否会产生粒子</li>
  *   <li><b>show_icon</b> ({@code Identifier}, 必选): 修改状态效果是否会显示在GUI上</li>
@@ -29,9 +30,9 @@ import java.util.function.BiConsumer;
  */
 public class ModifyEffectDurationAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
-            .add("effect", SerializableDataTypes.IDENTIFIER)
-            .add("operation", SerializableDataTypes.STRING)
-            .add("value", SerializableDataTypes.INT, 20)
+            .add("effect", SerializableDataTypes.IDENTIFIER, null)
+            .add("mode", SerializableDataTypes.STRING, "add")
+            .add("amount", SerializableDataTypes.FLOAT, 20f)
             .add("is_ambient", SerializableDataTypes.BOOLEAN, false)
             .add("show_particles", SerializableDataTypes.BOOLEAN, true)
             .add("show_icon", SerializableDataTypes.BOOLEAN, true);
@@ -43,8 +44,8 @@ public class ModifyEffectDurationAction implements BiConsumer<SerializableData.I
         }
 
         Identifier effectId = data.getId("effect");
-        String operation = data.getString("operation");
-        int value = data.getInt("value");// 操作数值，如果操作类型是add或set则以tick为单位
+        String mode = data.getString("mode");
+        float amount = data.getInt("amount");
         boolean isAmbient = data.getBoolean("is_ambient");
         boolean showParticles = data.getBoolean("show_particles");
         boolean showIcon = data.getBoolean("show_icon");
@@ -57,39 +58,36 @@ public class ModifyEffectDurationAction implements BiConsumer<SerializableData.I
         if ((effectInstance == null)) return; // 没有该效果
 
         if(effectInstance.isInfinite()){
-            if ("set".equals(operation) && value != Integer.MAX_VALUE) {
-                //移除效果并应用新效果
+            if ("set".equals(mode) && (int) amount != Integer.MAX_VALUE) {
+
                 livingTarget.removeStatusEffect(effect);
                 livingTarget.addStatusEffect(new StatusEffectInstance(
                         effect,
-                        value,
+                        (int) amount,
                         effectInstance.getAmplifier(),
                         isAmbient,
                         showParticles,
                         showIcon
                 ));
             }
-            // 其他操作类型
             return;
         }
 
-        // 根据操作类型计算新的持续时间
         int duration = effectInstance.getDuration();
-        int newDuration = switch (operation) {
-            case "add" -> duration + value; // 增加指定ticks数
-            case "multiply" -> duration * value; // 乘以指定倍数
-            case "multiply_total" -> duration * (1 + value);
-            case "set" -> value; // 直接设置为指定值
-            default -> duration; // 未知操作类型则保持原样
+        int newDuration = switch (mode) {
+            case "add" -> duration + (int) amount; //tick
+            case "scale" -> (int) (duration * MathUtil.nonNegative(amount));
+            case "multiply" -> (int) (duration * (1 + amount));
+            case "set" -> (int) MathUtil.nonNegative(amount); // tick
+            default -> duration;
         };
 
-        // 先移除原有的效果实例
-        livingTarget.removeStatusEffect(effect);
 
+        livingTarget.removeStatusEffect(effect);
         livingTarget.addStatusEffect(new StatusEffectInstance(
                 effect,
                 newDuration,
-                effectInstance.getAmplifier(), // 保持原有效果等级
+                effectInstance.getAmplifier(),
                 isAmbient,
                 showParticles,
                 showIcon

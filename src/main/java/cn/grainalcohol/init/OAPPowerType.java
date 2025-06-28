@@ -35,7 +35,8 @@ public class OAPPowerType {
                 true,
                 (data) -> (type, entity) -> new ModifyEatingSpeedPower(
                         type, entity,
-                        data.getFloat("modifier")
+                        data.getString("mode"),
+                        data.getFloat("amount")
                 )
         );
         registerPower(
@@ -44,7 +45,8 @@ public class OAPPowerType {
                 true,
                 (data) -> (type, entity) -> new ModifyDrinkingSpeedPower(
                         type, entity,
-                        data.getFloat("modifier")
+                        data.getString("mode"),
+                        data.getFloat("amount")
                 )
         );
         registerPower(
@@ -117,6 +119,30 @@ public class OAPPowerType {
                         data.getBoolean("prevent_negative_y"),
                         data.getBoolean("prevent_positive_z"),
                         data.getBoolean("prevent_negative_z")
+                )
+        );
+        registerPower(
+                OAPMod.id("damage_reflection_flat"),
+                DamageReflectionFlatPower.DATA,
+                true,
+                (data) -> (type, entity) -> new DamageReflectionFlatPower(
+                        type, entity,
+                        data.getString("mode"),
+                        data.getFloat("amount"),
+                        data.getBoolean("check_source"),
+                        data.getFloat("random_addition")
+                )
+        );
+        registerPower(
+                OAPMod.id("damage_reflection_percent"),
+                DamageReflectionPercentPower.DATA,
+                true,
+                (data) -> (type, entity) -> new DamageReflectionPercentPower(
+                        type, entity,
+                        data.getString("mode"),
+                        data.getFloat("amount"),
+                        data.getBoolean("check_source"),
+                        data.getFloat("random_addition")
                 )
         );
     }

@@ -26,24 +26,12 @@ import java.util.function.BiFunction;
  * <ul>
  *   <li><b>comparison</b> ({@code Comparison}, 必选): 比较类型，如">=", "==", "<"等</li>
  *   <li><b>compare_to</b> ({@code int}, 可选): 要比较的天数值，默认为0</li>
- *   <li><b>invert</b> ({@code boolean}, 可选): 是否反转比较结果，默认为false</li>
  * </ul>
- *
- * <p><b>示例配置:</b></p>
- * <pre>{@code
- * {
- *   "type": "oap:game_day",
- *   "comparison": ">=",
- *   "compare_to": 7
- * }
- * }</pre>
- * 上述配置在游戏进行7天或以上时返回true
  */
 public class GameDayCondition implements BiFunction<SerializableData.Instance, Entity, Boolean>{
     public static final SerializableData DATA = new SerializableData()
             .add("comparison", ApoliDataTypes.COMPARISON)
-            .add("compare_to", SerializableDataTypes.INT, 0)
-            .add("invert", SerializableDataTypes.BOOLEAN, false);
+            .add("compare_to", SerializableDataTypes.INT, 0);
 
     @Override
     public Boolean apply(SerializableData.Instance data, Entity entity) {
@@ -54,8 +42,7 @@ public class GameDayCondition implements BiFunction<SerializableData.Instance, E
 
             Comparison comparison = data.get("comparison");
             int compareTo = data.getInt("compare_to");
-            boolean result = comparison.compare((int)dayTime, compareTo);
-            return data.getBoolean("invert") ? !result : result;
+            return comparison.compare((int)dayTime, compareTo);
         }
         return false;
     }

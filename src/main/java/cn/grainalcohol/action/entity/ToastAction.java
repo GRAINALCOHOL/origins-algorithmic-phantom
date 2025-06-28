@@ -12,9 +12,9 @@ import java.util.function.BiConsumer;
 
 public class ToastAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
-            .add("title", SerializableDataTypes.TEXT)
-            .add("description", SerializableDataTypes.TEXT)
-            .add("icon", SerializableDataTypes.ITEM_STACK)
+            .add("title", SerializableDataTypes.TEXT, null)
+            .add("description", SerializableDataTypes.TEXT, null)
+            .add("icon", SerializableDataTypes.ITEM_STACK, null)
             .add("toast_type", SerializableDataTypes.STRING, "system")
             .add("advancement_type", SerializableDataTypes.STRING, "task")
             .add("recipe_type", SerializableDataTypes.STRING, "crafting")

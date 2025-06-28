@@ -1,9 +1,10 @@
 {
   "name": "名字",
-  "description": "测试countdown_progress",
+  "description": "测试countdown_is_active",
   "type": "origins:creative_flight",
   "condition": {
     "type": "oap:countdown_is_active",
-    "power": "oap:test_countdown/test_power_8"
+    "power": "oap:test_countdown/test_power_8_time",
+    "inverted": true
   }
 }

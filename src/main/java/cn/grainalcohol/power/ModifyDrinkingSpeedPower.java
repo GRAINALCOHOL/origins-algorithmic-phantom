@@ -9,16 +9,23 @@ import net.minecraft.entity.LivingEntity;
 
 public class ModifyDrinkingSpeedPower extends Power {
     public static final SerializableData DATA = new SerializableData()
-            .add("modifier", SerializableDataTypes.FLOAT, 1.0f);
+            .add("mode", SerializableDataTypes.STRING, "scale")
+            .add("amount", SerializableDataTypes.FLOAT, 1f);
 
-    private final float Modifier;
+    private final String mode;
+    private final float amount;
 
-    public ModifyDrinkingSpeedPower(PowerType<?> type, LivingEntity entity, float modifier) {
+    public ModifyDrinkingSpeedPower(PowerType<?> type, LivingEntity entity, String mode, float amount) {
         super(type, entity);
-        Modifier = MathUtil.clamp(0.1f, 10f, modifier);
+        this.mode = mode;
+        this.amount = Math.min(10f, amount);
     }
 
     public float apply(float originalSpeed) {
-        return originalSpeed * Modifier;
+        return switch (mode) {
+            case "scale" -> originalSpeed * Math.max(0.1f, amount);
+            case "multiply" -> originalSpeed * Math.max(0.1f, (1 + amount));
+            default -> originalSpeed;
+        };
     }
 }

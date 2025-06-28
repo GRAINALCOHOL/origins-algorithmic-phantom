@@ -70,14 +70,14 @@ public class EntityUtil {
      * @param entity 目标实体
      * @param powerId 要查找的Power ID
      * @return 匹配的Power列表
-     * @throws IllegalArgumentException 当实体不是LivingEntity时抛出
      */
-    public static List<Power> getPowersById(Entity entity, Identifier powerId) {
+    public static List<Power> getPowers(LivingEntity entity, Identifier powerId, boolean includeInactive) {
         if (!(entity instanceof LivingEntity)) {
             throw new IllegalArgumentException("Entity must be a LivingEntity");
         }
         return PowerHolderComponent.KEY.get(entity).getPowers().stream()
                 .filter(p -> p.getType().getIdentifier().equals(powerId))
+                .filter(p -> includeInactive || p.isActive())
                 .collect(Collectors.toList());
     }
 
@@ -86,7 +86,6 @@ public class EntityUtil {
      * @param entity 目标实体
      * @param powerId Power ID
      * @return 是否持有
-     * @throws IllegalArgumentException 当实体不是LivingEntity时抛出
      */
     public static boolean hasPower(Entity entity, Identifier powerId) {
         if (!(entity instanceof LivingEntity)) {
@@ -94,6 +93,20 @@ public class EntityUtil {
         }
         return PowerHolderComponent.KEY.get(entity).getPowers().stream()
                 .anyMatch(p -> p.getType().getIdentifier().equals(powerId));
+    }
+
+    /**
+     * 获取实体是否持有指定ID的Power
+     * @param entity 目标实体
+     * @param power 能力类型
+     * @param includeInactive 是否包含未活动的能力
+     * @return 是否持有
+     */
+    public static <T extends Power> boolean hasPower(Entity entity, Class<T> power, boolean includeInactive) {
+        if (!(entity instanceof LivingEntity)) {
+            throw new IllegalArgumentException("Entity must be a LivingEntity");
+        }
+        return !getPowers(entity, power, includeInactive).isEmpty();
     }
 
     /**

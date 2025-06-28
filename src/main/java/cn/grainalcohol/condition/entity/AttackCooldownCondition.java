@@ -19,14 +19,12 @@ import java.util.function.BiFunction;
  * <ul>
  *   <li><b>comparison</b> ({@code Comparison}, 必选): 将决定如何与目标值进行比较</li>
  *   <li><b>compare_to</b> ({@code float}, 必选): 用于比较的目标值，将被自动修正至0~1之间</li>
- *   <li><b>invert</b> ({@code boolean}, 可选): 是否反转检测结果，默认为false</li>
  * </ul>
  */
 public class AttackCooldownCondition implements BiFunction<SerializableData.Instance, Entity, Boolean> {
     public static final SerializableData DATA = new SerializableData()
             .add("comparison", ApoliDataTypes.COMPARISON)
-            .add("compare_to", SerializableDataTypes.FLOAT)
-            .add("invert", SerializableDataTypes.BOOLEAN, false);
+            .add("compare_to", SerializableDataTypes.FLOAT);
 
     @Override
     public Boolean apply(SerializableData.Instance data, Entity entity) {
@@ -38,7 +36,6 @@ public class AttackCooldownCondition implements BiFunction<SerializableData.Inst
 
         Comparison comparison = data.get("comparison");
         float compareTo = MathUtil.clamp(0f, 1f, data.getFloat("compare_to"));
-        boolean result = comparison.compare(cooldownProgress, compareTo);
-        return data.getBoolean("invert") ? !result : result;
+        return comparison.compare(cooldownProgress, compareTo);
     }
 }
