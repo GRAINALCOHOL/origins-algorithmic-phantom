@@ -11,6 +11,7 @@
     "PlayerAdvancementTrackerMixin",
     "PlayerEntityMixin",
     "enhanced.AreaOfEffectMixin",
+    "enhanced.EntityActionsMixin",
     "enhanced.ModifyDamageTakenPowerMixin",
     "enhanced.PowerEntityAccessor"
   ],

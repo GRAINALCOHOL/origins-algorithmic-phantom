@@ -23,15 +23,13 @@ import java.util.function.BiFunction;
  *   <li><b>power</b> ({@code Identifier}): 要检测的单个倒计时能力ID</li>
  *   <li><b>powers</b> ({@code Identifier[]}): 要检测的多个倒计时能力ID列表</li>
  *   <li><b>check_all</b> ({@code boolean}, 可选): 设置是否需要对指定的所有倒计时能力进行完全匹配，默认为false</li>
- *   <li><b>invert</b> ({@code boolean}, 可选): 是否反转检测结果，默认为false</li>
  * </ul>
  */
 public class CountdownIsActiveCondition implements BiFunction<SerializableData.Instance, Entity, Boolean> {
     public static final SerializableData DATA = new SerializableData()
             .add("power", SerializableDataTypes.IDENTIFIER, null)
             .add("powers", SerializableDataTypes.IDENTIFIERS, null)
-            .add("check_all", SerializableDataTypes.BOOLEAN, false)
-            .add("invert", SerializableDataTypes.BOOLEAN, false);
+            .add("check_all", SerializableDataTypes.BOOLEAN, false);
 
     @Override
     public Boolean apply(SerializableData.Instance data, Entity entity) {
@@ -44,7 +42,6 @@ public class CountdownIsActiveCondition implements BiFunction<SerializableData.I
         }
 
         boolean checkAll = data.getBoolean("check_all");
-        boolean invert = data.getBoolean("invert");
 
         List<CountdownPower> powers =
                 EntityUtil.getPowers(entity, CountdownPower.class, false).stream()
@@ -53,14 +50,9 @@ public class CountdownIsActiveCondition implements BiFunction<SerializableData.I
                 .toList();
 
         if (powers.isEmpty()) {
-            System.out.println("WARNING: The entity does not have the specified countdown power: " + powerIds);
             return false;
         }
 
-        boolean result = checkAll ?
-                powers.stream().allMatch(CountdownPower::isActive) :
-                powers.stream().anyMatch(CountdownPower::isActive);
-
-        return invert ? !result : result;
+        return checkAll ? powerIds.size() == powers.size() : true;
     }
 }

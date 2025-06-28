@@ -28,7 +28,6 @@ import java.util.function.BiFunction;
  *   <li><b>max_amplifier</b> ({@code int}, 可选): 状态效果的最大效果倍率，默认为255</li>
  *   <li><b>min_duration</b> ({@code int}, 可选): 状态效果的最小时长(游戏刻)，以tick为单位，默认为20tick</li>
  *   <li><b>max_duration</b> ({@code int}, 可选): 状态效果的最大时长(游戏刻)，以tick为单位，默认为600tick</li>
- *   <li><b>invert</b> ({@code boolean}, 可选): 是否反转检测结果，默认为false</li>
  *   <li><b>check_all</b> ({@code boolean}, 可选): 设置是否需要对指定的所有状态效果进行完全匹配，默认为false</li>
  * </ul>
  */
@@ -40,7 +39,6 @@ public class EnhancedStatusEffectCondition implements BiFunction<SerializableDat
             .add("max_amplifier", SerializableDataTypes.INT, 255)
             .add("min_duration", SerializableDataTypes.INT, 20)
             .add("max_duration", SerializableDataTypes.INT, 600)
-            .add("invert", SerializableDataTypes.BOOLEAN, false)
             .add("check_all", SerializableDataTypes.BOOLEAN, false);
 
     @Override
@@ -118,6 +116,6 @@ public class EnhancedStatusEffectCondition implements BiFunction<SerializableDat
             }
         }
 
-        return data.getBoolean("invert") ? !hasEffect : hasEffect;
+        return hasEffect;
     }
 }

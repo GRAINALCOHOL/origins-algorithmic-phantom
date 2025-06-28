@@ -28,27 +28,13 @@ import java.util.function.BiFunction;
  *     <li><b>comparison</b> ({@code Comparison}, 必选): 比较类型，如">=", "==", "<"等</li>
  *     <li><b>compare_to</b> ({@code Integer}, 必选): 要比较的光照等级值 (0-15)</li>
  *     <li><b>light_type</b> ({@code String}, 可选): 光照类型，接受“combined”、“block”或“sky”。默认为“combined”</li>
- *     <li><b>inverted</b> ({@code boolean}, 可选): 是否反转结果。默认为 false</li>
  * </ul>
- *
- * <p><b>示例配置:</b></p>
- * <pre>{@code
- * {
- *   "type": "oap:light_level",
- *   "comparison": ">=",
- *   "compare_to": 8,
- *   "light_type": "combined"
- * }
- * }
- * </pre>
- * 这个条件会检测实体所在位置的总光照等级是否大于等于8（通常用于判断是否在明亮区域）
  */
 public class LightLevelCondition implements BiFunction<SerializableData.Instance, Entity, Boolean> {
     public static final SerializableData DATA = new SerializableData()
             .add("comparison", ApoliDataTypes.COMPARISON)
             .add("compare_to", SerializableDataTypes.INT)
-            .add("light_type", SerializableDataTypes.STRING, "combined") // "combined", "block", "sky"
-            .add("inverted", SerializableDataTypes.BOOLEAN, false)
+            .add("light_type", SerializableDataTypes.STRING, "combined")
             ;
 
     @Override
@@ -66,9 +52,6 @@ public class LightLevelCondition implements BiFunction<SerializableData.Instance
             default -> world.getLightLevel(pos);
         };
 
-        boolean result = comparison.compare(lightLevel, compareTo);
-        boolean inverted = data.getBoolean("inverted");
-
-        return inverted ? !result : result;
+        return comparison.compare(lightLevel, compareTo);
     }
 }

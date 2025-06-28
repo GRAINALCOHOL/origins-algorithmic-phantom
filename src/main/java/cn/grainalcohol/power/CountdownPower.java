@@ -10,18 +10,13 @@ import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.util.HudRender;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 /**
  * 类型ID: oap:countdown<br>
@@ -49,8 +44,8 @@ import java.util.function.Predicate;
  */
 public class CountdownPower extends Power implements HudRendered {
     public static final SerializableData DATA = new SerializableData()
-            .add("countdown", SerializableDataTypes.INT)
-            .add("ending_action", ApoliDataTypes.ENTITY_ACTION)
+            .add("countdown", SerializableDataTypes.INT, 200)
+            .add("ending_action", ApoliDataTypes.ENTITY_ACTION, null)
             .add("immediately_start", SerializableDataTypes.BOOLEAN, true)
             .add("per_time_action", ApoliDataTypes.ENTITY_ACTION, null)
             .add("action_interval", SerializableDataTypes.INT, 20)
@@ -105,7 +100,9 @@ public class CountdownPower extends Power implements HudRendered {
         syncTimerToClient();
 
         if (currentTimer <= 0) {
-            endingAction.accept(entity);
+            if (endingAction != null) {
+                endingAction.accept(entity);
+            }
             stop();
         }
     }
@@ -121,12 +118,12 @@ public class CountdownPower extends Power implements HudRendered {
         this.isCountingDown = countingDown;
     }
 
-    @Override
-    public void onGained() {
-        if (isCountingDown) {
-            syncTimerToClient();
-        }
-    }
+//    @Override
+//    public void onGained() {
+//        if (isCountingDown) {
+//            syncTimerToClient();
+//        }
+//    }
 
     @Override
     public NbtElement toTag() {
@@ -134,6 +131,7 @@ public class CountdownPower extends Power implements HudRendered {
         compound.putInt("currentTimer", currentTimer);
         compound.putInt("intervalTimer", intervalTimer);
         compound.putBoolean("isCountingDown", isCountingDown);
+        System.out.println("写入currentTimer" + currentTimer);
         return compound;
     }
 
@@ -143,6 +141,7 @@ public class CountdownPower extends Power implements HudRendered {
             currentTimer = compound.getInt("currentTimer");
             intervalTimer = compound.getInt("intervalTimer");
             isCountingDown = compound.getBoolean("isCountingDown");
+            System.out.println("读取到currentTimer：" + compound.getInt("currentTimer"));
         }
     }
 

@@ -27,7 +27,7 @@ import static com.mojang.text2speech.Narrator.LOGGER;
  */
 public class SummonTamedAction implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()
-            .add("entity_type", SerializableDataTypes.ENTITY_TYPE);
+            .add("entity_type", SerializableDataTypes.ENTITY_TYPE, null);
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {

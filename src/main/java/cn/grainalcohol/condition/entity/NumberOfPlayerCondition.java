@@ -29,23 +29,11 @@ import java.util.function.BiFunction;
  *   <li><b>invert</b> ({@code boolean}, 可选): 是否反转比较结果，默认为false</li>
  *   <li><b>dimension</b> ({@code String}, 可选): 维度检查模式，接受“other”、“any”、“same”或指定维度ID，默认为"any"</li>
  * </ul>
- *
- * <p><b>示例配置:</b></p>
- * <pre>{@code
- * {
- *   "type": "oap:number_of_player",
- *   "comparison": ">=",
- *   "compare_to": 3,
- *   "dimension": "same"
- * }
- * }</pre>
- * 上述配置在与能力持有者相同的维度中有3名或以上玩家时返回true
  */
 public class NumberOfPlayerCondition implements BiFunction<SerializableData.Instance, Entity, Boolean> {
     public static final SerializableData DATA = new SerializableData()
             .add("comparison", ApoliDataTypes.COMPARISON)
             .add("compare_to", SerializableDataTypes.INT, 1)
-            .add("invert", SerializableDataTypes.BOOLEAN, false)
             .add("dimension", SerializableDataTypes.STRING, "any")
             ;
 
@@ -79,7 +67,6 @@ public class NumberOfPlayerCondition implements BiFunction<SerializableData.Inst
 
         int compareTo = data.getInt("compare_to");
         Comparison comparison = data.get("comparison");
-        boolean result = comparison.compare(amount, compareTo);
-        return data.getBoolean("invert") ? !result : result;
+        return comparison.compare(amount, compareTo);
     }
 }

@@ -33,7 +33,7 @@ import java.util.function.Predicate;
  */
 public class ActionOnDeathPower extends Power {
     public static final SerializableData DATA = new SerializableData()
-            .add("entity_action", ApoliDataTypes.ENTITY_ACTION)
+            .add("entity_action", ApoliDataTypes.ENTITY_ACTION, null)
             .add("attacker_condition", ApoliDataTypes.ENTITY_CONDITION, null)
             .add("damage_condition", ApoliDataTypes.DAMAGE_CONDITION, null);
 

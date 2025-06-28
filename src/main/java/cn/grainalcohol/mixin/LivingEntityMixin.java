@@ -4,6 +4,7 @@ import cn.grainalcohol.power.ActionOnEffectGainedPower;
 import cn.grainalcohol.power.DamageReflectionFlatPower;
 import cn.grainalcohol.power.DamageReflectionPercentPower;
 import cn.grainalcohol.util.EntityUtil;
+import cn.grainalcohol.util.MathUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -42,17 +43,13 @@ public class LivingEntityMixin {
         }
         EntityUtil.getPowers(entity, DamageReflectionPercentPower.class, false)
                 .forEach(power -> {
-                    if (Math.random() > power.getChance()) {
-                        return;
-                    }
-
                     Entity attacker = source.getAttacker();
                     if (attacker instanceof LivingEntity) {
                         if (power.isCheckSource() && source.isIn(DamageTypeTags.AVOIDS_GUARDIAN_THORNS)) {
                             return;
                         }
 
-                        float reflection = (amount * power.getModifier()) + power.getRandomAddition();
+                        float reflection = MathUtil.nonNegative((amount * power.getModifier()) + power.getRandomAddition());
                         DamageSource damageSource = entity.getDamageSources().thorns(attacker);
                         attacker.damage(damageSource, reflection);
                     }
@@ -71,17 +68,22 @@ public class LivingEntityMixin {
         }
         EntityUtil.getPowers(entity, DamageReflectionFlatPower.class, true)
                 .forEach(power -> {
-                    if (Math.random() > power.getChance()) {
-                        return;
-                    }
-
                     Entity attacker = source.getAttacker();
                     if (attacker instanceof LivingEntity) {
                         if (power.isCheckSource() && source.isIn(DamageTypeTags.AVOIDS_GUARDIAN_THORNS)) {
                             return;
                         }
 
-                        float reflection = power.getAmount() + power.getRandomAddition();
+                        float reflection;
+
+                        switch (power.getMode()) {
+                            case "original" -> reflection = amount;
+                            case "add" -> reflection = amount + power.getAmount();
+                            case "flat" -> reflection = power.getAmount();
+                            default -> reflection = 0f;
+                        }
+
+                        reflection = MathUtil.nonNegative(reflection + power.getRandomAddition());
                         DamageSource damageSource = entity.getDamageSources().thorns(attacker);
                         attacker.damage(damageSource, reflection);
                     }

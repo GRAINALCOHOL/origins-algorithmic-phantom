@@ -17,4 +17,26 @@ public class MathUtil {
     public static double randomInRange(double range) {
         return RANDOM.nextDouble() * (2 * range) - range;
     }
+
+    public static boolean randomChance(double chance) {
+        if (chance <= 0) return false;
+        if (chance >= 1) return true;
+        return RANDOM.nextDouble() < chance;
+    }
+
+    public static int nonNegative(int number) {
+        return Math.max(0, number);
+    }
+
+    public static long nonNegative(long number) {
+        return Math.max(0, number);
+    }
+
+    public static float nonNegative(float number) {
+        return Math.max(0.0f, number);
+    }
+
+    public static double nonNegative(double number) {
+        return Math.max(0.0,number);
+    }
 }
