@@ -12,6 +12,7 @@
         ],
         "min_amplifier": 1,
         "max_duration": 300,
-        "check_all": true
+        "check_all": true,
+        "require_all": true
     }
 }
