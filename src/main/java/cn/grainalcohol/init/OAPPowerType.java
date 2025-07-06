@@ -145,6 +145,16 @@ public class OAPPowerType {
                         data.getFloat("random_addition")
                 )
         );
+        registerPower(
+                OAPMod.id("action_on_absorption_change"),
+                ActionOnAbsorptionChangePower.DATA,
+                true,
+                (data) -> (type, entity) -> new ActionOnAbsorptionChangePower(
+                        type, entity,
+                        data.get("increase_action"),
+                        data.get("decrease_action")
+                )
+        );
     }
 
     private static <P extends Power> void registerPower(Identifier powerId, SerializableData data, boolean allowCondition, Function<SerializableData.Instance, BiFunction<PowerType<P>, LivingEntity, P>> factory) {
