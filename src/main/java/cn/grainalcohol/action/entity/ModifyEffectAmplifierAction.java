@@ -21,7 +21,7 @@ import java.util.function.BiConsumer;
  * <p><b>JSON字段说明:</b></p>
  * <ul>
  *   <li><b>effect</b> ({@code Identifier}, 必选): 将要修改的状态效果ID</li>
- *   <li><b>mode</b> ({@code String}, 可选): 修改行为，接受“add”或“set”，非法参数不会修改效果倍率，默认为“add”</li>
+ *   <li><b>mode</b> ({@code String}, 可选): 运算方式，接受“add”或“set”，未知参数不会修改效果倍率，默认为“add”</li>
  *   <li><b>amount</b> ({@code int}, 可选): 将要参与计算的数值，默认为1</li>
  *   <li><b>is_ambient</b> ({@code Identifier}, 必选): 修改状态效果是否来源于信标</li>
  *   <li><b>show_particles</b> ({@code Identifier}, 必选): 修改状态效果是否会产生粒子</li>

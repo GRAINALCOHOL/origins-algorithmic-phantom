@@ -1,0 +1,28 @@
+{
+  "grant": {
+    "subtitle": "subtitle.oap.grant",
+    "sounds": [
+      {
+        "name": "oap:grant_1",
+        "stream": false
+      },
+      {
+        "name": "oap:grant_2",
+        "stream": false
+      }
+    ]
+  },
+  "revoke": {
+    "subtitle": "subtitle.oap.revoke",
+    "sounds": [
+      {
+        "name": "oap:revoke_1",
+        "stream": false
+      },
+      {
+        "name": "oap:revoke_2",
+        "stream": false
+      }
+    ]
+  }
+}

@@ -13,7 +13,9 @@
     "enhanced.AreaOfEffectMixin",
     "enhanced.EntityActionsMixin",
     "enhanced.ModifyDamageTakenPowerMixin",
-    "enhanced.PowerEntityAccessor"
+    "enhanced.PlayerOriginComponentMixin",
+    "enhanced.PowerEntityAccessor",
+    "enhanced.PowerHolderComponentImplMixin"
   ],
   "injectors": {
     "defaultRequire": 1

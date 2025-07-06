@@ -33,6 +33,7 @@ public class OAPMod implements ModInitializer {
 		OAPEntityActionType.init();
 		OAPBientityActionType.init();
 		OAPPowerType.init();
+		OAPSoundEvent.init();
 		EntityDeathListener.init();
 	}
 }

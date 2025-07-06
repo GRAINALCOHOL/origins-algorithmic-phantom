@@ -23,14 +23,21 @@ public class ModConfig {
     private static ModConfig INSTANCE;
 
     public PowerConfig power = new PowerConfig();
-    public GenericConfig generic = new GenericConfig();
+    public EnhancedConfig enhanced = new EnhancedConfig();
 
     public static class PowerConfig {
         public boolean enableDamageTakenPowerFix = true;
     }
 
-    public static class GenericConfig {
-        public boolean testConfig = true;
+    public static class EnhancedConfig {
+        public boolean grantPowerSoundEffect = true;
+        public int grantPowerSoundEffectCooldown = 20;
+        public float grantPowerVolume = 1.0f;
+
+        public boolean revokePowerSoundEffect = true;
+        public int revokePowerSoundEffectCooldown = 20;
+        public float revokePowerVolume = 1.0f;
+
     }
 
     public static ModConfig getInstance() {

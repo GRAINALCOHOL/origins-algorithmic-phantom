@@ -15,7 +15,7 @@ import java.util.function.BiConsumer;
  *
  * <p><b>JSON字段说明:</b></p>
  * <ul>
- *   <li><b>mode</b> ({@code String}, 可选): 运算方式，接受“add”、“set”、“scale”或“multiply”，非法参数不会修改时长，默认为“add”</li>
+ *   <li><b>mode</b> ({@code String}, 可选): 运算方式，接受“add”、“set”、“scale”或“multiply”，未知参数不会进行修改，默认为“add”</li>
  *   <li><b>amount</b> ({@code float}, 可选): 将要参与运算的数值</li>
  * </ul>
  */
