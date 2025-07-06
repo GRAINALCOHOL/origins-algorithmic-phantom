@@ -7,6 +7,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Ownable;
 import net.minecraft.entity.Tameable;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.mob.*;
+import net.minecraft.entity.passive.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.scoreboard.AbstractTeam;
 import net.minecraft.util.Identifier;
@@ -16,6 +19,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static cn.grainalcohol.OAPMod.LOGGER;
 
 public class EntityUtil {
     public static boolean isTeamMember(Entity entity, Entity target) {
@@ -122,5 +127,113 @@ public class EntityUtil {
         return PowerHolderComponent.KEY.get(entity).getPowers().stream()
                 .map(p -> p.getType().getIdentifier())
                 .collect(Collectors.toSet());
+    }
+
+    public static boolean isFriendly(LivingEntity entity, boolean includeNeutral, boolean includeGolem) {
+        if (isPassive(entity, includeGolem)) {
+            if (includeNeutral) {
+                return true;
+            } else {
+                return !(entity instanceof Angerable);
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isPassive(LivingEntity entity, boolean includeGolem) {
+        if (entity instanceof ShulkerEntity) return false;
+        if (entity instanceof Monster) return false;
+        if (entity instanceof HoglinEntity) return false;
+
+        return entity instanceof AllayEntity ||
+                (includeGolem && entity instanceof GolemEntity) ||
+                entity instanceof WaterCreatureEntity ||
+                entity instanceof PassiveEntity;
+    }
+
+    public static boolean isFriendlyFor(LivingEntity actor, LivingEntity target) {
+        // 雪傀儡与怪物
+        if (checkRelation(
+                actor, target,
+                (a, b) -> a instanceof SnowGolemEntity && b instanceof Monster)
+        ) return false;
+
+        // 宠物与主人
+        if (checkRelation(
+                actor, target,
+                (a,b) -> a instanceof Tameable tameable && tameable.getOwner() == b)
+        ) return true;
+
+        // 激怒
+        if (checkRelation(actor, target,
+                (a, b) -> {
+                    if (a instanceof Angerable angerable) {
+                        if (angerable.getAttacker() == b) return false;
+                        if (angerable.hasAngerTime() && angerable.getAngryAt() != null) {
+                            return !angerable.getAngryAt().equals(b.getUuid());
+                        }
+                    }
+                    return true;
+                })
+        ) return false;
+
+        // 猫与兔子和幼年海龟
+        if (checkRelation(actor, target,
+                (a, b) -> (a instanceof CatEntity &&
+                        (b instanceof RabbitEntity || (b instanceof TurtleEntity turtle && turtle.isBaby()))))
+        ) return false;
+
+        // 豹猫与鸡和幼年海龟
+        if (checkRelation(actor, target,
+                (a, b) -> (a instanceof OcelotEntity &&
+                        (b instanceof ChickenEntity || (b instanceof TurtleEntity turtle && turtle.isBaby()))))
+        ) return false;
+
+        // 青蛙与史莱姆类
+        if (checkRelation(actor, target,
+                (a, b) -> a instanceof FrogEntity &&
+                        b instanceof SlimeEntity slime &&
+                        slime.getSize() == 1)
+        ) return false;
+
+        //美西螈与鱼、鱿鱼、发光鱿鱼、蝌蚪、溺尸、守卫者和远古守卫者
+        if (checkRelation(actor, target,
+                (a, b) -> a instanceof AxolotlEntity &&
+                        (b instanceof FishEntity ||
+                                b instanceof SquidEntity ||
+                                b instanceof DrownedEntity ||
+                                b instanceof GuardianEntity))
+        ) return false;
+
+        // 狐狸与鸡、兔子、鳕鱼、鲑鱼、热带鱼和陆地上的幼年海龟
+        if (checkRelation(actor, target,
+                (a, b) -> a instanceof FoxEntity &&
+                        (b instanceof ChickenEntity ||
+                                b instanceof RabbitEntity ||
+                                b instanceof CodEntity ||
+                                b instanceof SalmonEntity ||
+                                b instanceof TropicalFishEntity ||
+                                (b instanceof TurtleEntity turtle && turtle.isBaby() && turtle.isOnGround())))
+        ) return false;
+
+        // 羊驼与攻击者；熊猫与攻击者；海豚与非恶魂、守卫者和远古守卫者的攻击者；
+        // 因为麻将的屎山
+        // 这部分目前做不了
+
+        // 玩家与怪物
+        if (checkRelation(
+                actor, target,
+                (a, b) -> (a instanceof PlayerEntity && b instanceof Monster))
+        ) return false;
+
+        LOGGER.debug("Default relationship between {} and {}: friendly",
+                actor.getType().getName().getString(), target.getType().getName().getString());
+        LOGGER.debug("UUID info: {}, {}", actor.getUuid(), target.getUuid());
+        return true;
+    }
+
+    public static boolean checkRelation(LivingEntity a, LivingEntity b, EntityRelation relation) {
+        return relation.test(a, b) || relation.test(b, a);
     }
 }

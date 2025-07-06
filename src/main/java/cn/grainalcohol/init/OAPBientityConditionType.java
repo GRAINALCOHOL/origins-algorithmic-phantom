@@ -1,6 +1,7 @@
 package cn.grainalcohol.init;
 
 import cn.grainalcohol.OAPMod;
+import cn.grainalcohol.condition.bientity.IsFriendlyCondition;
 import cn.grainalcohol.condition.bientity.IsTeamMemberCondition;
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
@@ -15,6 +16,7 @@ import java.util.function.BiFunction;
 public class OAPBientityConditionType {
     public static void init() {
         registerBientityCondition(OAPMod.id("is_team_member"), IsTeamMemberCondition.DATA, new IsTeamMemberCondition());
+        registerBientityCondition(OAPMod.id("is_friendly"), IsFriendlyCondition.DATA, new IsFriendlyCondition());
     }
 
     private static void registerBientityCondition(Identifier conditionId, SerializableData data, BiFunction<SerializableData.Instance, Pair<Entity, Entity>, Boolean> condition) {

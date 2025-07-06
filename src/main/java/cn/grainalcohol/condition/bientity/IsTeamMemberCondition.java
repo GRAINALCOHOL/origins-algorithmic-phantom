@@ -20,12 +20,10 @@ import java.util.function.BiFunction;
  * </ul>
  */
 public class IsTeamMemberCondition implements BiFunction<SerializableData.Instance, Pair<Entity, Entity>, Boolean> {
-    public static final SerializableData DATA = new SerializableData()
-            .add("invert", SerializableDataTypes.BOOLEAN, false);
+    public static final SerializableData DATA = new SerializableData();
 
     @Override
     public Boolean apply(SerializableData.Instance data, Pair<Entity, Entity> entities) {
-        boolean result = EntityUtil.isTeamMember(entities.getLeft(), entities.getRight());
-        return data.getBoolean("invert") ? !result : result;
+        return EntityUtil.isTeamMember(entities.getLeft(), entities.getRight());
     }
 }
