@@ -41,10 +41,10 @@ public class DamageByAttributeAction implements BiConsumer<SerializableData.Inst
 
     @Override
     public void accept(SerializableData.Instance data, Pair<Entity, Entity> entities) {
-        Entity source = entities.getLeft();
+        Entity actor = entities.getLeft();
         Entity target = entities.getRight();
 
-        if (!(source instanceof LivingEntity livingSource)
+        if (!(actor instanceof LivingEntity livingActor)
                 || !(target instanceof LivingEntity livingTarget))
             return;
 
@@ -57,7 +57,7 @@ public class DamageByAttributeAction implements BiConsumer<SerializableData.Inst
         EntityAttribute attribute = Registries.ATTRIBUTE.get(attributeId);
         if (attribute == null) return;
 
-        float baseValue = (float)livingSource.getAttributeValue(attribute);
+        float baseValue = (float) livingActor.getAttributeValue(attribute);
         float damageAmount = switch (mode) {
             case "add" -> MathUtil.nonNegative(baseValue + amount);
             case "scale" -> baseValue * MathUtil.nonNegative(amount);
@@ -66,7 +66,7 @@ public class DamageByAttributeAction implements BiConsumer<SerializableData.Inst
         };
 
         RegistryKey<DamageType> damageKey = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, damageTypeId);
-        DamageSource damageSource = livingSource.getDamageSources().create(damageKey);
+        DamageSource damageSource = livingActor.getDamageSources().create(damageKey);
 
         livingTarget.damage(damageSource, damageAmount);
     }
