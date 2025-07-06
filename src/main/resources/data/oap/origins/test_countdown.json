@@ -5,7 +5,6 @@
   "powers": [
     "oap:test_countdown/test_power_8",
     "oap:test_countdown/test_power_9",
-    "oap:test_countdown/test_power_10",
-    "oap:test_countdown/do"
+    "oap:test_countdown/test_power_10"
   ]
 }

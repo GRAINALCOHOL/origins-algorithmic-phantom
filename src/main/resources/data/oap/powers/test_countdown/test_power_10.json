@@ -1,6 +1,6 @@
 {
   "name": "名字",
-  "description": "测试countdown_is_active",
+  "description": "测试countdown_is_active，未在活动时可以飞行",
   "type": "origins:creative_flight",
   "condition": {
     "type": "oap:countdown_is_active",

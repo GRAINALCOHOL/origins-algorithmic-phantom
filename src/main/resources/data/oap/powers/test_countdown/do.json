@@ -1,6 +1,6 @@
 {
   "name": "名字",
-  "description": "测试toggle_countdown",
+  "description": "测试grant_power",
   "type": "origins:active_self",
   "entity_action": {
     "type": "origins:grant_power",

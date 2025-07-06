@@ -4,12 +4,12 @@
   "type": "origins:active_self",
   "entity_action": {
     "type": "oap:toast",
-    "title": "喵喵喵",
-    "description": "what can i say",
+    "title": "MAN",
+    "description": "What can I say",
     "icon": {
       "item": "minecraft:iron_ingot"
     },
-    "toast_type": "system"
+    "toast_type": "advancement"
   },
   "key": {
     "key": "key.origins.secondary_active"
