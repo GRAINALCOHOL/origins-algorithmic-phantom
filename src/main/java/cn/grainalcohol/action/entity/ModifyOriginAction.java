@@ -20,7 +20,7 @@ import static com.mojang.text2speech.Narrator.LOGGER;
 /**
  * 类型ID: oap:modify_origin<br>
  * <br>
- * 修改能力持有者在指定起源层上的起源<br>
+ * 修改玩家在指定起源层上的起源<br>
  * 可以触发{@code ActionOnCallBack}能力中的触发器
  *
  * <p><b>JSON字段说明:</b></p>

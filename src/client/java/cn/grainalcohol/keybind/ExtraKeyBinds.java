@@ -9,7 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 
 public class ExtraKeyBinds {
-    public static void keyRegister(){
+    public static void init(){
         List<String> keys = List.of("ternary","quaternary","quinary","senary","septenary","octonary","nonary","denary");
         for(String key : keys) {
             KeyBinding binding = new KeyBinding("key.oap."+key+"_active", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.origins");

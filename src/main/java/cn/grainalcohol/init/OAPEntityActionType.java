@@ -31,6 +31,8 @@ public class OAPEntityActionType {
         registerAction(OAPMod.id("say"), SayAction.DATA, new SayAction());
         registerAction(OAPMod.id("toast"), ToastAction.DATA, new ToastAction());
         registerAction(OAPMod.id("modify_absorption"), ModifyAbsorptionAction.DATA, new ModifyAbsorptionAction());
+        registerAction(OAPMod.id("knock_up"), KnockUpAction.DATA, new KnockUpAction());
+        registerAction(OAPMod.id("debug"), DebugAction.DATA, new DebugAction());
     }
 
     private static void registerAction(Identifier actionId, SerializableData data, BiConsumer<SerializableData.Instance, Entity> action) {

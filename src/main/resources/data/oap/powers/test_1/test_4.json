@@ -1,0 +1,13 @@
+{
+  "name": "名字",
+  "description": "测试debug",
+  "type": "origins:active_self",
+  "entity_action": {
+    "type": "oap:debug",
+    "log": "test log text",
+    "id": "test_id"
+  },
+  "key": {
+    "key": "key.origins.primary_active"
+  }
+}

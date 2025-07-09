@@ -18,7 +18,7 @@ public class IsFriendlyCondition implements BiFunction<SerializableData.Instance
         Entity target = entities.getRight();
 
         if (actor instanceof LivingEntity livingActor && target instanceof LivingEntity livingTarget) {
-            return EntityUtil.isFriendlyFor(livingActor, livingTarget);
+            return EntityUtil.isFriendlyBetween(livingActor, livingTarget);
         }
 
         return false;

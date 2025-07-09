@@ -7,10 +7,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Ownable;
 import net.minecraft.entity.Tameable;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.scoreboard.AbstractTeam;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
@@ -101,9 +105,9 @@ public class EntityUtil {
     }
 
     /**
-     * 获取实体是否持有指定ID的Power
+     * 获取实体是否持有指定类的Power
      * @param entity 目标实体
-     * @param power 能力类型
+     * @param power 能力类
      * @param includeInactive 是否包含未活动的能力
      * @return 是否持有
      */
@@ -129,7 +133,12 @@ public class EntityUtil {
                 .collect(Collectors.toSet());
     }
 
-    public static boolean isFriendly(LivingEntity entity, boolean includeNeutral, boolean includeGolem) {
+    public static boolean isFriendly(LivingEntity entity, boolean includeNeutral,
+                                     boolean includeGolem, boolean playerFriendly) {
+        if (entity instanceof PlayerEntity) {
+            return playerFriendly;
+        }
+
         if (isPassive(entity, includeGolem)) {
             if (includeNeutral) {
                 return true;
@@ -152,7 +161,7 @@ public class EntityUtil {
                 entity instanceof PassiveEntity;
     }
 
-    public static boolean isFriendlyFor(LivingEntity actor, LivingEntity target) {
+    public static boolean isFriendlyBetween(LivingEntity actor, LivingEntity target) {
         // 雪傀儡与怪物
         if (checkRelation(
                 actor, target,
@@ -235,5 +244,10 @@ public class EntityUtil {
 
     public static boolean checkRelation(LivingEntity a, LivingEntity b, EntityRelation relation) {
         return relation.test(a, b) || relation.test(b, a);
+    }
+
+    public static DamageSource createDamageSource(LivingEntity attacker, Identifier damageTypeId) {
+        RegistryKey<DamageType> damageKey = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, damageTypeId);
+        return attacker.getDamageSources().create(damageKey, attacker);
     }
 }

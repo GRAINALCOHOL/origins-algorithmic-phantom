@@ -27,6 +27,8 @@ public class AreaOfEffectMixin {
     private static void shuffleAllTarget(SerializableData.Instance data, Entity entity, CallbackInfo ci){
         Consumer<Pair<Entity, Entity>> bientityAction = data.get("bientity_action");
         Predicate<Pair<Entity, Entity>> bientityCondition = data.get("bientity_condition");
+        Consumer<Entity> targetAction = data.get("target_action");
+        Consumer<Entity> selfAction = data.get("self_action");
         boolean includeTarget = data.get("include_target");
         double radius = data.get("radius");
         double diameter = radius * 2;
@@ -46,11 +48,13 @@ public class AreaOfEffectMixin {
 
         int count = 0;
         for (Entity target : allTargets) {
+            targetAction.accept(target);
             bientityAction.accept(new Pair<>(entity, target));
             count++;
             if (maxTarget > 0 && count >= maxTarget)
                 break;
         }
+        selfAction.accept(entity);
 
         ci.cancel();
     }
@@ -62,10 +66,12 @@ public class AreaOfEffectMixin {
                         Apoli.identifier("area_of_effect"),
                         new SerializableData()
                                 .add("radius", SerializableDataTypes.DOUBLE, 16D)
-                                .add("bientity_action", ApoliDataTypes.BIENTITY_ACTION)
+                                .add("bientity_action", ApoliDataTypes.BIENTITY_ACTION, null)
                                 .add("bientity_condition", ApoliDataTypes.BIENTITY_CONDITION, null)
                                 .add("include_target", SerializableDataTypes.BOOLEAN, false)
-                                .add("max_target",SerializableDataTypes.INT,0),
+                                .add("max_target",SerializableDataTypes.INT, 0)
+                                .add("target_action", ApoliDataTypes.ENTITY_ACTION, null)
+                                .add("self_action", ApoliDataTypes.ENTITY_ACTION, null),
                         AreaOfEffectAction::action
                 )
         );

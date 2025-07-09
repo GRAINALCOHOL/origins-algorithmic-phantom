@@ -1,6 +1,6 @@
 package cn.grainalcohol.mixin;
 
-import cn.grainalcohol.network.AdvancementProgressUpdatePacket;
+import cn.grainalcohol.network.AdvancementProgressPacket;
 import cn.grainalcohol.power.AdvancementProgressPower;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.minecraft.advancement.Advancement;
@@ -28,7 +28,7 @@ public class PlayerAdvancementTrackerMixin {
                     power.updateProgress(progress);
 
                     // 同步进度到客户端
-                    AdvancementProgressUpdatePacket.send(owner, power);
+                    AdvancementProgressPacket.INSTANCE.send(owner, power);
                 }
             });
         }

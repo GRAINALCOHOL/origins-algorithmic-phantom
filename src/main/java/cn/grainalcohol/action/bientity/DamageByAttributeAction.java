@@ -16,6 +16,8 @@ import net.minecraft.util.Pair;
 
 import java.util.function.BiConsumer;
 
+import static cn.grainalcohol.OAPMod.*;
+
 /**
  * 类型ID: oap:damage_by_attribute<br>
  * <br>
@@ -29,6 +31,7 @@ import java.util.function.BiConsumer;
  *   <li><b>mode</b> ({@code String}, 可选): 将要如何修改属性值，接受“add”、“scale”或“multiply”，非法参数不会修改属性，默认为“multiply”</li>
  *   <li><b>amount</b> ({@code float}, 可选): 将要参与计算的数值，默认为1</li>
  *   <li><b>damage_type</b> ({@code Identifier}, 必选): 设置该次伤害的伤害类型</li>
+ *   <li><b>allow_self_damage</b> ({@code Identifier}, 必选): 是否允许伤害自身，默认为true</li>
  * </ul>
  */
 public class DamageByAttributeAction implements BiConsumer<SerializableData.Instance, Pair<Entity, Entity>> {
@@ -37,12 +40,17 @@ public class DamageByAttributeAction implements BiConsumer<SerializableData.Inst
             .add("mode", SerializableDataTypes.STRING, "multiply")
             .add("amount", SerializableDataTypes.FLOAT, 1.0f)
             .add("damage_type", SerializableDataTypes.IDENTIFIER, null)
+            .add("allow_self_damage", SerializableDataTypes.BOOLEAN, true)
             ;
 
     @Override
     public void accept(SerializableData.Instance data, Pair<Entity, Entity> entities) {
         Entity actor = entities.getLeft();
         Entity target = entities.getRight();
+
+        if (!data.getBoolean("allow_self_damage") && actor == target) {
+            return;
+        }
 
         if (!(actor instanceof LivingEntity livingActor)
                 || !(target instanceof LivingEntity livingTarget))
@@ -52,6 +60,11 @@ public class DamageByAttributeAction implements BiConsumer<SerializableData.Inst
         String mode = data.getString("mode");
         float amount = data.getFloat("amount");
         Identifier damageTypeId = data.getId("damage_type");
+
+        if (damageTypeId == null) {
+            LOGGER.warn("Damage type cannot be empty");
+            return;
+        }
 
         // 获取属性实例
         EntityAttribute attribute = Registries.ATTRIBUTE.get(attributeId);
