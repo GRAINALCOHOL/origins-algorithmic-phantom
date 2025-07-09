@@ -1,30 +1,22 @@
 package cn.grainalcohol.network;
 
-import cn.grainalcohol.OAPMod;
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.item.ItemStack;
+import cn.grainalcohol.action.entity.ToastAction;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
-public class ToastPacket {
-    public static final Identifier ID = OAPMod.id("toast");
+public class ToastPacket extends AbstractPacket<ToastAction.ToastData>{
+    public static final ToastPacket INSTANCE = new ToastPacket();
 
-    public static void send(
-            ServerPlayerEntity player, Text title,
-            Text description, ItemStack icon, String toastType,
-            String advancementType, String recipeType
-    ) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeText(title);
-        buf.writeText(description);
-        buf.writeItemStack(icon);
-        buf.writeString(toastType);
-        buf.writeString(advancementType);
-        buf.writeString(recipeType);
+    private ToastPacket() {
+        super("toast");
+    }
 
-        ServerPlayNetworking.send(player, ID, buf);
+    @Override
+    protected void write(PacketByteBuf buf, ToastAction.ToastData data) {
+        buf.writeText(data.title());
+        buf.writeText(data.description());
+        buf.writeItemStack(data.icon());
+        buf.writeString(data.toastType());
+        buf.writeString(data.advancementType());
+        buf.writeString(data.recipeType());
     }
 }

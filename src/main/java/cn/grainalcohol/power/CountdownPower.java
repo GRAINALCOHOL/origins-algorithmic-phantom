@@ -1,7 +1,7 @@
 package cn.grainalcohol.power;
 
 import cn.grainalcohol.OAPMod;
-import cn.grainalcohol.network.TimerUpdatePacket;
+import cn.grainalcohol.network.CountdownPacket;
 import cn.grainalcohol.util.MathUtil;
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.HudRendered;
@@ -97,7 +97,7 @@ public class CountdownPower extends Power implements HudRendered {
 
         // 倒计时逻辑
         currentTimer--;
-        syncTimerToClient();
+        syncToClient();
 
         if (currentTimer <= 0) {
             if (endingAction != null) {
@@ -107,21 +107,22 @@ public class CountdownPower extends Power implements HudRendered {
         }
     }
 
-    private void syncTimerToClient() {
+    private void syncToClient() {
         if (entity instanceof ServerPlayerEntity serverPlayer) {
-            TimerUpdatePacket.send(serverPlayer, this);
+            CountdownPacket.INSTANCE.send(serverPlayer, this);
         }
     }
 
-    public void updateFromPacket(int timer, boolean countingDown) {
+    public void updateFromClient(int timer, int intervalTimer, boolean countingDown) {
         this.currentTimer = timer;
+        this.intervalTimer = intervalTimer;
         this.isCountingDown = countingDown;
     }
 
 //    @Override
 //    public void onGained() {
 //        if (isCountingDown) {
-//            syncTimerToClient();
+//            syncToClient();
 //        }
 //    }
 
@@ -149,18 +150,22 @@ public class CountdownPower extends Power implements HudRendered {
         return currentTimer;
     }
 
+    public int getIntervalTimer() {
+        return intervalTimer;
+    }
+
     public int getMaxCountdown() {
         return maxCountdown;
     }
 
     public void start() {
         this.isCountingDown = true;
-        syncTimerToClient();
+        syncToClient();
     }
 
     public void stop() {
         this.isCountingDown = false;
-        syncTimerToClient();
+        syncToClient();
     }
 
     public void restart() {
@@ -171,7 +176,7 @@ public class CountdownPower extends Power implements HudRendered {
     public void reset() {
         this.currentTimer = maxCountdown;
         this.intervalTimer = intervalTicks;
-        syncTimerToClient();
+        syncToClient();
     }
 
     @Override

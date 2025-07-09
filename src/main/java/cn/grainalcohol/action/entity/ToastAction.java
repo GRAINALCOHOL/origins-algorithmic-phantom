@@ -41,6 +41,15 @@ public class ToastAction implements BiConsumer<SerializableData.Instance, Entity
         String recipeType = data.getString("recipe_type");
 
         // 发送 toast 数据包到客户端
-        ToastPacket.send(player, title, description, icon, toastType, advancementType, recipeType);
+        ToastPacket.INSTANCE.send(player, new ToastData(title, description, icon, toastType, advancementType, recipeType));
     }
+
+    public record ToastData(
+            Text title,
+            Text description,
+            ItemStack icon,
+            String toastType,
+            String advancementType,
+            String recipeType
+    ) {}
 }

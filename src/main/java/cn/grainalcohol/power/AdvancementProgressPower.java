@@ -61,7 +61,7 @@ public class AdvancementProgressPower extends Power implements HudRendered {
         return progress;
     }
 
-    public void updateProgressFromPacket(float progress) {
+    public void updateFromClient(float progress) {
         this.progress = progress;
     }
 
