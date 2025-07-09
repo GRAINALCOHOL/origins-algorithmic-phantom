@@ -2,6 +2,7 @@ package cn.grainalcohol.action.entity;
 
 import cn.grainalcohol.power.CountdownPower;
 import cn.grainalcohol.util.EntityUtil;
+import cn.grainalcohol.util.MiscUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.entity.Entity;
@@ -39,6 +40,7 @@ public class ToggleCountdownAction implements BiConsumer<SerializableData.Instan
 
         Set<Identifier> powerIds = new HashSet<>();
         if (data.isPresent("power")) {
+            Identifier id = data.getId("power");
             powerIds.add(data.getId("power"));
         }
         if (data.isPresent("powers")) {
@@ -62,25 +64,25 @@ public class ToggleCountdownAction implements BiConsumer<SerializableData.Instan
 
     private static void start(LivingEntity entity, Set<Identifier> ids) {
         EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
-                .filter(p -> ids.contains(p.getType().getIdentifier()))
+                .filter(p -> MiscUtil.matchesPowerId(p.getType(), ids, entity))
                 .forEach(CountdownPower::start);
     }
 
     private static void stop(LivingEntity entity, Set<Identifier> ids) {
         EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
-                .filter(p -> ids.contains(p.getType().getIdentifier()))
+                .filter(p -> MiscUtil.matchesPowerId(p.getType(), ids, entity))
                 .forEach(CountdownPower::stop);
     }
 
     private static void restart(LivingEntity entity, Set<Identifier> ids) {
         EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
-                .filter(p -> ids.contains(p.getType().getIdentifier()))
+                .filter(p -> MiscUtil.matchesPowerId(p.getType(), ids, entity))
                 .forEach(CountdownPower::restart);
     }
 
     private static void toggle(LivingEntity entity, Set<Identifier> ids, boolean allowToggleRestart) {
         EntityUtil.getPowers(entity, CountdownPower.class, true).stream()
-                .filter(p -> ids.contains(p.getType().getIdentifier()))
+                .filter(p -> MiscUtil.matchesPowerId(p.getType(), ids, entity))
                 .forEach(p -> {
                     if (p.isCountingDown()) {
                         p.stop();

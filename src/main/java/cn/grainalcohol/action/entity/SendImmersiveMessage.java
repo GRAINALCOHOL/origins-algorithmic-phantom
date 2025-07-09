@@ -9,8 +9,7 @@ import toni.immersivemessages.api.TextAnchor;
 
 import java.util.function.BiConsumer;
 
-import static cn.grainalcohol.util.DataUtil.tryGetAnchorFromString;
-import static cn.grainalcohol.util.MessageUtil.sendToPlayer;
+import static cn.grainalcohol.util.MiscUtil.*;
 
 public class SendImmersiveMessage implements BiConsumer<SerializableData.Instance, Entity> {
     public static final SerializableData DATA = new SerializableData()

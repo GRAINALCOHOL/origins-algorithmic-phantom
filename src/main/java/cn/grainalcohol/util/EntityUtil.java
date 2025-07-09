@@ -1,5 +1,6 @@
 package cn.grainalcohol.util;
 
+import cn.grainalcohol.OAPMod;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.power.Power;
 import net.minecraft.entity.Entity;
@@ -23,8 +24,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static cn.grainalcohol.OAPMod.LOGGER;
 
 public class EntityUtil {
     public static boolean isTeamMember(Entity entity, Entity target) {
@@ -72,22 +71,6 @@ public class EntityUtil {
             throw new IllegalArgumentException("Entity must be a LivingEntity");
         }
         return PowerHolderComponent.KEY.get(entity).getPowers(powerClass, includeInactive);
-    }
-
-    /**
-     * 通过Power ID获取实体持有的Power
-     * @param entity 目标实体
-     * @param powerId 要查找的Power ID
-     * @return 匹配的Power列表
-     */
-    public static List<Power> getPowers(LivingEntity entity, Identifier powerId, boolean includeInactive) {
-        if (!(entity instanceof LivingEntity)) {
-            throw new IllegalArgumentException("Entity must be a LivingEntity");
-        }
-        return PowerHolderComponent.KEY.get(entity).getPowers().stream()
-                .filter(p -> p.getType().getIdentifier().equals(powerId))
-                .filter(p -> includeInactive || p.isActive())
-                .collect(Collectors.toList());
     }
 
     /**
@@ -236,9 +219,9 @@ public class EntityUtil {
                 (a, b) -> (a instanceof PlayerEntity && b instanceof Monster))
         ) return false;
 
-        LOGGER.debug("Default relationship between {} and {}: friendly",
+        OAPMod.LOGGER.debug("Default relationship between {} and {}: friendly",
                 actor.getType().getName().getString(), target.getType().getName().getString());
-        LOGGER.debug("UUID info: {}, {}", actor.getUuid(), target.getUuid());
+        OAPMod.LOGGER.debug("UUID info: {}, {}", actor.getUuid(), target.getUuid());
         return true;
     }
 

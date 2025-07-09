@@ -1,5 +1,6 @@
 package cn.grainalcohol.action.bientity;
 
+import cn.grainalcohol.OAPMod;
 import cn.grainalcohol.util.MathUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
@@ -15,8 +16,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
 import java.util.function.BiConsumer;
-
-import static cn.grainalcohol.OAPMod.*;
 
 /**
  * 类型ID: oap:damage_by_attribute<br>
@@ -62,7 +61,7 @@ public class DamageByAttributeAction implements BiConsumer<SerializableData.Inst
         Identifier damageTypeId = data.getId("damage_type");
 
         if (damageTypeId == null) {
-            LOGGER.warn("Damage type cannot be empty");
+            OAPMod.LOGGER.warn("Damage type cannot be empty");
             return;
         }
 

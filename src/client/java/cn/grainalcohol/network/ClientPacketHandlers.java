@@ -1,5 +1,6 @@
 package cn.grainalcohol.network;
 
+import cn.grainalcohol.OAPMod;
 import cn.grainalcohol.power.AdvancementProgressPower;
 import cn.grainalcohol.power.CountdownPower;
 import cn.grainalcohol.temp.TempAdvancement;
@@ -14,8 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-
-import static cn.grainalcohol.OAPMod.*;
 
 public class ClientPacketHandlers {
     public static void init() {
@@ -104,7 +103,7 @@ public class ClientPacketHandlers {
                 client.getToastManager().add(systemToast);
                 break;
             default:
-                LOGGER.warn("Unknown toast type: {}", toastType);
+                OAPMod.LOGGER.warn("Unknown toast type: {}", toastType);
         }
     }
 }

@@ -2,8 +2,6 @@ package cn.grainalcohol.mixin;
 
 import cn.grainalcohol.power.ModifyMobBehaviorPower;
 import cn.grainalcohol.util.EntityUtil;
-import io.github.apace100.apoli.component.PowerHolderComponent;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import org.spongepowered.asm.mixin.Mixin;

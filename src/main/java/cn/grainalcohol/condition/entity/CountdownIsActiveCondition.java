@@ -1,10 +1,13 @@
 package cn.grainalcohol.condition.entity;
 
+import cn.grainalcohol.OAPMod;
 import cn.grainalcohol.power.CountdownPower;
 import cn.grainalcohol.util.EntityUtil;
+import cn.grainalcohol.util.MiscUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
 import java.util.HashSet;
@@ -33,6 +36,11 @@ public class CountdownIsActiveCondition implements BiFunction<SerializableData.I
 
     @Override
     public Boolean apply(SerializableData.Instance data, Entity entity) {
+        if (!(entity instanceof LivingEntity living)) {
+            OAPMod.LOGGER.warn("Target is non-living");
+            return null;
+        }
+
         Set<Identifier> powerIds = new HashSet<>();
         if (data.isPresent("power")) {
             powerIds.add(data.getId("power"));
@@ -46,7 +54,7 @@ public class CountdownIsActiveCondition implements BiFunction<SerializableData.I
         List<CountdownPower> powers =
                 EntityUtil.getPowers(entity, CountdownPower.class, false).stream()
                 .filter(p -> powerIds.isEmpty()
-                        || powerIds.contains(p.getType().getIdentifier()))
+                        || MiscUtil.matchesPowerId(p.getType(), powerIds, living))
                 .toList();
 
         if (powers.isEmpty()) {

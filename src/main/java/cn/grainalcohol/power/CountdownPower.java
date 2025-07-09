@@ -119,13 +119,6 @@ public class CountdownPower extends Power implements HudRendered {
         this.isCountingDown = countingDown;
     }
 
-//    @Override
-//    public void onGained() {
-//        if (isCountingDown) {
-//            syncToClient();
-//        }
-//    }
-
     @Override
     public NbtElement toTag() {
         NbtCompound compound = new NbtCompound();
