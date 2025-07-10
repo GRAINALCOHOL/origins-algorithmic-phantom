@@ -8,16 +8,23 @@ import cn.grainalcohol.temp.TempRecipe;
 import cn.grainalcohol.util.EntityUtil;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.toast.RecipeToast;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.Toast;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class ClientPacketHandlers {
     public static void init() {
+        ClientPlayNetworking.registerGlobalReceiver(
+                SoundPacket.INSTANCE.getId(),
+                (client, handler, buf, responseSender) -> soundHandle(client, buf)
+        );
         ClientPlayNetworking.registerGlobalReceiver(
                 CountdownPacket.INSTANCE.getId(),
                 (client, handler, buf, responseSender) -> countdownHandle(client, buf)
@@ -30,6 +37,19 @@ public class ClientPacketHandlers {
                 ToastPacket.INSTANCE.getId(),
                 (client, handler, buf, responseSender) -> toastHandle(client, buf)
         );
+    }
+
+    private static void soundHandle(MinecraftClient client, PacketByteBuf buf) {
+        Identifier soundId = buf.readIdentifier();
+        float volume = buf.readFloat();
+        float pitch = buf.readFloat();
+
+        client.execute(() -> {
+            SoundInstance sound = new PositionedSoundInstance(soundId, SoundCategory.PLAYERS, volume, pitch, SoundInstance.createRandom(), false, 0, SoundInstance.AttenuationType.NONE, 0, 0, 0, true);
+            if (sound != null && client.player != null) {
+                client.getSoundManager().play(sound);
+            }
+        });
     }
 
     private static void countdownHandle(MinecraftClient client, PacketByteBuf buf) {

@@ -1,11 +1,11 @@
 {
   "name": "名字",
-  "description": "测试debug",
+  "description": "测试play_sound",
   "type": "origins:active_self",
   "entity_action": {
-    "type": "oap:debug",
-    "log": "test log text",
-    "id": "test_id"
+    "type": "origins:play_sound",
+    "sound": "entity.player.levelup",
+    "client": true
   },
   "key": {
     "key": "key.origins.primary_active"
