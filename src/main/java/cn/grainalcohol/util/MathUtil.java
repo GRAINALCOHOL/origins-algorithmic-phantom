@@ -24,6 +24,12 @@ public class MathUtil {
         return RANDOM.nextDouble() < chance;
     }
 
+    public static boolean randomChance(double chance, boolean allowPity) {
+        if (chance <= 0) return false;
+        if (chance >= 1) return true;
+        return RANDOM.nextDouble() < chance;
+    }
+
     public static int nonNegative(int number) {
         return Math.max(0, number);
     }

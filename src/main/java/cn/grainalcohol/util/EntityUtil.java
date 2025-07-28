@@ -233,4 +233,25 @@ public class EntityUtil {
         RegistryKey<DamageType> damageKey = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, damageTypeId);
         return attacker.getDamageSources().create(damageKey, attacker);
     }
+
+    public static boolean matchName(Entity entity, String str, String mode, boolean useRegex) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+
+        String rawName = entity.getType().getName().getString();
+        String customName = entity.hasCustomName() ? entity.getCustomName().getString() : null;
+        String uuid = entity.getUuid().toString();
+
+        // mode: auto, raw, custom, uuid
+        return switch (mode) {
+            case "raw" -> MiscUtil.matchString(rawName, str, useRegex);
+            case "custom" -> customName != null && MiscUtil.matchString(customName, str, useRegex);
+            case "uuid" -> uuid.equals(str);
+            case "auto" -> uuid.equals(str) ||
+                    (customName != null && MiscUtil.matchString(customName, str, useRegex)) ||
+                    MiscUtil.matchString(rawName, str, useRegex);
+            default -> false;
+        };
+    }
 }

@@ -46,7 +46,7 @@ public class ClientPacketHandlers {
 
         client.execute(() -> {
             SoundInstance sound = new PositionedSoundInstance(soundId, SoundCategory.PLAYERS, volume, pitch, SoundInstance.createRandom(), false, 0, SoundInstance.AttenuationType.NONE, 0, 0, 0, true);
-            if (sound != null && client.player != null) {
+            if (client.player != null) {
                 client.getSoundManager().play(sound);
             }
         });

@@ -39,7 +39,7 @@ public class ModifyAbsorptionAction implements BiConsumer<SerializableData.Insta
             case "scale" -> livingEntity.setAbsorptionAmount(currentAbsorption * MathUtil.nonNegative(amount));
             case "multiply" -> livingEntity.setAbsorptionAmount(currentAbsorption * (1 + amount));
             case "set" -> livingEntity.setAbsorptionAmount(MathUtil.nonNegative(amount));
-            default -> livingEntity.setAbsorptionAmount(currentAbsorption);
+            default -> {}
         }
     }
 }

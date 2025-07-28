@@ -61,8 +61,6 @@ public class CountdownPower extends Power implements HudRendered {
     private int intervalTimer;
     private boolean isCountingDown;
 
-    private static final Identifier TIMER_UPDATE_PACKET = OAPMod.id("timer_update");
-
     public CountdownPower(PowerType<?> type, LivingEntity entity, int countdown, boolean immediatelyStart,
                           Consumer<LivingEntity> endingAction, Consumer<LivingEntity> intervalAction,
                           int intervalTicks, HudRender hudRender) {

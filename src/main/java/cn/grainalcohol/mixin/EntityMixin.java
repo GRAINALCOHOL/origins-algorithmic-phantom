@@ -2,7 +2,6 @@ package cn.grainalcohol.mixin;
 
 import cn.grainalcohol.power.PreventMovementAxisPower;
 import cn.grainalcohol.util.EntityUtil;
-import io.github.apace100.apoli.component.PowerHolderComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

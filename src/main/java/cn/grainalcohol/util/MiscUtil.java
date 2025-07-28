@@ -92,4 +92,8 @@ public class MiscUtil {
                     .anyMatch(matches::contains);
         }
     }
+
+    public static boolean matchString(String source, String str, boolean useRegex) {
+        return useRegex ? source.matches(str) : source.equals(str);
+    }
 }

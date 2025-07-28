@@ -23,6 +23,8 @@ public class OAPEntityConditionType {
         registerEntityCondition(OAPMod.id("light_level"), LightLevelCondition.DATA, new LightLevelCondition());
         registerEntityCondition(OAPMod.id("random"), RandomCondition.DATA, new RandomCondition());
         registerEntityCondition(OAPMod.id("is_friendly"), IsFriendlyCondition.DATA, new IsFriendlyCondition());
+        registerEntityCondition(OAPMod.id("name"), NameCondition.DATA, new NameCondition());
+        registerEntityCondition(OAPMod.id("countdown_is_finished"), CountdownIsFinishedCondition.DATA, new CountdownIsFinishedCondition());
     }
 
     private static void registerEntityCondition(Identifier conditionId, SerializableData data, BiFunction<SerializableData.Instance, Entity, Boolean> condition) {
