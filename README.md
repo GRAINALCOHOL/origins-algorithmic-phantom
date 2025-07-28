@@ -14,12 +14,12 @@ Requires Fabric API and Origins as dependencies.
 
 This is a mod designed for Origins datapack and modpack creators:
 
-> Note: ACP will be used as shorthand for Action/Condition/Power types in the following content
+> Note: ACP will be used as shorthand for Action/Condition/Power types in the following content.
 
-- New ACP contents
-- Expanded functionality for Origins' ACP contents
-- 8 new keybindings
-- Several new ability badges
+- New ACP contents.
+- Expanded functionality for Origins' ACP contents.
+- 8 new keybindings.
+- Several new ability badges.
 
 ## 💭 Q&A
 
