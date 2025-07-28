@@ -23,13 +23,13 @@
 
 ## 💭 Q&A
 
-Q: 这个模组添加了什么？
+Q: 这个模组添加了什么？  
 A: 对于游戏玩家们来说什么都没有，它相当于一个库模组，面向的是数据包或整合包创作者。
 
-Q: 其它 Minecraft 版本？
+Q: 其它 Minecraft 版本？  
 A: 待内容更加完善后**可能**会向其它版本迁移。
 
-Q: Forge/neoForge/Quilt 版本？
+Q: Forge/neoForge/Quilt 版本？  
 A: 仅会支持 Fabric 但鼓励第三方移植。
 
 ## ℹ️ 其它

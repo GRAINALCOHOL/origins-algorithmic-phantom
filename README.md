@@ -23,13 +23,13 @@ This is a mod designed for Origins datapack and modpack creators:
 
 ## 💭 Q&A
 
-Q: What does this mod add?
+Q: What does this mod add?  
 A: Nothing for regular players - it's essentially a library mod for datapack/modpack creators.
 
-Q: Other Minecraft versions?
+Q: Other Minecraft versions?  
 A: Might port to other versions when the content is more mature.
 
-Q: Forge/neoForge/Quilt versions?
+Q: Forge/neoForge/Quilt versions?  
 A: Fabric-only officially, but third-party ports are welcome.
 
 ## ℹ️ Additional Info
