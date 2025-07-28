@@ -14,7 +14,7 @@
 
 这是一个为基于 Origins 的数据包或整合包创作者而生的模组：
 
-> 注：以下文案中将实用 ACP 替代动作（Action Type）、条件（Condition Type）和能力类型（Power Type）
+> 注：以下文案中将使用 ACP 替代动作（Action Type）、条件（Condition Type）和能力类型（Power Type）
 
 - 新的 ACP 内容
 - 扩展部分由 Origins 提供的 ACP 内容
