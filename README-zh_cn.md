@@ -6,7 +6,7 @@
 
 ## 📌 前置
 
-需要Fabric API、origins作为前置。
+需要Fabric API、Origins作为前置。
 
 使用`oap:send_a_message`（Entity Action Type）需要安装Immersive Messages API。
 
