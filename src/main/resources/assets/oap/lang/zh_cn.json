@@ -11,5 +11,15 @@
   "text.oap.test_1": "MAN，测试文本，这里是中文（简体）版。",
 
   "subtitle.oap.grant": "获得能力",
-  "subtitle.oap.revoke": "失去能力"
+  "subtitle.oap.revoke": "失去能力",
+
+  "command.oap.clearpitydata.all.success": "已清除所有存档的保底计数",
+  "command.oap.clearpitydata.save.success": "已清除当前存档的保底计数",
+  "command.oap.clearpitydata.confirm_message": "你确认清除%s的保底计数吗？",
+  "command.oap.clearpitydata.type.all": "所有存档",
+  "command.oap.clearpitydata.type.save": "当前存档",
+  "command.oap.clearpitydata.open_file": "查看已保存的数据",
+  "command.oap.clearpitydata.file_hover": "点击打开配置文件",
+  "command.oap.clearpitydata.confirm_button": ">>> 确认 <<<",
+  "command.oap.clearpitydata.confirm_hover": "点击确认操作"
 }

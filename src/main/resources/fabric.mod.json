@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"cn.grainalcohol.OAPMod"
+			"grainalcohol.oap.OAPMod"
 		],
 		"client": [
-			"cn.grainalcohol.OAPModClient"
+			"grainalcohol.oap.OAPModClient"
 		]
 	},
 	"mixins": [

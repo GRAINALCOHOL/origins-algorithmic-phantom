@@ -1,11 +1,11 @@
 {
   "required": true,
-  "package": "cn.grainalcohol.mixin.client",
+  "package": "grainalcohol.oap.mixin.client",
   "compatibilityLevel": "JAVA_17",
   "client": [
     "InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }
