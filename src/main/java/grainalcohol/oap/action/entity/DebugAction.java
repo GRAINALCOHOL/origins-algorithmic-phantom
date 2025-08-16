@@ -23,7 +23,7 @@ public class DebugAction implements BiConsumer<SerializableData.Instance, Entity
             return;
         }
         final Logger LOGGER = LoggerFactory.getLogger(data.getString("id"));
-        LOGGER.info(data.getString("log"));
+        String log = data.getString("log");
 
         String entityInfo = String.format(
                 "Entity: %s(%s), Pos: %s(%s), Powers: %s",
@@ -36,8 +36,10 @@ public class DebugAction implements BiConsumer<SerializableData.Instance, Entity
 
         if (data.getBoolean("entity_info")) {
             if (data.getBoolean("as_warning")) {
+                LOGGER.warn(log);
                 LOGGER.warn(entityInfo);
             } else {
+                LOGGER.info(log);
                 LOGGER.info(entityInfo);
             }
         }

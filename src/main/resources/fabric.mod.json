@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "oap",
 	"version": "${version}",
-	"name": "Origins：Algorithmic Phantom",
+	"name": "Origins: Algorithmic Phantom",
 	"description": "A mod for creators of datapacks or modpacks based on Origins.",
 	"authors": [
 		"GRAINALCOHOL"

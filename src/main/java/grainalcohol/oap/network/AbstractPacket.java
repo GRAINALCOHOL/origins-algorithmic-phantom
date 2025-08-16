@@ -21,8 +21,21 @@ public abstract class AbstractPacket<T> {
     protected abstract void write(PacketByteBuf buf, T data);
 
     public final void send(ServerPlayerEntity player, T data) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        write(buf, data);
-        ServerPlayNetworking.send(player, id, buf);
+        if (player == null || player.networkHandler == null) {
+            OAPMod.LOGGER.warn("Attempted to send packet to null player or player with null networkHandler");
+            return;
+        }
+
+        try {
+            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+            write(buf, data);
+            ServerPlayNetworking.send(player, id, buf);
+        } catch (Exception e) {
+            OAPMod.LOGGER.error("Failed to send packet {}", id, e);
+        }
+
+//        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+//        write(buf, data);
+//        ServerPlayNetworking.send(player, id, buf);
     }
 }

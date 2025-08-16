@@ -41,6 +41,6 @@ public class DamageReflectionFlatPower extends Power {
     }
 
     public float getRandomAddition() {
-        return (float) MathUtil.randomInRange(random_addition);
+        return (float) MathUtil.randomAroundZero(random_addition);
     }
 }

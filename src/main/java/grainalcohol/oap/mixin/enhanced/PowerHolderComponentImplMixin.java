@@ -1,6 +1,6 @@
 package grainalcohol.oap.mixin.enhanced;
 
-import grainalcohol.oap.api.IPowerSoundControl;
+import grainalcohol.oap.api.PowerSoundControl;
 import grainalcohol.oap.config.OAPConfig;
 import grainalcohol.oap.init.OAPSoundEvent;
 import grainalcohol.oap.network.SoundPacket;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PowerHolderComponentImpl.class)
-public class PowerHolderComponentImplMixin implements IPowerSoundControl {
+public class PowerHolderComponentImplMixin implements PowerSoundControl {
     @Shadow @Final private LivingEntity owner;
 
     @Unique private final boolean revokeCanPlay = OAPConfig.getInstance().getCommonConfig().enhanced.revokePowerSoundEffect;

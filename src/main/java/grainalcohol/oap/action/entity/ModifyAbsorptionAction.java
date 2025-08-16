@@ -1,5 +1,6 @@
 package grainalcohol.oap.action.entity;
 
+import grainalcohol.oap.OAPMod;
 import grainalcohol.oap.util.MathUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
@@ -39,7 +40,7 @@ public class ModifyAbsorptionAction implements BiConsumer<SerializableData.Insta
             case "scale" -> livingEntity.setAbsorptionAmount(currentAbsorption * MathUtil.nonNegative(amount));
             case "multiply" -> livingEntity.setAbsorptionAmount(currentAbsorption * (1 + amount));
             case "set" -> livingEntity.setAbsorptionAmount(MathUtil.nonNegative(amount));
-            default -> {}
+            default -> OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
         }
     }
 }

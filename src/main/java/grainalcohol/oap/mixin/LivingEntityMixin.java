@@ -1,5 +1,7 @@
 package grainalcohol.oap.mixin;
 
+import grainalcohol.oap.OAPMod;
+import grainalcohol.oap.api.PityDataHolder;
 import grainalcohol.oap.power.ActionOnEffectGainedPower;
 import grainalcohol.oap.power.DamageReflectionFlatPower;
 import grainalcohol.oap.power.DamageReflectionPercentPower;
@@ -9,14 +11,55 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.DamageTypeTags;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public class LivingEntityMixin implements PityDataHolder {
+    @Unique private Map<String, Integer> pityData = new HashMap<>();
+
+    @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
+    private void writePityDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+        if (!pityData.isEmpty()) {
+            NbtCompound pityCompound = new NbtCompound();
+            pityData.forEach(pityCompound::putInt);
+            nbt.put("PityData", pityCompound);
+        }
+    }
+
+    @Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
+    private void readPityDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+        if (nbt.contains("PityData")) {
+            NbtCompound pityCompound = nbt.getCompound("PityData");
+            pityCompound.getKeys().forEach(key -> {
+                pityData.put(key, pityCompound.getInt(key));
+            });
+        }
+    }
+
+    @Override
+    public int oap$getPityCount(String poolId) {
+        return pityData.getOrDefault(poolId, 0);
+    }
+
+    @Override
+    public void oap$incrementPity(String poolId) {
+        pityData.put(poolId, oap$getPityCount(poolId) + 1);
+    }
+
+    @Override
+    public void oap$resetPity(String poolId) {
+        pityData.put(poolId, 0);
+    }
+
     @Inject(method = "onStatusEffectApplied", at = @At("HEAD"))
     private void onEffectApplied(StatusEffectInstance effect, Entity source, CallbackInfo ci) {
         EntityUtil.getPowers((LivingEntity)(Object)this, ActionOnEffectGainedPower.class, false)
@@ -75,12 +118,16 @@ public class LivingEntityMixin {
                         }
 
                         float reflection;
+                        String mode = power.getMode();
 
-                        switch (power.getMode()) {
+                        switch (mode) {
                             case "original" -> reflection = amount;
                             case "add" -> reflection = amount + power.getAmount();
                             case "flat" -> reflection = power.getAmount();
-                            default -> reflection = 0f;
+                            default -> {
+                                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, DamageReflectionFlatPower.class.getSimpleName());
+                                reflection = 0f;
+                            }
                         }
 
                         reflection = MathUtil.nonNegative(reflection + power.getRandomAddition());

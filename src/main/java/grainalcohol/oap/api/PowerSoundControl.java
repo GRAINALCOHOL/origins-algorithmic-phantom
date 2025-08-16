@@ -1,6 +1,6 @@
 package grainalcohol.oap.api;
 
-public interface IPowerSoundControl {
+public interface PowerSoundControl {
     void oap$setFromOrigin(boolean fromOrigin);
     boolean oap$isFromOrigin();
 }

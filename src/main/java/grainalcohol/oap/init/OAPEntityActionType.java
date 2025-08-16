@@ -34,6 +34,7 @@ public class OAPEntityActionType {
         registerAction(OAPMod.id("knock_up"), KnockUpAction.DATA, new KnockUpAction());
         registerAction(OAPMod.id("debug"), DebugAction.DATA, new DebugAction());
         registerAction(OAPMod.id("to_other_player"), ToOtherPlayerAction.DATA, new ToOtherPlayerAction());
+        registerAction(OAPMod.id("to_block"), ToBlockAction.DATA, new ToBlockAction());
     }
 
     private static void registerAction(Identifier actionId, SerializableData data, BiConsumer<SerializableData.Instance, Entity> action) {

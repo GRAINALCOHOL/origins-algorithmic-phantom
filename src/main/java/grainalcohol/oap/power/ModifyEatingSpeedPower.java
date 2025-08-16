@@ -1,5 +1,6 @@
 package grainalcohol.oap.power;
 
+import grainalcohol.oap.OAPMod;
 import grainalcohol.oap.mixin.ItemMixin;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
@@ -38,7 +39,10 @@ public class ModifyEatingSpeedPower extends Power {
         return switch (mode) {
             case "scale" -> originalSpeed * Math.max(0.1f, amount);
             case "multiply" -> originalSpeed * Math.max(0.1f, (1 + amount));
-            default -> originalSpeed;
+            default -> {
+                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
+                yield originalSpeed;
+            }
         };
     }
 }

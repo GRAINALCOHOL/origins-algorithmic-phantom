@@ -1,5 +1,6 @@
 package grainalcohol.oap.action.entity;
 
+import grainalcohol.oap.OAPMod;
 import grainalcohol.oap.util.MathUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
@@ -61,7 +62,10 @@ public class ModifyEffectAmplifierAction implements BiConsumer<SerializableData.
         int newAmplifier = switch (mode) {
             case "add" -> MathUtil.nonNegative(amplifier + amount);
             case "set" -> MathUtil.nonNegative(amount);
-            default -> amplifier;
+            default -> {
+                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
+                yield amplifier;
+            }
         };
 
         newAmplifier = Math.min(newAmplifier, 254);

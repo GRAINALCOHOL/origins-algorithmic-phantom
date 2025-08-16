@@ -1,5 +1,6 @@
 package grainalcohol.oap.power;
 
+import grainalcohol.oap.OAPMod;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.calio.data.SerializableData;
@@ -24,7 +25,10 @@ public class ModifyDrinkingSpeedPower extends Power {
         return switch (mode) {
             case "scale" -> originalSpeed * Math.max(0.1f, amount);
             case "multiply" -> originalSpeed * Math.max(0.1f, (1 + amount));
-            default -> originalSpeed;
+            default -> {
+                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
+                yield originalSpeed;
+            }
         };
     }
 }

@@ -1,5 +1,6 @@
 package grainalcohol.oap.power;
 
+import grainalcohol.oap.OAPMod;
 import grainalcohol.oap.util.MathUtil;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
@@ -32,7 +33,11 @@ public class DamageReflectionPercentPower extends Power {
         return switch (mode) {
             case "scale" -> MathUtil.nonNegative(amount);
             case "multiply" -> (1 + MathUtil.nonNegative(amount));
-            default -> 1f;
+            default -> {
+                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
+                OAPMod.LOGGER.warn("Damage will remain unchanged");
+                yield 1f;
+            }
         };
     }
 
@@ -41,6 +46,6 @@ public class DamageReflectionPercentPower extends Power {
     }
 
     public float getRandomAddition() {
-        return (float) MathUtil.randomInRange(random_addition);
+        return (float) MathUtil.randomAroundZero(random_addition);
     }
 }

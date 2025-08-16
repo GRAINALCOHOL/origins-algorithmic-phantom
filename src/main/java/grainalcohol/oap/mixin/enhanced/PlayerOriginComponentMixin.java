@@ -1,6 +1,6 @@
 package grainalcohol.oap.mixin.enhanced;
 
-import grainalcohol.oap.api.IPowerSoundControl;
+import grainalcohol.oap.api.PowerSoundControl;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.origins.component.PlayerOriginComponent;
 import io.github.apace100.origins.origin.Origin;
@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerOriginComponentMixin {
     @Inject(method = "grantPowersFromOrigin", at = @At("HEAD"), remap = false)
     private void onGrant(Origin origin, PowerHolderComponent powerComponent, CallbackInfo ci) {
-        if (powerComponent instanceof IPowerSoundControl control) {
+        if (powerComponent instanceof PowerSoundControl control) {
             control.oap$setFromOrigin(true);
         }
     }
 
     @Inject(method = "grantPowersFromOrigin", at = @At("RETURN"), remap = false)
     private void onEnd(Origin origin, PowerHolderComponent powerComponent, CallbackInfo ci) {
-        if (powerComponent instanceof IPowerSoundControl control) {
+        if (powerComponent instanceof PowerSoundControl control) {
             control.oap$setFromOrigin(false);
         }
     }

@@ -14,17 +14,11 @@ public class MathUtil {
     }
 
     private static final Random RANDOM = new Random();
-    public static double randomInRange(double range) {
+    public static double randomAroundZero(double range) {
         return RANDOM.nextDouble() * (2 * range) - range;
     }
 
     public static boolean randomChance(double chance) {
-        if (chance <= 0) return false;
-        if (chance >= 1) return true;
-        return RANDOM.nextDouble() < chance;
-    }
-
-    public static boolean randomChance(double chance, boolean allowPity) {
         if (chance <= 0) return false;
         if (chance >= 1) return true;
         return RANDOM.nextDouble() < chance;

@@ -1,5 +1,6 @@
 package grainalcohol.oap.action.entity;
 
+import grainalcohol.oap.OAPMod;
 import grainalcohol.oap.power.CountdownPower;
 import grainalcohol.oap.util.EntityUtil;
 import grainalcohol.oap.util.MiscUtil;
@@ -40,25 +41,22 @@ public class ToggleCountdownAction implements BiConsumer<SerializableData.Instan
 
         Set<Identifier> powerIds = new HashSet<>();
         if (data.isPresent("power")) {
-            Identifier id = data.getId("power");
             powerIds.add(data.getId("power"));
         }
         if (data.isPresent("powers")) {
             powerIds.addAll(data.get("powers"));
         }
+        String mode = data.getString("mode");
 
-        switch (data.getString("mode").toLowerCase()) {
-            case "stop":
-                stop(livingEntity, powerIds);
-                break;
-            case "restart":
-                restart(livingEntity, powerIds);
-                break;
-            case "toggle":
-                toggle(livingEntity, powerIds, data.getBoolean("allow_toggle_restart"));
-                break;
-            default:
+        switch (mode) {
+            case "stop" -> stop(livingEntity, powerIds);
+            case "restart" -> restart(livingEntity, powerIds);
+            case "toggle" -> toggle(livingEntity, powerIds, data.getBoolean("allow_toggle_restart"));
+            default -> {
+                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
+                OAPMod.LOGGER.warn("Countdown {} will apply 'start' operation by default", powerIds);
                 start(livingEntity, powerIds);
+            }
         }
     }
 

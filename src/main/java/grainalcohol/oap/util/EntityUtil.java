@@ -1,6 +1,7 @@
 package grainalcohol.oap.util;
 
 import grainalcohol.oap.OAPMod;
+import grainalcohol.oap.condition.entity.NameCondition;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.power.Power;
 import net.minecraft.entity.Entity;
@@ -251,7 +252,10 @@ public class EntityUtil {
             case "auto" -> uuid.equals(str) ||
                     (customName != null && MiscUtil.matchString(customName, str, useRegex)) ||
                     MiscUtil.matchString(rawName, str, useRegex);
-            default -> false;
+            default -> {
+                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, NameCondition.class.getSimpleName());
+                yield  false;
+            }
         };
     }
 }

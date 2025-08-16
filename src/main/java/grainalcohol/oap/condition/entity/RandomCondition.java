@@ -1,12 +1,10 @@
 package grainalcohol.oap.condition.entity;
 
-import grainalcohol.oap.config.OAPConfig;
-import grainalcohol.oap.config.PityConfig;
+import grainalcohol.oap.api.PityDataHolder;
 import grainalcohol.oap.util.MathUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.entity.Entity;
-import net.minecraft.server.world.ServerWorld;
 
 import java.util.function.BiFunction;
 
@@ -21,13 +19,14 @@ public class RandomCondition implements BiFunction<SerializableData.Instance, En
 
     @Override
     public Boolean apply(SerializableData.Instance data, Entity entity) {
-        if (entity.getWorld().isClient()){
+        if (entity.getWorld().isClient() || !(entity instanceof PityDataHolder pityDataHolder)) {
             return false;
         }
 
         float chance = data.getFloat("chance");
         boolean allowPity = data.getBoolean("allow_pity");
         int maximum = (int) (1f / chance) + data.getInt("extra_pity_count");
+        String poolId = data.getString("pool_id");
 
         if (data.getBoolean("at_max")) maximum -= 1;
 
@@ -37,25 +36,14 @@ public class RandomCondition implements BiFunction<SerializableData.Instance, En
             return success;
         }
 
-        String worldName = null;
-        String entityUuid = entity.getUuid().toString();
-        String poolId = data.getString("pool_id");
-        if (entity.getWorld() instanceof ServerWorld serverWorld) {
-            worldName = serverWorld.getServer().getSaveProperties().getLevelName();
-        }
+        int pityCount = pityDataHolder.oap$getPityCount(poolId);
 
-        // 获取配置信息
-        PityConfig pityConfig = OAPConfig.getInstance().getPityConfig();
-        int pityCount = pityConfig.getPityCount(worldName, entityUuid, poolId);
-
-        // 检查是否触发保底
         if (success || pityCount >= maximum) {
-            pityConfig.resetPity(worldName, entityUuid, poolId);
+            pityDataHolder.oap$resetPity(poolId);
             return true;
         } else {
-            pityConfig.incrementPity(worldName, entityUuid, poolId);
+            pityDataHolder.oap$incrementPity(poolId);
             return false;
         }
     }
-
 }

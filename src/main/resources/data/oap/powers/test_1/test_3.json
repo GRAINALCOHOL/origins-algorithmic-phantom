@@ -5,9 +5,12 @@
   "entity_action": {
     "type": "oap:say",
     "text": {
-      "translate": "text.oap.test_1"
+      "translate": "text.oap.test_1",
+      "hoverEvent": {
+        "action": "show_text",
+        "contents": "test text"
+      }
     },
-    "color": "yellow",
     "anonymous": true,
     "broadcast": false
   },

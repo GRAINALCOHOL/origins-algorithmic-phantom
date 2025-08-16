@@ -15,14 +15,9 @@ public class OAPConfig {
     private static OAPConfig INSTANCE;
 
     private CommonConfig common = new CommonConfig();
-    private PityConfig pity = new PityConfig();
 
     public CommonConfig getCommonConfig() {
         return common;
-    }
-
-    public PityConfig getPityConfig() {
-        return pity;
     }
 
     public static OAPConfig getInstance() {
@@ -31,45 +26,6 @@ public class OAPConfig {
         }
         return INSTANCE;
     }
-
-//    private static ModConfig load() {
-//        try {
-//            if (!CONFIG_DIR.exists()) {
-//                Files.createDirectories(CONFIG_DIR.toPath());
-//            }
-//
-//            if (COMMON.exists()) {
-//                try (FileReader reader = new FileReader(COMMON)) {
-//                    return GSON.fromJson(reader, ModConfig.class);
-//                } catch (IOException e) {
-//                    LOGGER.error("Failed to load config file", e);
-//                }
-//            }
-//
-//            ModConfig config = new ModConfig();
-//            config.save();
-//            return config;
-//        } catch (IOException e) {
-//            LOGGER.error("Failed to create config directory", e);
-//            return new ModConfig();
-//        }
-//    }
-//
-//    public void save() {
-//        try {
-//            if (!CONFIG_DIR.exists()) {
-//                Files.createDirectories(CONFIG_DIR.toPath());
-//            }
-//
-//            try (FileWriter writer = new FileWriter(COMMON)) {
-//                GSON.toJson(this, writer);
-//            } catch (IOException e) {
-//                LOGGER.error("Failed to save config file", e);
-//            }
-//        } catch (IOException e) {
-//            LOGGER.error("Failed to create config directory", e);
-//        }
-//    }
 
     private static OAPConfig load() {
         try {
@@ -80,17 +36,11 @@ public class OAPConfig {
             OAPConfig config = new OAPConfig();
 
             config.common = CommonConfig.load();
-            config.pity = PityConfig.load();
 
             return config;
         } catch (IOException e) {
             LOGGER.error("Failed to create config directory", e);
             return new OAPConfig();
         }
-    }
-
-    public void save() {
-        common.save();
-        pity.save();
     }
 }

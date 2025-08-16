@@ -1,5 +1,6 @@
 package grainalcohol.oap.action.entity;
 
+import grainalcohol.oap.OAPMod;
 import grainalcohol.oap.util.MathUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
@@ -79,7 +80,10 @@ public class ModifyEffectDurationAction implements BiConsumer<SerializableData.I
             case "scale" -> (int) (duration * MathUtil.nonNegative(amount));
             case "multiply" -> (int) (duration * (1 + amount));
             case "set" -> (int) MathUtil.nonNegative(amount); // tick
-            default -> duration;
+            default -> {
+                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
+                yield duration;
+            }
         };
 
 

@@ -1,4 +1,6 @@
 {
+  "text.oap.name": "Origins: Algorithmic Phantom",
+
   "key.oap.denary_active": "Active Power (Denary)",
   "key.oap.nonary_active": "Active Power (Nonary)",
   "key.oap.octonary_active": "Active Power (Octonary)",
@@ -8,18 +10,16 @@
   "key.oap.quaternary_active": "Active Power (Quaternary)",
   "key.oap.ternary_active": "Active Power (Ternary)",
 
+  "text.oap.say_action.hover": "This message was sent by an power",
   "text.oap.test_1": "MAN, test text, there is English(US) version",
 
   "subtitle.oap.grant": "Grant power",
   "subtitle.oap.revoke": "Revoke power",
 
-  "command.oap.clearpitydata.all.success": "Cleared pity counters for ALL saves",
-  "command.oap.clearpitydata.save.success": "Cleared pity counters for current save",
-  "command.oap.clearpitydata.confirm_message": "Are you sure you want to clear pity counters for %s?",
-  "command.oap.clearpitydata.type.all": "ALL saves",
-  "command.oap.clearpitydata.type.save": "current save",
-  "command.oap.clearpitydata.open_file": "View saved data",
-  "command.oap.clearpitydata.file_hover": "Click to open config file",
-  "command.oap.clearpitydata.confirm_button": ">>> CONFIRM <<<",
-  "command.oap.clearpitydata.confirm_hover": "Click to confirm operation"
+  "command.oap.deletepitydata.file_deleted": "Permanently deleted.",
+  "command.oap.deletepitydata.file_not_found": "File not found.",
+  "command.oap.deletepitydata.delete_failed": "Deletion failed.",
+  "message.oap.pitydata_deprecated": "Deprecated pity data file detected, now optimized to NBT format.",
+  "message.oap.pitydata_deprecated.hover": "Click to permanently delete deprecated file",
+  "message.oap.pitydata_notice": "Due to technical limitations, we are unable to migrate the data. All data in the deprecated file will be lost after the update regardless."
 }

@@ -1,4 +1,6 @@
 {
+  "text.oap.name": "起源：算法幻影",
+
   "key.oap.denary_active": "主动能力 (备用按键9)",
   "key.oap.nonary_active": "主动能力 (备用按键8)",
   "key.oap.octonary_active": "主动能力 (备用按键7)",
@@ -8,18 +10,16 @@
   "key.oap.quaternary_active": "主动能力 (备用按键3)",
   "key.oap.ternary_active": "主动能力 (备用按键2)",
 
+  "text.oap.say_action.hover": "该消息通过某个能力发送",
   "text.oap.test_1": "MAN，测试文本，这里是中文（简体）版。",
 
   "subtitle.oap.grant": "获得能力",
   "subtitle.oap.revoke": "失去能力",
 
-  "command.oap.clearpitydata.all.success": "已清除所有存档的保底计数",
-  "command.oap.clearpitydata.save.success": "已清除当前存档的保底计数",
-  "command.oap.clearpitydata.confirm_message": "你确认清除%s的保底计数吗？",
-  "command.oap.clearpitydata.type.all": "所有存档",
-  "command.oap.clearpitydata.type.save": "当前存档",
-  "command.oap.clearpitydata.open_file": "查看已保存的数据",
-  "command.oap.clearpitydata.file_hover": "点击打开配置文件",
-  "command.oap.clearpitydata.confirm_button": ">>> 确认 <<<",
-  "command.oap.clearpitydata.confirm_hover": "点击确认操作"
+  "command.oap.deletepitydata.file_deleted": "已永久删除。",
+  "command.oap.deletepitydata.file_not_found": "未找到文件。",
+  "command.oap.deletepitydata.delete_failed": "删除失败。",
+  "message.oap.pitydata_deprecated": "检测到已弃用的保底数据文件，现已优化为NBT格式。",
+  "message.oap.pitydata_deprecated.hover": "点击以永久删除弃用文件",
+  "message.oap.pitydata_notice": "由于技术能力有限无法迁移数据，因此更新后无论如何都将丢失弃用文件中的所有数据。"
 }

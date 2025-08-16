@@ -74,7 +74,10 @@ public class DamageByAttributeAction implements BiConsumer<SerializableData.Inst
             case "add" -> MathUtil.nonNegative(baseValue + amount);
             case "scale" -> baseValue * MathUtil.nonNegative(amount);
             case "multiply" -> baseValue * MathUtil.nonNegative(1 + amount);
-            default -> baseValue;
+            default -> {
+                OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
+                yield baseValue;
+            }
         };
 
         RegistryKey<DamageType> damageKey = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, damageTypeId);
