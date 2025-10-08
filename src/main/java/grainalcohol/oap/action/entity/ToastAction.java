@@ -22,13 +22,7 @@ public class ToastAction implements BiConsumer<SerializableData.Instance, Entity
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
-        // 只对玩家实体发送 toast
         if (!(entity instanceof ServerPlayerEntity player)) {
-            return;
-        }
-
-        // 只在服务端执行
-        if (entity.getWorld().isClient()) {
             return;
         }
 

@@ -30,7 +30,7 @@ import java.util.function.BiConsumer;
  *   <li><b>mode</b> ({@code String}, 可选): 将要如何修改属性值，接受“add”、“scale”或“multiply”，非法参数不会修改属性，默认为“multiply”</li>
  *   <li><b>amount</b> ({@code float}, 可选): 将要参与计算的数值，默认为1</li>
  *   <li><b>damage_type</b> ({@code Identifier}, 必选): 设置该次伤害的伤害类型</li>
- *   <li><b>allow_self_damage</b> ({@code Identifier}, 必选): 是否允许伤害自身，默认为true</li>
+ *   <li><b>allow_self_damage</b> ({@code boolean}, 必选): 是否允许伤害自身，默认为true</li>
  * </ul>
  */
 public class DamageByAttributeAction implements BiConsumer<SerializableData.Instance, Pair<Entity, Entity>> {
@@ -46,6 +46,7 @@ public class DamageByAttributeAction implements BiConsumer<SerializableData.Inst
     public void accept(SerializableData.Instance data, Pair<Entity, Entity> entities) {
         Entity actor = entities.getLeft();
         Entity target = entities.getRight();
+        if (actor.getWorld().isClient() || target.getWorld().isClient()) return;
 
         if (!data.getBoolean("allow_self_damage") && actor == target) {
             return;

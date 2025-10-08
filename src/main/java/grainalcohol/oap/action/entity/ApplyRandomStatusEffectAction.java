@@ -37,6 +37,7 @@ public class ApplyRandomStatusEffectAction implements BiConsumer<SerializableDat
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
+        if (entity.getWorld().isClient()) return;
         if(!(entity instanceof LivingEntity livingEntity)) return;
 
         // 获取所有可用的药水效果

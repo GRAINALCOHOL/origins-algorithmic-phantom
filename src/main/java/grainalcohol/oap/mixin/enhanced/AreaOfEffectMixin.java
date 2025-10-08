@@ -100,19 +100,24 @@ public class AreaOfEffectMixin {
                 .toList()
         );
 
-        if (maxTarget <= 0) {
+        if (allTargets.isEmpty()) {
+            ci.cancel();
+            return;
+        }
+
+        if (maxTarget > 0) {
             Collections.shuffle(allTargets);
         }
 
         int count = 0;
         for (Entity target : allTargets) {
-            targetAction.accept(target);
-            bientityAction.accept(new Pair<>(entity, target));
+            if (targetAction != null) targetAction.accept(target);
+            if (bientityAction != null) bientityAction.accept(new Pair<>(entity, target));
             count++;
             if (maxTarget > 0 && count >= maxTarget)
                 break;
         }
-        selfAction.accept(entity);
+        if (selfAction != null) selfAction.accept(entity);
 
         ci.cancel();
     }

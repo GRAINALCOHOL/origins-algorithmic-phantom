@@ -26,6 +26,8 @@ public class ToBlockAction implements BiConsumer<SerializableData.Instance, Enti
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
+        if (entity.getWorld().isClient()) return;
+
         World world = entity.getWorld();
         Vec3d pos = data.get("position");
         BlockPos blockPos = BlockPos.ofFloored(pos);

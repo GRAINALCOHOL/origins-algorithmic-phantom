@@ -35,9 +35,8 @@ public class ToggleCountdownAction implements BiConsumer<SerializableData.Instan
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
-        if (!(entity instanceof LivingEntity livingEntity)) {
-            return;
-        }
+        if (entity.getWorld().isClient()) return;
+        if (!(entity instanceof LivingEntity livingEntity)) return;
 
         Set<Identifier> powerIds = new HashSet<>();
         if (data.isPresent("power")) {

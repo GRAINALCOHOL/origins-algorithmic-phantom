@@ -1,7 +1,10 @@
 package grainalcohol.oap.util;
 
+import grainalcohol.oap.api.PityDataHolder;
 import io.github.apace100.apoli.power.MultiplePowerType;
 import io.github.apace100.apoli.power.PowerType;
+import io.github.apace100.calio.data.SerializableData;
+import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -95,5 +98,36 @@ public class MiscUtil {
 
     public static boolean matchString(String source, String str, boolean useRegex) {
         return useRegex ? source.matches(str) : source.equals(str);
+    }
+
+    public static final SerializableData RANDOM_CONDITION_DATA = new SerializableData()
+            .add("chance", SerializableDataTypes.FLOAT, 1f)
+            .add("at_max", SerializableDataTypes.BOOLEAN, false)
+            .add("allow_pity", SerializableDataTypes.BOOLEAN, false)
+            .add("extra_pity_count", SerializableDataTypes.INT, 0)
+            .add("pool_id", SerializableDataTypes.STRING, "default_pool");
+
+    public static boolean handlePityData(SerializableData.Instance data, PityDataHolder pityHolder) {
+        float chance = data.getFloat("chance");
+        boolean allowPity = data.getBoolean("allow_pity");
+        String poolId = data.getString("pool_id");
+        String uniqueKey = poolId + "_" + chance;
+
+        int maximum = (int) (1f / chance) + data.getInt("extra_pity_count");
+        if (data.getBoolean("at_max")) maximum -= 1;
+
+        boolean success = MathUtil.randomChance(chance);
+
+        if (!allowPity) {
+            return success;
+        }
+
+        if (success || pityHolder.oap$getPityCount(uniqueKey) >= maximum) {
+            pityHolder.oap$resetPity(uniqueKey);
+            return true;
+        } else {
+            pityHolder.oap$incrementPity(uniqueKey);
+            return false;
+        }
     }
 }

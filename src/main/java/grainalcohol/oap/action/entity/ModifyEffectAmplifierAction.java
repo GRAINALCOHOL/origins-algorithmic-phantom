@@ -39,10 +39,9 @@ public class ModifyEffectAmplifierAction implements BiConsumer<SerializableData.
             .add("show_icon", SerializableDataTypes.BOOLEAN, true);
 
     @Override
-    public void accept(SerializableData.Instance data, Entity target) {
-        if (!(target instanceof LivingEntity livingTarget)) {
-            return;
-        }
+    public void accept(SerializableData.Instance data, Entity entity) {
+        if (entity.getWorld().isClient()) return;
+        if (!(entity instanceof LivingEntity livingEntity)) return;
 
         Identifier effectId = data.getId("effect");
         String mode = data.getString("mode");
@@ -55,7 +54,7 @@ public class ModifyEffectAmplifierAction implements BiConsumer<SerializableData.
 
         if (effect == null) return; //无效ID
 
-        StatusEffectInstance effectInstance = livingTarget.getStatusEffect(effect);
+        StatusEffectInstance effectInstance = livingEntity.getStatusEffect(effect);
         if ((effectInstance == null)) return; // 没有该效果
 
         int amplifier = effectInstance.getAmplifier();
@@ -70,8 +69,8 @@ public class ModifyEffectAmplifierAction implements BiConsumer<SerializableData.
 
         newAmplifier = Math.min(newAmplifier, 254);
 
-        livingTarget.removeStatusEffect(effect);
-        livingTarget.addStatusEffect(new StatusEffectInstance(
+        livingEntity.removeStatusEffect(effect);
+        livingEntity.addStatusEffect(new StatusEffectInstance(
                 effect,
                 effectInstance.getDuration(),
                 newAmplifier,

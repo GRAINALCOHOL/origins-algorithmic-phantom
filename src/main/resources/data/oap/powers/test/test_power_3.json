@@ -5,8 +5,8 @@
     "entity_action": {
         "type": "oap:modify_effect_duration",
         "effect": "minecraft:slowness",
-        "operation": "set",
-        "value": 200,
+        "mode": "set",
+        "amount": -1,
         "is_ambient": true
     },
     "cooldown": 10,

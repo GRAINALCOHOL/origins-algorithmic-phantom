@@ -18,6 +18,7 @@ public class KnockUpAction implements BiConsumer<SerializableData.Instance, Enti
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
+        if (entity.getWorld().isClient()) return;
         if(!data.getBoolean("affect_non_living") && !(entity instanceof LivingEntity)) {
             return;
         }

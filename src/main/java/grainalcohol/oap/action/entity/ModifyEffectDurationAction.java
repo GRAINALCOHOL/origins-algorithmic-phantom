@@ -1,7 +1,6 @@
 package grainalcohol.oap.action.entity;
 
 import grainalcohol.oap.OAPMod;
-import grainalcohol.oap.util.MathUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.entity.Entity;
@@ -23,7 +22,7 @@ import java.util.function.BiConsumer;
  * <ul>
  *   <li><b>effect</b> ({@code Identifier}, 必选): 将要修改的状态效果ID</li>
  *   <li><b>mode</b> ({@code String}, 可选): 运算方式，接受“add”、“set”、“scale”或“multiply”，未知参数不会修改时长，默认为“add”</li>
- *   <li><b>amount</b> ({@code int}, 可选): 将要参与计算的数值，以tick为单位，默认为20tick，操作类型为“multiply”或“multiply_total”时此值为乘数</li>
+ *   <li><b>amount</b> ({@code float}, 可选): 将要参与计算的数值，以tick为单位，默认为0，计算后的时长为负数时修改时长为无限</li>
  *   <li><b>is_ambient</b> ({@code Identifier}, 必选): 修改状态效果是否来源于信标</li>
  *   <li><b>show_particles</b> ({@code Identifier}, 必选): 修改状态效果是否会产生粒子</li>
  *   <li><b>show_icon</b> ({@code Identifier}, 必选): 修改状态效果是否会显示在GUI上</li>
@@ -33,20 +32,19 @@ public class ModifyEffectDurationAction implements BiConsumer<SerializableData.I
     public static final SerializableData DATA = new SerializableData()
             .add("effect", SerializableDataTypes.IDENTIFIER, null)
             .add("mode", SerializableDataTypes.STRING, "add")
-            .add("amount", SerializableDataTypes.FLOAT, 20f)
+            .add("amount", SerializableDataTypes.FLOAT, 0f)
             .add("is_ambient", SerializableDataTypes.BOOLEAN, false)
             .add("show_particles", SerializableDataTypes.BOOLEAN, true)
             .add("show_icon", SerializableDataTypes.BOOLEAN, true);
 
     @Override
-    public void accept(SerializableData.Instance data, Entity target) {
-        if (!(target instanceof LivingEntity livingTarget)) {
-            return;
-        }
+    public void accept(SerializableData.Instance data, Entity entity) {
+        if (entity.getWorld().isClient()) return;
+        if (!(entity instanceof LivingEntity livingEntity)) return;
 
         Identifier effectId = data.getId("effect");
         String mode = data.getString("mode");
-        float amount = data.getInt("amount");
+        float amount = data.getFloat("amount"); // 无敌了我居然之前写的getInt
         boolean isAmbient = data.getBoolean("is_ambient");
         boolean showParticles = data.getBoolean("show_particles");
         boolean showIcon = data.getBoolean("show_icon");
@@ -55,14 +53,13 @@ public class ModifyEffectDurationAction implements BiConsumer<SerializableData.I
 
         if (effect == null) return; //无效ID
 
-        StatusEffectInstance effectInstance = livingTarget.getStatusEffect(effect);
+        StatusEffectInstance effectInstance = livingEntity.getStatusEffect(effect);
         if ((effectInstance == null)) return; // 没有该效果
 
         if(effectInstance.isInfinite()){
-            if ("set".equals(mode) && (int) amount != Integer.MAX_VALUE) {
-
-                livingTarget.removeStatusEffect(effect);
-                livingTarget.addStatusEffect(new StatusEffectInstance(
+            if ("set".equals(mode)) {
+                livingEntity.removeStatusEffect(effect);
+                livingEntity.addStatusEffect(new StatusEffectInstance(
                         effect,
                         (int) amount,
                         effectInstance.getAmplifier(),
@@ -77,20 +74,26 @@ public class ModifyEffectDurationAction implements BiConsumer<SerializableData.I
         int duration = effectInstance.getDuration();
         int newDuration = switch (mode) {
             case "add" -> duration + (int) amount; //tick
-            case "scale" -> (int) (duration * MathUtil.nonNegative(amount));
+            case "scale" -> (int) (duration * amount);
             case "multiply" -> (int) (duration * (1 + amount));
-            case "set" -> (int) MathUtil.nonNegative(amount); // tick
+            case "set" -> (int) amount; // tick
             default -> {
                 OAPMod.LOGGER.warn("Unknown mode '{}' for {}", mode, getClass().getSimpleName());
                 yield duration;
             }
         };
 
+        int checkedDuration;
+        if (newDuration < 0) {
+            checkedDuration = -1;
+        } else {
+            checkedDuration = newDuration;
+        }
 
-        livingTarget.removeStatusEffect(effect);
-        livingTarget.addStatusEffect(new StatusEffectInstance(
+        livingEntity.removeStatusEffect(effect);
+        livingEntity.addStatusEffect(new StatusEffectInstance(
                 effect,
-                newDuration,
+                checkedDuration,
                 effectInstance.getAmplifier(),
                 isAmbient,
                 showParticles,

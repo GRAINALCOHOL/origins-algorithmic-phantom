@@ -39,9 +39,7 @@ public class LivingEntityMixin implements PityDataHolder {
     private void readPityDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains("PityData")) {
             NbtCompound pityCompound = nbt.getCompound("PityData");
-            pityCompound.getKeys().forEach(key -> {
-                pityData.put(key, pityCompound.getInt(key));
-            });
+            pityCompound.getKeys().forEach(key -> pityData.put(key, pityCompound.getInt(key)));
         }
     }
 

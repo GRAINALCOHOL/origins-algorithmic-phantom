@@ -10,14 +10,14 @@ base {
 	archivesName = project.archives_base_name
 }
 
-sourceSets {
-	main {
-		resources {
-			// 排除测试数据包
-			exclude 'data'
-		}
-	}
-}
+//sourceSets {
+//	main {
+//		resources {
+//			// 排除测试数据包
+//			exclude 'data'
+//		}
+//	}
+//}
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.

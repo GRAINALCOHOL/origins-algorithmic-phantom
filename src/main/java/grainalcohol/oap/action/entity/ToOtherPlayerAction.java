@@ -26,6 +26,8 @@ public class ToOtherPlayerAction implements BiConsumer<SerializableData.Instance
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
+        if (entity.getWorld().isClient()) return;
+
         MinecraftServer server = entity.getServer();
         if (server == null) return;
 

@@ -19,9 +19,8 @@ public class DebugAction implements BiConsumer<SerializableData.Instance, Entity
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
-        if (entity.getWorld().isClient()) {
-            return;
-        }
+        if (entity.getWorld().isClient()) return;
+
         final Logger LOGGER = LoggerFactory.getLogger(data.getString("id"));
         String log = data.getString("log");
 

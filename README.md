@@ -21,7 +21,7 @@ This is a mod designed for Origins datapack and modpack creators:
 - 8 new keybindings.
 - Several new ability badges.
 
-## 💭 Q&A
+## 💭 FAQ
 
 Q: What does this mod add?  
 A: Nothing for regular players - it's essentially a library mod for datapack/modpack creators.

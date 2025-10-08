@@ -27,9 +27,8 @@ public class ModifyAbsorptionAction implements BiConsumer<SerializableData.Insta
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
-        if (!(entity instanceof LivingEntity livingEntity)) {
-            return;
-        }
+        if (entity.getWorld().isClient()) return;
+        if (!(entity instanceof LivingEntity livingEntity)) return;
 
         String mode = data.getString("mode");
         float amount = data.getFloat("amount");

@@ -22,14 +22,11 @@ public class SayAction implements BiConsumer<SerializableData.Instance, Entity> 
 
     @Override
     public void accept(SerializableData.Instance data, Entity entity) {
+        if (entity.getWorld().isClient()) return;
         // 之前居然使用Text类，组件里面那些事件似乎都不兼容的，疏忽了
         MutableText textComponent = data.get("text");
         boolean shouldAnonymous = data.getBoolean("anonymous");
         boolean shouldBroadcast = data.getBoolean("broadcast");
-
-        if (entity.getWorld().isClient()) {
-            return;
-        }
 
         MutableText message = textComponent.copy()
                 .styled(style -> {
@@ -43,8 +40,8 @@ public class SayAction implements BiConsumer<SerializableData.Instance, Entity> 
                                 Text.empty().append(original.getValue(HoverEvent.Action.SHOW_TEXT)).append(hoverTextWithBrackets))
                         );
                     }
-                })
-                ;
+                });
+
         PlayerManager manager = Objects.requireNonNull(entity.getServer()).getPlayerManager();
 
         if (shouldBroadcast) {

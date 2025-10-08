@@ -46,15 +46,18 @@ public class OAPMod implements ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
-		OAPConfig.getInstance();
-		OAPEntityActionType.init();
-		OAPBientityActionType.init();
-		OAPEntityConditionType.init();
-		OAPBientityConditionType.init();
-		OAPBlockActionType.init();
-		OAPPowerType.init();
 		OAPSoundEvent.init();
 		EntityDeathListener.init();
+		OAPConfig.getInstance();
+
+		OAPPowerType.init();
+		OAPEntityActionType.init();
+		OAPEntityConditionType.init();
+		OAPBientityActionType.init();
+		OAPBientityConditionType.init();
+		OAPBlockActionType.init();
+		OAPBlockConditionType.init();
+
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			OAPCommand.init(dispatcher);
 		});
