@@ -121,7 +121,7 @@ public class CountdownPower extends Power implements HudRendered {
         compound.putInt("currentTimer", currentTimer);
         compound.putInt("intervalTimer", intervalTimer);
         compound.putBoolean("isCountingDown", isCountingDown);
-        System.out.println("写入currentTimer" + currentTimer);
+//        System.out.println("写入currentTimer" + currentTimer);
         return compound;
     }
 
@@ -131,7 +131,7 @@ public class CountdownPower extends Power implements HudRendered {
             currentTimer = compound.getInt("currentTimer");
             intervalTimer = compound.getInt("intervalTimer");
             isCountingDown = compound.getBoolean("isCountingDown");
-            System.out.println("读取到currentTimer：" + compound.getInt("currentTimer"));
+//            System.out.println("读取到currentTimer：" + compound.getInt("currentTimer"));
         }
     }
 

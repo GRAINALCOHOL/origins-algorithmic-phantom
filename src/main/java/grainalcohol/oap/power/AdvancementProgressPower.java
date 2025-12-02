@@ -11,6 +11,8 @@ import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.Identifier;
 
 import java.util.HashSet;
@@ -52,6 +54,20 @@ public class AdvancementProgressPower extends Power implements HudRendered {
         this.advancementId = advancementId;
         this.hudRender = hudRender;
         this.onComplete = onComplete;
+    }
+
+    @Override
+    public NbtElement toTag() {
+        NbtCompound compound = new NbtCompound();
+        compound.putFloat("progress", getProgress());
+        return compound;
+    }
+
+    @Override
+    public void fromTag(NbtElement tag) {
+        if(tag instanceof NbtCompound compound) {
+            this.progress = compound.getFloat("progress");
+        }
     }
 
     public Identifier getAdvancementId() {
