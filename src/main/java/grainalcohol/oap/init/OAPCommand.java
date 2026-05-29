@@ -29,7 +29,7 @@ public class OAPCommand {
 
     private static int deletePityDataFile(CommandContext<ServerCommandSource> context) {
         ServerPlayerEntity player = context.getSource().getPlayer();
-        if (player == null || !(player.getWorld() instanceof ServerWorld)) return 0;
+        if (player == null) return 0;
 
         try {
             Path filePath = Paths.get("config/oap/pity.json");

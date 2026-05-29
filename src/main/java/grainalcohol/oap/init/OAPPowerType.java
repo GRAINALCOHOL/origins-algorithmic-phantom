@@ -152,7 +152,8 @@ public class OAPPowerType {
                 (data) -> (type, entity) -> new ActionOnAbsorptionChangePower(
                         type, entity,
                         data.get("increase_action"),
-                        data.get("decrease_action")
+                        data.get("decrease_action"),
+                        data.get("action")
                 )
         );
     }

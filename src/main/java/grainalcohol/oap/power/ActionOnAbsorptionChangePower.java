@@ -11,16 +11,19 @@ import java.util.function.Consumer;
 public class ActionOnAbsorptionChangePower extends Power {
     public static final SerializableData DATA = new SerializableData()
             .add("increase_action", ApoliDataTypes.ENTITY_ACTION, null)
-            .add("decrease_action", ApoliDataTypes.ENTITY_ACTION, null);
+            .add("decrease_action", ApoliDataTypes.ENTITY_ACTION, null)
+            .add("action", ApoliDataTypes.ENTITY_ACTION, null);
 
     private final Consumer<LivingEntity> increase_action;
     private final Consumer<LivingEntity> decrease_action;
+    private final Consumer<LivingEntity> action;
     private float lastAbsorption = entity.getAbsorptionAmount();
 
-    public ActionOnAbsorptionChangePower(PowerType<?> type, LivingEntity entity, Consumer<LivingEntity> increaseAction, Consumer<LivingEntity> decreaseAction) {
+    public ActionOnAbsorptionChangePower(PowerType<?> type, LivingEntity entity, Consumer<LivingEntity> increaseAction, Consumer<LivingEntity> decreaseAction, Consumer<LivingEntity> action) {
         super(type, entity);
         increase_action = increaseAction;
         decrease_action = decreaseAction;
+        this.action = action;
     }
 
     @Override
@@ -33,6 +36,7 @@ public class ActionOnAbsorptionChangePower extends Power {
             decrease_action.accept(entity);
         }
 
+        if (action != null) action.accept(entity);
         lastAbsorption = current;
     }
 }

@@ -19,7 +19,7 @@ public class IsFriendlyCondition implements BiFunction<SerializableData.Instance
     public Boolean apply(SerializableData.Instance data, Entity entity) {
         boolean includeNeutral = data.getBoolean("include_neutral");
 
-        if (!(entity instanceof PlayerEntity) && entity instanceof LivingEntity livingEntity) {
+        if (entity instanceof LivingEntity livingEntity) {
             return EntityUtil.isFriendly(livingEntity, includeNeutral,
                     true, data.getBoolean("player_friendly")
             );

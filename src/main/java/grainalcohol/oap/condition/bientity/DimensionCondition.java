@@ -2,8 +2,6 @@ package grainalcohol.oap.condition.bientity;
 
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Pair;
@@ -11,7 +9,6 @@ import net.minecraft.world.World;
 
 import java.util.function.BiFunction;
 
-@Environment(EnvType.SERVER)
 public class DimensionCondition implements BiFunction<SerializableData.Instance, Pair<Entity, Entity>, Boolean> {
     public static final SerializableData DATA = new SerializableData()
             .add("dimension", SerializableDataTypes.STRING, "any");
